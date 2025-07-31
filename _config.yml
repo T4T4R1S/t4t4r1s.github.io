@@ -1,8 +1,8 @@
 # Site Settings
-name: T4T4R1S
-title: T4T4R1S | InfoSec Blog
+name: H3X0S3
+title: H3X0S3 | InfoSec Blog
 description: an information security blog which contains a blogs related to hackthebox, tryhackme,web application security.
-  Mustafa Altayeb.
+  Mahmoud Salah.
 tags:
   - blog
   - hackthebox
@@ -20,9 +20,9 @@ menu:
     url: /contact
   - title: Feed
     url: /feed.xml
-email: mustafaaltayeb333@gmail.com
+email: h3x0s3@protonmail.com
 # See: https://disqus.com/
-disqus_username: T4T4R1S
+disqus_username: H3X0S3
 # Contact Form Setting
 # See: https://formspree.io/
 formspree_form_id: xoqrvbve
@@ -30,10 +30,10 @@ formspree_form_id: xoqrvbve
 
 # Social Media Settings
 # Remove the item if you don't need it
-github_username: T4T4R1S
-# facebook_username: T4T4R1S
-twitter_username: T4T4R1S
-linkedin_username: T4T4R1S
+github_username: H3X0S3
+facebook_username: doctor.H3X0S3
+twitter_username: H3X0S3
+linkedin_username: H3X0S3
 
 
 # Posts Settings
@@ -45,7 +45,7 @@ two_columns_layout: true
 
 # Advanced Settings
 baseurl: "/" # the subpath of your site, e.g. /blog
-url: "https:/ t4t4r1s.github.io" # the base hostname & protocol for your site
+url: "https://h3x0s3.github.io" # the base hostname & protocol for your site
 google_analytics: "UA-XXXXXXXX-X"
 language: "en"
 categories_folder: category
