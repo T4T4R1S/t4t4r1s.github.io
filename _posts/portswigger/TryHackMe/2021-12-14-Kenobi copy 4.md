@@ -380,6 +380,6 @@ THM{D0Nt_C0Py_AND_PaST}
 root@kenobi:/root# 
 
 ```
-![](https://raw.githubusercontent.com/H3X0S3/H3X0S3.github.io/master/assets/img/tryhackme.gif)
 
- <script src="https://tryhackme.com/badge/593517"></script>
+
+<iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=3186403" style='border:none;'></iframe>
