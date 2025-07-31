@@ -103,3 +103,5 @@ exclude: [
   'README.md'
 ]
 
+plugins:
+  - jekyll-sitemap
