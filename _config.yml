@@ -1,0 +1,105 @@
+# Site Settings
+name: T4T4R1S
+title: T4T4R1S | InfoSec Blog
+description: an information security blog which contains a blogs related to hackthebox, tryhackme,web application security.
+  Mustafa Altayeb.
+tags:
+  - blog
+  - hackthebox
+  - web security
+  - CTFs
+  - tryhackme
+  
+show_hero: true
+menu:
+  - title: Home
+    url: /
+  - title: About
+    url: /about
+  - title: Contact
+    url: /contact
+  - title: Feed
+    url: /feed.xml
+email: mustafaaltayeb333@gmail.com
+# See: https://disqus.com/
+disqus_username: T4T4R1S
+# Contact Form Setting
+# See: https://formspree.io/
+formspree_form_id: xoqrvbve
+
+
+# Social Media Settings
+# Remove the item if you don't need it
+github_username: T4T4R1S
+# facebook_username: T4T4R1S
+twitter_username: T4T4R1S
+linkedin_username: T4T4R1S
+
+
+# Posts Settings
+show_time_bar: true
+show_modal_on_exit: false
+show_modal_on_finish_post: true
+two_columns_layout: true
+
+
+# Advanced Settings
+baseurl: "/" # the subpath of your site, e.g. /blog
+url: "https:/ t4t4r1s.github.io" # the base hostname & protocol for your site
+google_analytics: "UA-XXXXXXXX-X"
+language: "en"
+categories_folder: category
+sent_message_url: "/contact/message-sent/"
+
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: /:title/
+collections:
+  authors:
+    output: true
+paginate_path: "/page/:num/"
+show_get_theme_btn: true
+use_logo: false
+
+# Content paginator
+paginate_content:
+  enabled: true
+  debug: false
+  collections:
+    - posts
+  auto: false
+  separator: "--page-break--"
+  permalink: "/:num/"
+  seo_canonical: true
+  properties:
+    part:
+      is_generated: true
+    last:
+      is_generated: true
+    single:
+      is_generated: true
+
+# SASS
+sass:
+  style: compressed
+
+# Plugins
+plugins:
+  - jekyll-paginate
+  - jekyll-paginate-content
+
+# Exclude my node related stuff
+exclude: [
+  'package.json',
+  'package-lock.json',
+  'src',
+  'node_modules',
+  'initpost.sh',
+  'Gemfile',
+  'Gemfile.lock',
+  'gulpfile.js',
+  'README.md'
+]
+
