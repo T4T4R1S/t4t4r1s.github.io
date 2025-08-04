@@ -45,7 +45,7 @@ two_columns_layout: true
 
 # Advanced Settings
 baseurl: "/" # the subpath of your site, e.g. /blog
-url: "https://T4T4R1S.github.io" # the base hostname & protocol for your site
+url: "https://t4t4r1s.github.io/" # the base hostname & protocol for your site
 google_analytics: "UA-XXXXXXXX-X"
 language: "en"
 categories_folder: category
@@ -100,8 +100,11 @@ exclude: [
   'Gemfile',
   'Gemfile.lock',
   'gulpfile.js',
-  'README.md'
+  'README.md',
+  'vendor'
 ]
 
 plugins:
   - jekyll-sitemap
+
+  

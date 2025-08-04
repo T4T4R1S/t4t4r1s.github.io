@@ -1,0 +1,6 @@
+# robots.txt for GitHub Pages - allow everything
+
+User-agent: *
+Allow: /
+
+Sitemap: Sitemap: https://t4t4r1s.github.io/sitemap.xml
