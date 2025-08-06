@@ -16,7 +16,7 @@ paginate: true
 ---
 
 
-# Room Name [Vulnversity](https://tryhackme.com/room/vulnversity "Kenobi")
+# Room Name [Vulnversity](https://tryhackme.com/room/vulnversity "Vulnversity")
 
 
 
