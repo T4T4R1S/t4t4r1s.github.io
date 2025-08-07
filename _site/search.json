@@ -3,6 +3,22 @@
   
   
     {
+      "title"    : "Kenobi",
+      "tags"     : "tryhackme and injection",
+      "categories" : "tryhackme",
+      "url"      : "/Kenobi/",
+      "date"     : "08/08/2025"
+    } ,
+  
+    {
+      "title"    : "Blue",
+      "tags"     : "tryhackme and injection",
+      "categories" : "tryhackme",
+      "url"      : "/Blue/",
+      "date"     : "08/06/2025"
+    } ,
+  
+    {
       "title"    : "Vulnversity",
       "tags"     : "tryhackme and injection",
       "categories" : "tryhackme",

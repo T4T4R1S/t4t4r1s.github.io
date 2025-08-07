@@ -3,18 +3,46 @@
   <channel>
     <title>T4T4R1S | InfoSec Blog</title>
     <description>an information security blog which contains a blogs related to hackthebox, tryhackme,web application security. Mustafa Altayeb.</description>
-    <link>http://localhost:4001/</link>
-    <atom:link href="http://localhost:4001/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 05 Aug 2025 00:23:58 +0300</pubDate>
-    <lastBuildDate>Tue, 05 Aug 2025 00:23:58 +0300</lastBuildDate>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Wed, 06 Aug 2025 23:46:59 +0300</pubDate>
+    <lastBuildDate>Wed, 06 Aug 2025 23:46:59 +0300</lastBuildDate>
     <generator>Jekyll v3.10.0</generator>
     
       <item>
+        <title>Kenobi</title>
+        <description>&lt;h1 id=&quot;room-name-kenobi&quot;&gt;Room Name &lt;a href=&quot;https://tryhackme.com/room/kenobi#&quot; title=&quot;Kenobi&quot;&gt;Kenobi&lt;/a&gt;&lt;/h1&gt; &lt;p&gt;&lt;img src=&quot;https://i.imgur.com/OcA2KrK.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt; &lt;p&gt;This room [Kenobi On TryHackMe] will cover accessing a Samba share, manipulating a vulnerable version of proftpd to gain initial access and escalate your privileges to root via an SUID binary.&lt;/p&gt; &lt;hr /&gt; &lt;h1 id=&quot;objective-of-room&quot;&gt;Objective of room&lt;/h1&gt; &lt;p&gt;This room will cover&lt;/p&gt; &lt;ol&gt; &lt;li&gt;Accessing a Samba share&lt;/li&gt; &lt;li&gt;Manipulating a vulnerable version of proftpd to gain initial access&lt;/li&gt; &lt;li&gt;Escalate privileges to root via an SUID binary.&lt;/li&gt; &lt;/ol&gt; &lt;hr /&gt; &lt;p&gt;Nmap&lt;/p&gt; &lt;hr /&gt; &lt;h2 id=&quot;first-scan&quot;&gt;First Scan&lt;/h2&gt; &lt;blockquote&gt; &lt;p&gt;&lt;strong&gt;nmap -p- –min-rate 10000 10.10.23.89&lt;/strong&gt;&lt;/p&gt; &lt;/blockquote&gt; &lt;p&gt;Result&lt;/p&gt; &lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;err&quot;&gt;💻&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;T4T4R1S&lt;/span&gt; &lt;span...</description>
+        <pubDate>Fri, 08 Aug 2025 23:38:00 +0300</pubDate>
+        <link>http://localhost:4000/Kenobi/</link>
+        <guid isPermaLink="true">http://localhost:4000/Kenobi/</guid>
+        
+        <category>tryhackme</category>
+        
+        <category>injection</category>
+        
+        <category>tryhackme</category>
+      </item>
+    
+      <item>
+        <title>Blue</title>
+        <description>&lt;h1 id=&quot;room-name-blue&quot;&gt;Room Name &lt;a href=&quot;https://tryhackme.com/room/blue&quot; title=&quot;Blue&quot;&gt;Blue&lt;/a&gt;&lt;/h1&gt; &lt;p&gt;This room [Blue On TryHackMe] will cover active recon, hack into a Windows machine, leveraging common misconfigurations issues —&lt;/p&gt; &lt;h1 id=&quot;objective-of-room&quot;&gt;Objective of room&lt;/h1&gt; &lt;p&gt;This room will cover&lt;/p&gt; &lt;ol&gt; &lt;li&gt;hack into a Windows machine&lt;/li&gt; &lt;li&gt;leveraging common misconfigurations issues&lt;/li&gt; &lt;/ol&gt; &lt;hr /&gt; &lt;h1 id=&quot;recon&quot;&gt;RECON&lt;/h1&gt; &lt;hr /&gt; &lt;h2 id=&quot;nmap&quot;&gt;Nmap&lt;/h2&gt; &lt;hr /&gt; &lt;h3 id=&quot;first-scan&quot;&gt;first scan&lt;/h3&gt; &lt;blockquote&gt; &lt;p&gt;&lt;strong&gt;nmap –min-rate 10000 -p- 10.10.54.33&lt;/strong&gt;&lt;/p&gt; &lt;/blockquote&gt; &lt;h3 id=&quot;result&quot;&gt;Result&lt;/h3&gt; &lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;PORT&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;STATE&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;SERVICE&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;135&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tcp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;open&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;msrpc&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;139&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tcp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;open&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;netbios&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ssn&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;445&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tcp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;open&lt;/span&gt;...</description>
+        <pubDate>Wed, 06 Aug 2025 00:00:00 +0300</pubDate>
+        <link>http://localhost:4000/Blue/</link>
+        <guid isPermaLink="true">http://localhost:4000/Blue/</guid>
+        
+        <category>tryhackme</category>
+        
+        <category>injection</category>
+        
+        <category>tryhackme</category>
+      </item>
+    
+      <item>
         <title>Vulnversity</title>
-        <description>&lt;h1 id=&quot;room-name-vulnversity&quot;&gt;Room Name &lt;a href=&quot;https://tryhackme.com/room/vulnversity&quot; title=&quot;Kenobi&quot;&gt;Vulnversity&lt;/a&gt;&lt;/h1&gt; &lt;p&gt;This room [Vulnversity On TryHackMe] will cover active recon, web app attacks and escalate your privileges to root via an SUID binary.&lt;/p&gt; &lt;hr /&gt; &lt;h1 id=&quot;objective-of-room&quot;&gt;Objective of room&lt;/h1&gt; &lt;p&gt;This room will cover&lt;/p&gt; &lt;ol&gt; &lt;li&gt;active recon&lt;/li&gt; &lt;li&gt;web app attacks&lt;/li&gt; &lt;li&gt;privilege escalation.&lt;/li&gt; &lt;/ol&gt; &lt;h3 id=&quot;as-always-i-start-with-nmap-to-scan-for-open-ports-and-services-in-this-machine&quot;&gt;AS always i start with nmap to scan for open ports and services in this machine.&lt;/h3&gt; &lt;blockquote&gt; &lt;p&gt;&lt;strong&gt;nmap -sV 10.10.220.119&lt;/strong&gt;&lt;/p&gt; &lt;/blockquote&gt; &lt;h3 id=&quot;result&quot;&gt;Result&lt;/h3&gt; &lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;PORT&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;STATE&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;SERVICE&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;VERSION&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tcp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;open&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ftp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;vsftpd&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;3.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;22&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span...</description>
+        <description>&lt;h1 id=&quot;room-name-vulnversity&quot;&gt;Room Name &lt;a href=&quot;https://tryhackme.com/room/vulnversity&quot; title=&quot;Vulnversity&quot;&gt;Vulnversity&lt;/a&gt;&lt;/h1&gt; &lt;p&gt;This room [Vulnversity On TryHackMe] will cover active recon, web app attacks and escalate your privileges to root via an SUID binary.&lt;/p&gt; &lt;hr /&gt; &lt;h1 id=&quot;objective-of-room&quot;&gt;Objective of room&lt;/h1&gt; &lt;p&gt;This room will cover&lt;/p&gt; &lt;ol&gt; &lt;li&gt;active recon&lt;/li&gt; &lt;li&gt;web app attacks&lt;/li&gt; &lt;li&gt;privilege escalation.&lt;/li&gt; &lt;/ol&gt; &lt;h3 id=&quot;as-always-i-start-with-nmap-to-scan-for-open-ports-and-services-in-this-machine&quot;&gt;AS always i start with nmap to scan for open ports and services in this machine.&lt;/h3&gt; &lt;blockquote&gt; &lt;p&gt;&lt;strong&gt;nmap -sV 10.10.220.119&lt;/strong&gt;&lt;/p&gt; &lt;/blockquote&gt; &lt;h3 id=&quot;result&quot;&gt;Result&lt;/h3&gt; &lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;PORT&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;STATE&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;SERVICE&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;VERSION&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;21&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;tcp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;open&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ftp&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;vsftpd&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;3.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;22&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span...</description>
         <pubDate>Mon, 04 Aug 2025 00:00:00 +0300</pubDate>
-        <link>http://localhost:4001/vulnversity/</link>
-        <guid isPermaLink="true">http://localhost:4001/vulnversity/</guid>
+        <link>http://localhost:4000/vulnversity/</link>
+        <guid isPermaLink="true">http://localhost:4000/vulnversity/</guid>
         
         <category>tryhackme</category>
         
