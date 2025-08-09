@@ -1,5 +1,4 @@
 ---
-date : 4/8/2025
 layout : post
 title: Steel Mountain
 subtitle: TryHackMe Writeup - Steel Mountain
@@ -13,7 +12,7 @@ tags:
   - Privilege Escalation
   - Web Exploitation
 author: Mustafa Altayeb
-date: 2025-08-08 23:38
+date: 2025-08-10 23:38
 paginate: true
 
 ---
