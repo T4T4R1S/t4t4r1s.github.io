@@ -17,7 +17,7 @@ paginate: true
 
 ---
 
-# Steel Mountain - TryHackMe Writeup
+# Steel Mountain - TryHackMe Writeup..
 
 [Steel Mountain](https://tryhackme.com/room/steelmountain) is a Mr. Robot-themed Windows machine on TryHackMe. This writeup covers gaining initial access using Metasploit, enumerating privilege escalation vectors with PowerShell, and exploiting a Windows misconfiguration to achieve Administrator access.
 
