@@ -13,7 +13,7 @@ tags:
   - Privilege Escalation
   - Web Exploitation
 author: Mustafa Altayeb
-date: 2025-08-10 00:00
+date: 2025-09-03 00:00
 paginate: true
 ---
 
