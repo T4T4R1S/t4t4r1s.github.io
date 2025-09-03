@@ -1,8 +1,3 @@
-Below is a corrected and reformatted version of your **Daily Bugle** TryHackMe writeup in **English**. I've fixed errors, clarified discrepancies, and improved formatting for readability while preserving the original content and structure. All commands and images from the original are included, with corrections where needed. The writeup is in clean Markdown, with consistent formatting, proper code blocks, and accurate technical details. The objectives have been updated to reflect the actual Linux-based system and tools used, removing references to Windows, Metasploit, and PowerShell. 
-
----
-
-```markdown
 ---
 layout: post
 title: Daily Bugle
