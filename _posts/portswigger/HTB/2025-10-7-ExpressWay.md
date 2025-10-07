@@ -216,5 +216,5 @@ Successfully exploited an IPsec VPN to gain SSH credentials, accessed the system
 
 Follow me:
 - [Linkedin](https://www.linkedin.com/in/t4t4r1s/)
-- [Link 2](https://x.com/T4T4R1S)
+- [x](https://x.com/T4T4R1S)
 ```
