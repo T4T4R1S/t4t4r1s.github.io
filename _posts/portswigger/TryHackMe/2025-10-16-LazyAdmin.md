@@ -3,8 +3,8 @@ layout: post
 title: Lazy Admin
 subtitle: TryHackME - Lazy Admin
 description: Enumerate services, scan ports, exploit vulnerabilities, and escalate privileges to capture flags.
-image: https://tryhackme-images.s3.amazonaws.com/room-icons/7a8797ae59733f2a72f0e8a8748be128.jpeg
-optimized_image: https://tryhackme-images.s3.amazonaws.com/room-icons/7a8797ae59733f2a72f0e8a8748be128.jpeg
+image: https://tryhackme-images.s3.amazonaws.com/room-icons/efbb70493ba66dfbac4302c02ad8facf.jpeg 
+optimized_image: https://tryhackme-images.s3.amazonaws.com/room-icons/efbb70493ba66dfbac4302c02ad8facf.jpeg
 tags:
   - TryHackME
   - enum web 
@@ -223,5 +223,3 @@ Follow me:
 * [X](https://x.com/T4T4R1S)
 
 ---
-
-\
