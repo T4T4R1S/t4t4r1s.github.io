@@ -3,24 +3,22 @@ layout: post
 title: Lazy Admin
 subtitle: TryHackME - Lazy Admin
 description: Enumerate services, scan ports, exploit vulnerabilities, and escalate privileges to capture flags.
-image: [https://tryhackme-images.s3.amazonaws.com/room-icons/7a8797ae59733f2a72f0e8a8748be128.jpeg](https://tryhackme-images.s3.amazonaws.com/room-icons/7a8797ae59733f2a72f0e8a8748be128.jpeg)
-optimized_image: [https://tryhackme-images.s3.amazonaws.com/room-icons/7a8797ae59733f2a72f0e8a8748be128.jpeg](https://tryhackme-images.s3.amazonaws.com/room-icons/7a8797ae59733f2a72f0e8a8748be128.jpeg)
+image: https://tryhackme-images.s3.amazonaws.com/room-icons/7a8797ae59733f2a72f0e8a8748be128.jpeg
+optimized_image: https://tryhackme-images.s3.amazonaws.com/room-icons/7a8797ae59733f2a72f0e8a8748be128.jpeg
 tags:
-
-* TryHackME
-* enum web
-* brute force
-* Privilege Escalation
-* Find Flags
-  author: Mustafa Altayeb
-  date: 2025-10-16 00:00
-  paginate: true
-
+  - TryHackME
+  - enum web 
+  - brute force
+  - Privilege Escalation
+  - Find Flags
+author: Mustafa Altayeb
+date: 2025-10-16 00:00
+paginate: true
 ---
 
 # Lazy Admin
 
-[Lazy Admin](https://tryhackme.com/room/lazyadmin)
+[Lazy Admin](https://tryhackme-images.s3.amazonaws.com/room-icons/efbb70493ba66dfbac4302c02ad8facf.jpeg)
 
 ![](https://tryhackme-images.s3.amazonaws.com/room-icons/efbb70493ba66dfbac4302c02ad8facf.jpeg)
 
@@ -226,3 +224,4 @@ Follow me:
 
 ---
 
+\
