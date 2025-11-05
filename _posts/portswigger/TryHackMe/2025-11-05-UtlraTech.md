@@ -3,13 +3,18 @@ layout: post
 title: UltraTech
 subtitle: TryHackMe Writeup - UltraTech
 description: A step-by-step guide to rooting the UltraTech machine on TryHackMe, inspired by Mr. Robot.
-image: https://tryhackme-images.s3.amazonaws.com/room-icons/1516b0c85bb9f7312a88638df5b0f3af.png
-optimized_image: https://tryhackme-images.s3.amazonaws.com/room-icons/1516b0c85bb9f7312a88638df5b0f3af.png
+image: https://tryhackme-images.s3.amazonaws.com/room-icons/e0f6687c43305e3b67a6cb38951d7b56.png
+optimized_image: https://tryhackme-images.s3.amazonaws.com/room-icons/e0f6687c43305e3b67a6cb38951d7b56.png
 category: tryhackme
 tags:
   - TryHackMe
+  - commandinjection
+  - JohnTheRipper
+  - ffuf
+  - ssh
+  - docker_privilegeEscalation
 author: Mustafa Altayeb
-date: 2025-10-30 00:00
+date: 2025-11-05 00:00
 paginate: true
 ---
 
@@ -20,7 +25,13 @@ paginate: true
 ---
 
 ## Objectives
-
+1. Enumerate services 
+2. Web Enumeration
+3. Brute Force with ffuf
+4. Gain credential via command injection
+5. crack hashes with john 
+6. gain access via ssh
+7. privilege escalation using docker
 
 ---
 
