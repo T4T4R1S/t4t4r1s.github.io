@@ -24,20 +24,20 @@ paginate: true
 
 **steps to solve**
 
- ![alt text](image.png)
+ ![alt text](/assets/image/Portswigger/commandi/image.png)
 
 Here if i click in check store it's return 55 units and when check network tab i find request send to back end to check stock 
 
 Check the Request Using Burp suit : 
 
-![alt text](image-1.png)
+![alt text](/assets/image/Portswigger/commandi/image-1.png)
 
 Now we have 2 parameters like analysis description say 
 `productId` `storeId`
 
 Try to add ;whoami to check command injection and success 
 
-![alt text](image-2.png)
+![alt text](/assets/image/Portswigger/commandi/image-2.png)
 
 The name of current user in the system is `peter-kEkc4I`
 
