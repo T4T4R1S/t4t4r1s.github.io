@@ -3,8 +3,8 @@ layout: post
 title: PortSwigger
 subtitle: OS Command injection
 description: OS Command injection
-image: /assets/image/Photo.jpg
-optimized_image: /assets/image/Photo.jpg
+image: /assets/image/Portswigger/portswigger-200h.png
+optimized_image: /assets/image/Portswigger/portswigger-200h.png
 category: Portswigger Labs
 tags:
   - portswigger
