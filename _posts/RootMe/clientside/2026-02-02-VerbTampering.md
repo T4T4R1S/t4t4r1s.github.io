@@ -7,7 +7,7 @@ image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509
 category: Root Me
 tags: [RootMe, CTF, Web, HTTP, VerbTampering, Methods]
 author: mustafa_altayeb
-date: 2026-02-02 00:04:00 +0000
+date: 2026-02-02 00:05:00 +0000
 paginate: true
 ---
 
