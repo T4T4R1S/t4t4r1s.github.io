@@ -31,8 +31,6 @@ paginate: true
 2- Execute basic payload `<img src=x onerror=alert(0)>` it's success 
 
 
-![](/assets/image/Portswigger/xss/image_copy.png)
-
 Finished..Happy hacking!
 
 ## LAB 2 (Stored XSS into HTML context with nothing encoded)
@@ -70,3 +68,40 @@ Finished..Happy hacking!
 ![](/assets/image/Portswigger/xss/image8.png)
 
 Finished.. Happy Hacking!
+
+
+## LAB 3  DOM XSS in innerHTML sink using source location.search
+
+**Analysis**
+
+1) lab contains a DOM-based cross-site scripting vulnerability in the search blog functionality 
+2) add the content to the page with innerHTML 
+
+**steps to solve**
+
+1) by see the page source i find the js code that take our search and find what match 
+2) after that call function `doSearchQuery()` that take findings and put it in the element by `innerHtml` 
+3) by inject the search query with `<svg onload='alert(t4t4r1s)'>` message alerted .
+
+Finished.. Happy Hacking! 
+
+
+
+## LAB 4 DOM XSS in jQuery anchor href attribute sink using location.search source
+
+**Analysis**
+
+1) DOM-based xss --> feedback page
+2) to solve the lab we need to alert document.cookie
+
+**steps to solve**
+
+
+1) analysis the page and i find `returnPath` param take the path to submit feedback 
+2) put a string to param and i see inspect the href take what i write and put it as a link `<a id="backLink" href="/ds">Back</a>`
+3) I tried to inject the form it self and it's not vulnerable 
+4) after check the param `returnPath` and give it `javascript:alert(document.cookie)` it's run and lab has been solved .
+
+Finished.. Happy Hacking! 
+
+## LAB 5
