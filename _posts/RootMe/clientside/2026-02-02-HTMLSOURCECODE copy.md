@@ -5,7 +5,7 @@ subtitle: HTML SOURCE CODE
 description: HTML SOURCE CODE
 image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509
 optimized_image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509
-category: Root Me
+category: [Root Me, web server]
 tags:
   - RootME
   - HTML - web TECH

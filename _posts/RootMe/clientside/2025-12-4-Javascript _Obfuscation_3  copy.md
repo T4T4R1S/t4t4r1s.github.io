@@ -5,7 +5,7 @@ subtitle: Javascript - Obfuscation 3
 description: Javascript - Obfuscation 3
 image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509
 optimized_image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509
-category: Root Me
+category: [Root Me , web client]
 tags:
   - RootME
   - JS - web clint

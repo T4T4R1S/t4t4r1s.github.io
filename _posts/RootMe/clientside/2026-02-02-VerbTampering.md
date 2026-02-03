@@ -4,7 +4,7 @@ title: RootMe - HTTP Verb Tampering
 subtitle: Bypassing Restrictions via HTTP Methods
 description: RootMe challenge walkthrough - HTTP - Verb Tampering
 image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509
-category: Root Me
+category: [Root Me, web server]
 tags: [RootMe, CTF, Web, HTTP, VerbTampering, Methods]
 author: mustafa_altayeb
 date: 2026-02-02 00:05:00 +0000

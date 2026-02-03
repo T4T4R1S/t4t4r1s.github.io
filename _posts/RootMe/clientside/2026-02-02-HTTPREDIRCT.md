@@ -4,7 +4,7 @@ title: RootMe - HTTP - Open Redirect
 subtitle: Exploiting Open Redirect via MD5 Hash
 description: RootMe challenge walkthrough - HTTP - Open Redirect
 image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509
-category: Root Me
+category: [Root Me, web server]
 tags: [RootMe, CTF, Web, HTTP, OpenRedirect, Hashing]
 author: mustafa_altayeb
 date: 2026-02-02 00:06:00 +0000

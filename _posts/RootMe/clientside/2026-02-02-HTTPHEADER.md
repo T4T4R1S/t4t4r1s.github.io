@@ -4,7 +4,7 @@ title: RootMe - HTTP Headers
 subtitle: Custom Header Manipulation
 description: RootMe challenge walkthrough - HTTP Headers
 image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509
-category: Root Me
+category: [Root Me, web server]
 tags: [RootMe, CTF, Web, HTTP, Headers]
 author: mustafa_altayeb
 date: 2026-02-02 00:01:00 +0000
