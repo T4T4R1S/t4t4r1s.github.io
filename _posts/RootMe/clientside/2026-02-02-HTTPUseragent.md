@@ -1,49 +1,52 @@
 ---
 layout: post
-title: HTTP - User-agent
-subtitle: HTTP - User-agent
-description: HTTP - User-agent
+title: RootMe - Backup File
+subtitle: Discovering Exposed Backup Files
+description: RootMe challenge walkthrough - Backup file
 image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509
-optimized_image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509
-category: [Root Me, web server]
-tags:
-  - RootME
-  - HTML - web TECH
-  - Find Password
+category: Root Me
+tags: [RootMe, CTF, Web, BackupFiles, DirectoryEnumeration, SourceCodeLeak]
 author: mustafa_altayeb
-date: 2026-02-02 00:00:00 +0000
+date: 2026-02-02 00:09:00 +0000
 paginate: true
 ---
 
-# HTTP - User-agent - RootMe
-![](/assets/Rootmeimages/image4.png)
+# RootMe – Backup file
 
-**Analysis**
+**Mission**  
+Find the username and password to login.
 
-1. When opening the challenge it says we are not admin because we don't use the admin browser.
+![](/assets/Rootmeimages/m1.png)
 
-![](/assets/Rootmeimages/image5.png)
-
-2. So we need to know the user agent that admin uses to solve the challenge.
+**Analysis**  
+- The challenge presents a standard login form.  
+- No obvious vulnerabilities in the form itself (no SQLi visible, etc.).  
+- Common web misconfiguration: developers leave backup files (e.g., `~`, `.bak`, `.old`, `.swp`) on the server, which can expose source code or hardcoded credentials.
 
 **Solution steps**
 
-1. I intercepted the request on Burp and deleted user agent and it still did not work.
+1. Use a directory/file fuzzer like **dirsearch** to scan for hidden files:  
+   ```
+   dirsearch -u http://challenge01.root-me.org/web-serveur/ch11/
+   ```
+   → Key finding: `200` response for `/web-serveur/ch11/index.php~` (843 bytes).
 
-2. After that I wrote user-agent: admin and guess what, it worked successfully.
+2. Access the backup file directly in your browser:  
+   `http://challenge01.root-me.org/web-serveur/ch11/index.php~`
 
-![](/assets/Rootmeimages/image6.png)
+3. Download or view the file → it reveals the source code of `index.php`, including hardcoded username and password.
 
+   ![](/assets/Rootmeimages/m2.png)
 
-**Finished.. Happy hacking!**
+4. Use the found credentials to login → challenge solved (password/flag obtained).
 
+**Key takeaway**  
+Backup files are a frequent source of information leaks in web applications. Always enumerate common extensions like `~`, `.bak`, `.old`, `.php.bak`, `.php~`, `.swp`, etc. Tools like dirsearch, gobuster, or ffuf are essential for discovering them quickly.
 
-<iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=3186403" style="border:none;"></iframe>
+Finished. Happy Hacking! 🔓
 
-Follow me:
-- [LinkedIn](https://www.linkedin.com/in/t4t4r1s/)
+Follow me:  
+- [LinkedIn](https://www.linkedin.com/in/t4t4r1s/)  
 - [X](https://x.com/T4T4R1S)
 
-
-
----
+<iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=3186403" style="border:none;"></iframe>
