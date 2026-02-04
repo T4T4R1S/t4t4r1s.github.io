@@ -1,17 +1,17 @@
 ---
 layout: post
-title: RootMe - Exposed .git Repository
+title: RootMe - Insecure Code Management
 subtitle: Recovering Credentials from Git History
 description: RootMe challenge walkthrough - Exposed .git
 image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509
-category: Root Me
+category: [Root Me, web server]
 tags: [RootMe, CTF, Web, GitExposure, SourceCodeLeak, DirectoryEnumeration, CredentialRecovery]
 author: mustafa_altayeb
 date: 2026-02-04 00:12:00 +0000
 paginate: true
 ---
 
-# RootMe – Exposed .git Repository
+# RootMe – Insecure Code Management
 
 **Mission**  
 Find the password to login as admin.
@@ -52,7 +52,7 @@ Find the password to login as admin.
    new file mode 100644
    ```
 
-   → The original (or intended) admin password is revealed: `s3cureP@ssw0rd` (or use the hash if that's the flag format in the challenge).
+   → The original admin password is revealed: `s3cureP@ssw0rd`.
 
 5. Use the recovered credentials to login → challenge solved.
 
