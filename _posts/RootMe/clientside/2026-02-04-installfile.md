@@ -48,10 +48,8 @@ Find the password to solve the challenge.
 
    ![](/assets/Rootmeimages/m4.png)
 
-**Key takeaway**  
-Developers often forget to remove or protect installation scripts (`install.php`, `setup.php`, etc.) after setup. These files frequently contain sensitive info (e.g., database credentials, flags) or allow re-installation. Always check for exposed `/install/`, `/admin/`, or similar directories during reconnaissance, especially on CMS platforms like phpBB, WordPress, or Joomla.
 
-Finished. Happy Hacking! 🔓
+Finished. Happy Hacking! 
 
 Follow me:  
 - [LinkedIn](https://www.linkedin.com/in/t4t4r1s/)  
