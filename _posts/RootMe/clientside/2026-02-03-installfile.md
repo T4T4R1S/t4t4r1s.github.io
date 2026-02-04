@@ -4,7 +4,7 @@ title: RootMe - Install File
 subtitle: Discovering Exposed Installation Scripts
 description: RootMe challenge walkthrough - Install File
 image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509
-category: Root Me
+category: [Root Me, web server]
 tags: [RootMe, CTF, Web, InstallFile, DirectoryEnumeration, Misconfiguration]
 author: mustafa_altayeb
 date: 2026-02-04 00:09:00 +0000
