@@ -1,7 +1,7 @@
 ---
 layout: post
 title: RootMe - Insecure Code Management
-subtitle: Recovering Credentials from Git History
+subtitle: RootMe – Insecure Code Management
 description: RootMe challenge walkthrough - Exposed .git
 image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509
 category: [Root Me, web server]
