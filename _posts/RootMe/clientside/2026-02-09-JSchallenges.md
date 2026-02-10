@@ -22,7 +22,7 @@ Get the password to login.
 
 **Analysis**  
 - Page shows a login prompt in an alert box.  
-
+x
   ![](/assets/Rootmeimages/jsimage/image1.png)
 
 - Need to find the hidden password somewhere in the source.
