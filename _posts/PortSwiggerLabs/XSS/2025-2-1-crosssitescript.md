@@ -5,7 +5,7 @@ subtitle: Cross Site Scripting (XSS)
 description: Cross Site Scripting (XSS)
 image: /assets/image/Portswigger/download.png
 optimized_image: /assets/image/Portswigger/download.png
-category: Portswigger Labs
+category: PortSwigger Labs
 tags:
   - portswigger
   - client-side
