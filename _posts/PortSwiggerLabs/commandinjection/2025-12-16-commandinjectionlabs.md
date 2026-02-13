@@ -1,11 +1,11 @@
 ---
 layout: post
-title: PortSwigger
+title: OS Command injection
 subtitle: OS Command injection
 description: OS Command injection
 image: /assets/image/Portswigger/download.png
 optimized_image: /assets/image/Portswigger/download.png
-category: Portswigger Labs
+category: PortSwigger Labs
 tags:
   - portswigger
   - server-side
