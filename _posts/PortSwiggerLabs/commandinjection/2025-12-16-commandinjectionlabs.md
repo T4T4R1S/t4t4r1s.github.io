@@ -7,7 +7,7 @@ image: /assets/image/Portswigger/download.png
 category: PortSwigger Labs
 tags: [PortSwigger, Server-Side, CommandInjection, CTF, WebSecurity]
 author: mustafa_altayeb
-date: 2025-12-14 00:00:00 +0000
+date: 2026-02-14 00:00:00 +0000
 paginate: true
 ---
 
