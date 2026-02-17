@@ -18,7 +18,7 @@ Just finished the  five NoSQL injection labs on PortSwigger. These are about fin
 ## LAB 1: Detecting NoSQL injection
 
 **Analysis**  
-assets/image/Portswigger/nosqli/
+ 
 1)  lab powered by mongoDB 
 2) nosql is in product category lab 
 3) to solve lab we need to display unreleased products . 
