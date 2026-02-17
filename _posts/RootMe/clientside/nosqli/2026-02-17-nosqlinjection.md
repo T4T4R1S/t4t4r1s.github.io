@@ -11,7 +11,7 @@ date: 2026-02-17 00:09:00 +0000
 paginate: true
 ---
 
-## RootMe – NoSql Injection Challenges (Web-Client)
+## RootMe  – NoSql Injection Challenges (Web-Client)
 
 Just solved a bunch of NoSQL Injection challenges on RootMe.  
 These challenges focus on discovering injection points in web applications and exploiting them manually or using tools like NoSQLMap to extract credentials.
