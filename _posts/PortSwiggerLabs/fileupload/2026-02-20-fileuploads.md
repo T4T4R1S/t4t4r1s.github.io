@@ -27,7 +27,7 @@ Just finished the first six File upload vulnerabilities labs on PortSwigger. The
 
 1) Login to my account using credentials we have:  
 
-![alt text](image.png)
+![alt text](/assets/image/Portswigger/fileupload/image.png)
 
 2) Create php file and put php code that execute shell that read file we need:  
 
@@ -37,19 +37,19 @@ Just finished the first six File upload vulnerabilities labs on PortSwigger. The
 
 3) Upload the file to an input field:  
 
-![alt text](image-1.png)
+![alt text](/assets/image/Portswigger/fileupload/image-1.png)
 
 4) Inspect the page to see where the file go:  
 
-![alt text](image-2.png)
+![alt text](/assets/image/Portswigger/fileupload/image-2.png)
 
 5) Access file from link `/files/avatars/shell.php`:  
 
-![alt text](image-3.png)
+![alt text](/assets/image/Portswigger/fileupload/image-3.png)
 
 6) Submit flag to submit solution in the lab:  
 
-![alt text](image-4.png)
+![alt text](/assets/image/Portswigger/fileupload/image-4.png)
 
 Finished happy hacking!
 
@@ -65,7 +65,7 @@ Finished happy hacking!
 
 1) Login to my account using credentials we have:  
 
-![alt text](image.png)
+![alt text](/assets/image/Portswigger/fileupload/image.png)
 
 2) Create php file and put php code that execute shell that read file we need:  
 
@@ -75,27 +75,27 @@ Finished happy hacking!
 
 3) Upload the file to an input field:  
 
-![alt text](image-1.png)
+![alt text](/assets/image/Portswigger/fileupload/image-1.png)
 
 4) When click upload appear an error which mean the application accept only images png or jpg:  
 
-![alt text](image-5.png)
+![alt text](/assets/image/Portswigger/fileupload/image-5.png)
 
 5) Intercept request with burp and change content type to image/png:  
 
-![alt text](image-6.png)
+![alt text](/assets/image/Portswigger/fileupload/image-6.png)
 
 6) Click send and open page source to see where our shell stored:  
 
-![alt text](image-7.png)
+![alt text](/assets/image/Portswigger/fileupload/image-7.png)
 
 7) Click the link and got the flag:  
 
-![alt text](image-8.png)
+![alt text](/assets/image/Portswigger/fileupload/image-8.png)
 
 8) Submit flag to submit solution in the lab:  
 
-![alt text](image-4.png)
+![alt text](/assets/image/Portswigger/fileupload/image-4.png)
 
 Finished happy hacking!
 
@@ -111,7 +111,7 @@ Finished happy hacking!
 
 1) Login to my account using credentials we have:  
 
-![alt text](image.png)
+![alt text](/assets/image/Portswigger/fileupload/image.png)
 
 2) Create php file and put php code that execute shell that read file we need:  
 
@@ -121,23 +121,23 @@ Finished happy hacking!
 
 3) Upload the file to an input field:  
 
-![alt text](image-1.png)
+![alt text](/assets/image/Portswigger/fileupload/image-1.png)
 
 4) Trying to access our shell but execution prohibited in this directory:  
-![alt text](image-9.png)
+![alt text](/assets/image/Portswigger/fileupload/image-9.png)
 
 5) In our request `POST /my-account/avatar` we can upload this file to other directory by back with `../`  
 
 6) Change file name and make it `../shell.php` but encode `/` to `%2f` so file name will be `..%2fshell.php`:  
 
-![alt text](image-10.png)
+![alt text](/assets/image/Portswigger/fileupload/image-10.png)
 
 7) Access the file using link to avatar that's in page source:  
 
-![alt text](image-11.png)
+![alt text](/assets/image/Portswigger/fileupload/image-11.png)
 
 8) Make link `../shell.php` and access `/files/avatar/../shell.php` and got the flag:  
-![alt text](image-12.png)
+![alt text](/assets/image/Portswigger/fileupload/image-12.png)
 
 Finished happy hacking!
 
@@ -153,7 +153,7 @@ Finished happy hacking!
 
 1) Login to my account using credentials we have:  
 
-![alt text](image.png)
+![alt text](/assets/image/Portswigger/fileupload/image.png)
 
 2) Create php file and put php code that execute shell that read file we need:  
 
@@ -163,14 +163,14 @@ Finished happy hacking!
 
 3) Upload the file to an input field:  
 
-![alt text](image-1.png)
+![alt text](/assets/image/Portswigger/fileupload/image-1.png)
 
 4) I got an error from php filter:  
 
-![alt text](image-13.png)
+![alt text](/assets/image/Portswigger/fileupload/image-13.png)
 
 5) Trying to upload the file with .php5 and success but i'm not able to execute the file so that i try to upload .htaccess file and it's uploaded:  
-![alt text](image-14.png)
+![alt text](/assets/image/Portswigger/fileupload/image-14.png)
 
 Create `.htaccess` file:  
 ```php
@@ -179,12 +179,12 @@ AddType application/x-httpd-php .test
 
 Upload it then upload shell as `shell.test`:
 
-![alt text](image-15.png)  
-![alt text](image-16.png)
+![alt text](/assets/image/Portswigger/fileupload/image-15.png)  
+![alt text](/assets/image/Portswigger/fileupload/image-16.png)
 
 8) Access the file from page source and got flag:  
 
-![alt text](image-17.png)
+![alt text](/assets/image/Portswigger/fileupload/image-17.png)
 
 Finished happy hacking!
 
@@ -200,7 +200,7 @@ Finished happy hacking!
 
 1) Login to my account using credentials we have:  
 
-![alt text](image.png)
+![alt text](/assets/image/Portswigger/fileupload/image.png)
 
 2) Create php file and put php code that execute shell that read file we need:  
 
@@ -210,22 +210,22 @@ Finished happy hacking!
 
 3) Upload the file to an input field:  
 
-![alt text](image-1.png)
+![alt text](/assets/image/Portswigger/fileupload/image-1.png)
 
 4) I got an error from php filter this need jpg or png only:  
 
-![alt text](image-18.png)
+![alt text](/assets/image/Portswigger/fileupload/image-18.png)
 
 5) So that i added null byte `%00` which make all after it meaningless our file will be `shell.php%00.jpg` and upload:  
 
-![alt text](image-19.png)
+![alt text](/assets/image/Portswigger/fileupload/image-19.png)
 
-6) Access image from right click and view image got an error because null byte, open url and delete null bytes:  
-![alt text](image-20.png)
+6) Access /assets/image/Portswigger/fileupload/image from right click and view image got an error because null byte, open url and delete null bytes:  
+![alt text](/assets/image/Portswigger/fileupload/image-20.png)
 
 7) Access link and got the flag:  
 
-![alt text](image-21.png)
+![alt text](/assets/image/Portswigger/fileupload/image-21.png)
 
 Finished happy hacking!
 
@@ -241,7 +241,7 @@ Finished happy hacking!
 
 1) Login to my account using credentials we have:  
 
-![alt text](image.png)
+![alt text](/assets/image/Portswigger/fileupload/image.png)
 
 2) Create php file and put php code that execute shell that read file we need:  
 
@@ -251,10 +251,10 @@ Finished happy hacking!
 
 3) Upload the file to an input field:  
 
-![alt text](image-1.png)
+![alt text](/assets/image/Portswigger/fileupload/image-1.png)
 
 4) I got an error say this is not an image:  
-![alt text](image-22.png)
+![alt text](/assets/image/Portswigger/fileupload/image-22.png)
 
 5) It's use magic bytes. I added `GIF89a` at the beginning of the shell:  
 
@@ -264,8 +264,8 @@ GIF89a<?php system("cat /home/carlos/secret"); ?>
 
 6) Upload the shell and server accepted it. Open image link and got the flag:  
 
-![alt text](image-23.png)  
-![alt text](image-24.png)
+![alt text](/assets/image/Portswigger/fileupload/image-23.png)  
+![alt text](/assets/image/Portswigger/fileupload/image-24.png)
 
 Finished happy hacking!
 
