@@ -16,6 +16,7 @@ tags:
 author: mustafa_altayeb
 date: 2025-10-07 00:00:00 +0000
 paginate: true
+published: false
 ---
 
 # Expressway - HackTheBox Writeup

@@ -16,6 +16,7 @@ tags:
 author: mustafa_altayeb
 date: 2026-02-09 00:00:00 +0000
 paginate: true
+published: false
 ---
 
 # Conversor - HackTheBox Writeup
