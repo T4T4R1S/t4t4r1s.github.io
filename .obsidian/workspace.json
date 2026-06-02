@@ -1,0 +1,235 @@
+{
+  "main": {
+    "id": "a79ef2784fb5b1d9",
+    "type": "split",
+    "children": [
+      {
+        "id": "8c54f7de3da268e7",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "500bf66cdf120de7",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "_posts/Writeups/HTB/2026-05-24-monitor4.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026-05-24-monitor4"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "22362ad87ef62f4c",
+    "type": "split",
+    "children": [
+      {
+        "id": "35aa4fb0cc1050e2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5eec96360334f57a",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "d7f2e58242120b53",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "d35562c3ffa11894",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "75ab6010e5e61d90",
+    "type": "split",
+    "children": [
+      {
+        "id": "59447e7743661a44",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "31fd18a457058ba9",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "assets/temp.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for temp"
+            }
+          },
+          {
+            "id": "2afded34bf2cd911",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "assets/temp.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from temp"
+            }
+          },
+          {
+            "id": "2785646e2f1c521a",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "85370e17ad3b9271",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "83506bad3191afc0",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "assets/temp.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of temp"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "5eec96360334f57a",
+  "lastOpenFiles": [
+    "_includes/topbar.html",
+    "_includes",
+    "_layouts/categories.html",
+    "_layouts",
+    "_posts/Writeups/HTB/2026-03-30-Conversor.md",
+    "_posts/Writeups/HTB/2026-03-24-ExpressWay.md",
+    "_site/categories/web-server/index.html",
+    "_site/categories/web-server",
+    "_site/categories/xss/index.html",
+    "_site/categories/xss",
+    "_site/categories/week-1/index.html",
+    "_site/categories/week-1",
+    "_site/categories/windows/index.html",
+    "_posts/PortSwiggerLabs/fileupload/2026-02-20-fileuploads.md",
+    "_posts/Writeups/OSCP/2026-01-10-Week1.md",
+    "_posts/Writeups/Infinity/2026-05-20- Infinity - SQL injection - Login_login.md",
+    "_posts/Writeups/Infinity/2026-05-20- Infinity - SQL injection - Broken Search.md",
+    "_posts/Writeups/Infinity/2026-05-20- Infinity - SQL injection - Opengate.md",
+    "_posts/Writeups/Infinity/2026-05-20- Infinity - SQL injection - Username.md",
+    "_posts/Writeups/Infinity/2026-05-20- Infinity - SQL injection - Category.md",
+    "_posts/Writeups/Infinity/2026-05-20- Infinity - SQL injection - Second Strike.md",
+    "_posts/Writeups/PortSwigger/2026-02-08-all-labs.md",
+    "_posts/Writeups/PortSwigger/2026-02-17-nosqlinjedddction.md",
+    "_posts/Writeups/PortSwigger/2025-2-1-crosssitescript.md",
+    "_posts/Writeups/PortSwigger/2026-02-20-fileuploads.md",
+    "_posts/Writeups/PortSwigger/2026-02-14-commandinjectionlabs.md",
+    "_posts/Writeups/RootMe/2026-02-19-osi.md",
+    "_posts/Writeups/RootMe/2026-03-13-Jaavascript_Obfescatation.md",
+    "_posts/Writeups/RootMe/2026-02-17-nosqlinjection.md",
+    "_posts/Writeups/RootMe/2026-02-09-JSchallenges copy.md",
+    "_posts/Writeups/RootMe/2026-02-02-HTMLSOURCECODE copy.md",
+    "_posts/Writeups/RootMe/2026-02-04-Insecure_Code_Management.md",
+    "_posts/Writeups/RootMe/2026-02-02-HTTPUseragent.md",
+    "_posts/Writeups/RootMe/2026-02-02-HTTPHEADER.md",
+    "_posts/Writeups/RootMe/2026-02-04-installfile copy.md",
+    "_posts/Writeups/RootMe/2026-02-02-HTTPREDIRCT.md",
+    "assets/image/Portswigger/commandi/image.png",
+    "_site/assets/infinity/SQLI/Opengate/image.png",
+    "_site/assets/infinity/SQLI/Opengate/image-3.png",
+    "_site/assets/infinity/SQLI/Opengate/image-2.png",
+    "_site/assets/infinity/SQLI/Opengate/image-1.png",
+    "assets/infinity/SQLI/Opengate/image.png",
+    "assets/infinity/SQLI/Opengate/image-3.png",
+    "assets/infinity/SQLI/Opengate/image-2.png",
+    "assets/infinity/SQLI/Opengate/image-1.png",
+    "_posts/Infinity/onpremise_offensive/SQL injection/SQL Basics/image-3.png"
+  ]
+}
