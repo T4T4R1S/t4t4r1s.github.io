@@ -8,7 +8,6 @@ tags:
   - FileUpload
   - PortSwigger
   - WebSecurity
-author: mustafa_altayeb
 subtitle: Walkthroughs for Labs 1-6
 description: PortSwigger Web Security Academy - File upload vulnerabilities labs
 image: /assets/image/Portswigger/download.png

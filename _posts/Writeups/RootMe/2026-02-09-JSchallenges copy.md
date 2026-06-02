@@ -11,7 +11,6 @@ tags:
   - RootMe
   - SourceAnalysis
   - Web
-author: mustafa_altayeb
 subtitle: Walkthroughs for Web-Client JS Labs
 description: RootMe challenge walkthroughs - JavaScript Source, Obfuscation, and Authentication
 image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509

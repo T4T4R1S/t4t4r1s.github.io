@@ -5,7 +5,6 @@ date: 2026-03-30 00:00:00 +0000
 categories: [Writeups, HackTheBox, HTB-Medium]
 tags:
   - HTB
-author: mustafa_altayeb
 subtitle: HackTheBox Writeup - Conversor
 description: Walkthrough of the Conversor machine – web app XSLT injection, credential cracking from SQLite, and sudo privilege escalation with needrestart.
 image: https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/avatars/0b659c391f2803c247e79c77a3284f96.png

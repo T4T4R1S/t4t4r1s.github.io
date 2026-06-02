@@ -5,7 +5,6 @@ date: 2026-03-24 00:00:00 +0000
 categories: [Writeups, HackTheBox, HTB-Medium]
 tags:
   - HTB
-author: mustafa_altayeb
 subtitle: HackTheBox Writeup - Expressway
 description: A detailed walkthrough of the Expressway machine, covering IPsec enumeration, PSK hash cracking, and Sudo host-based privilege escalation.
 image: https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/avatars/75c168f01f04e5f256838733b77f13ec.png

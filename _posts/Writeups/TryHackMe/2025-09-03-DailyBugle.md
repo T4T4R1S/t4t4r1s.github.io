@@ -5,7 +5,6 @@ date: 2025-09-03 00:00:00 +0000
 categories: [Writeups, TryHackMe, THM-Medium]
 tags:
   - TryHackMe
-author: mustafa_altayeb
 subtitle: TryHackMe Writeup - Daily Bugle
 description: Compromise a Joomla CMS account via SQL injection, crack password hashes, and escalate privileges using a YUM misconfiguration.
 image: https://tryhackme-images.s3.amazonaws.com/room-icons/5a1494ff275a366be8418a9bf831847c.png

@@ -10,7 +10,6 @@ tags:
   - Misconfiguration
   - RootMe
   - Web
-author: mustafa_altayeb
 subtitle: Discovering Exposed Installation Scripts
 description: RootMe challenge walkthrough - Install File
 image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509

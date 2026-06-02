@@ -11,7 +11,6 @@ tags:
   - RootMe
   - SourceCodeLeak
   - Web
-author: mustafa_altayeb
 subtitle: RootMe – Insecure Code Management
 description: RootMe challenge walkthrough - Exposed .git
 image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509

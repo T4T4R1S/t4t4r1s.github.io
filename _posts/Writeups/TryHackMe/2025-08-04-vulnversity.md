@@ -5,7 +5,6 @@ date: 2025-08-04 00:00:00 +0000
 categories: [Writeups, TryHackMe, THM-Easy]
 tags:
   - TryHackMe
-author: mustafa_altayeb
 subtitle: TryHackMe Writeup - Vulnversity
 description: A step-by-step guide to completing the Vulnversity room on TryHackMe, covering recon, file upload bypass, and SUID privilege escalation.
 image: https://tryhackme-images.s3.amazonaws.com/room-icons/85dee7ce633f5668b104d329da2769c3.png

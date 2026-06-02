@@ -10,7 +10,6 @@ tags:
   - RootMe
   - VerbTampering
   - Web
-author: mustafa_altayeb
 subtitle: Bypassing Restrictions via HTTP Methods
 description: RootMe challenge walkthrough - HTTP - Verb Tampering
 image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509

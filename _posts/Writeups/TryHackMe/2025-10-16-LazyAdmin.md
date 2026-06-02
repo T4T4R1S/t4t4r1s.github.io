@@ -5,7 +5,6 @@ date: 2025-10-16 00:00:00 +0000
 categories: [Writeups, TryHackMe, THM-Easy]
 tags:
   - TryHackMe
-author: mustafa_altayeb
 subtitle: TryHackMe Writeup - Lazy Admin
 description: Exploit SweetRice CMS vulnerabilities, crack weak passwords, upload a web shell, and escalate privileges through sudo misconfiguration.
 image: https://tryhackme-images.s3.amazonaws.com/room-icons/efbb70493ba66dfbac4302c02ad8facf.jpeg

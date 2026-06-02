@@ -9,7 +9,6 @@ tags:
   - Headers
   - RootMe
   - Web
-author: mustafa_altayeb
 subtitle: Custom Header Manipulation
 description: RootMe challenge walkthrough - HTTP Headers
 image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509

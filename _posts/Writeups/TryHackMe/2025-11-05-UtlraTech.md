@@ -5,7 +5,6 @@ date: 2025-11-05 00:00:00 +0000
 categories: [Writeups, TryHackMe, THM-Medium]
 tags:
   - TryHackMe
-author: mustafa_altayeb
 subtitle: TryHackMe Writeup - UltraTech
 description: A step-by-step guide to rooting the UltraTech machine, covering API enumeration, command injection, hash cracking, and Docker privilege escalation.
 image: https://tryhackme-images.s3.amazonaws.com/room-icons/e0f6687c43305e3b67a6cb38951d7b56.png

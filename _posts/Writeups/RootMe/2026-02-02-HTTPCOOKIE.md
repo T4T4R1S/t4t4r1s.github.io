@@ -10,7 +10,6 @@ tags:
   - HTTP
   - RootMe
   - Web
-author: mustafa_altayeb
 subtitle: Manipulating Cookies for Admin Access
 description: RootMe challenge walkthrough - HTTP - Cookies
 image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509

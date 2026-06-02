@@ -10,7 +10,6 @@ tags:
   - PathManipulation
   - RootMe
   - Web
-author: mustafa_altayeb
 subtitle: Parameter Tampering to Access Hidden Files
 description: RootMe challenge walkthrough - Directory Traversal
 image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509

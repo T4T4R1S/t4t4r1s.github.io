@@ -5,7 +5,6 @@ date: 2025-03-13 00:00:00 +0000
 categories: [Writeups, RootMe, "Web Client"]
 tags:
   - RootMe
-author: mustafa_altayeb
 subtitle: Javascript - Obfuscation 4
 description: Javascript - Obfuscation 4
 image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509

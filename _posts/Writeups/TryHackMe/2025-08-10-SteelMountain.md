@@ -5,7 +5,6 @@ date: 2025-08-10 00:00:00 +0000
 categories: [Writeups, TryHackMe, THM-Easy]
 tags:
   - TryHackMe
-author: mustafa_altayeb
 subtitle: TryHackMe Writeup - Steel Mountain
 description: A step-by-step guide to rooting the Steel Mountain machine on TryHackMe, inspired by Mr. Robot.
 image: https://tryhackme-images.s3.amazonaws.com/room-icons/c9030a2b60bb7d1cf4fcb6e5032526d3.jpeg

@@ -10,7 +10,6 @@ tags:
   - RootMe
   - SourceCodeLeak
   - Web
-author: mustafa_altayeb
 subtitle: Discovering Exposed Backup Files
 description: RootMe challenge walkthrough - Backup file
 image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509

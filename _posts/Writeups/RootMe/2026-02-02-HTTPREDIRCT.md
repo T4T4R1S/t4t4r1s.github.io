@@ -10,7 +10,6 @@ tags:
   - OpenRedirect
   - RootMe
   - Web
-author: mustafa_altayeb
 subtitle: Exploiting Open Redirect via MD5 Hash
 description: RootMe challenge walkthrough - HTTP - Open Redirect
 image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509

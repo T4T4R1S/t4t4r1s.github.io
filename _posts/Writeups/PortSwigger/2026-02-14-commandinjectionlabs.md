@@ -9,7 +9,6 @@ tags:
   - PortSwigger
   - Server-Side
   - WebSecurity
-author: mustafa_altayeb
 subtitle: Walkthroughs for Labs 1-5
 description: PortSwigger Web Security Academy - OS Command Injection labs
 image: /assets/image/Portswigger/download.png

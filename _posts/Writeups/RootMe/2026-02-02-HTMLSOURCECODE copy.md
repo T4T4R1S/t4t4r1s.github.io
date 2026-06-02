@@ -5,7 +5,6 @@ date: 2026-02-02 00:00:00 +0000
 categories: [Writeups, RootMe, "Web Server"]
 tags:
   - RootMe
-author: mustafa_altayeb
 subtitle: HTML SOURCE CODE
 description: HTML SOURCE CODE
 image: https://www.root-me.org/IMG/logo/siteon0.svg?1637496509
