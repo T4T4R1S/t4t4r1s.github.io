@@ -9,6 +9,7 @@ author: mustafa_altayeb
 subtitle: Manipulating POST Parameters for High Score
 description: A walkthrough of exploiting SQL Injection in a login form on Infinity platform. By injecting a boolean condition and switching comment syntax from -- to `#`, we bypassed authentication and gained access to the application.
 image: https://infinitylearning-images.s3.eu-west-2.amazonaws.com/Learning-Path-Challenge-Images/Opengate.webp
+tag:
   - Infinity
   - Web_Security
   - SQLI

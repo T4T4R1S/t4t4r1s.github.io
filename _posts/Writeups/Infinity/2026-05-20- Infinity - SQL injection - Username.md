@@ -9,6 +9,7 @@ author: mustafa_altayeb
 subtitle: Manipulating POST Parameters for High Score
 description: A walkthrough of exploiting Boolean-based SQL Injection in a registration form on Infinity platform. By crafting true/false conditions and automating character extraction with Python, we recovered user passwords from the database.
 image: https://infinitylearning-images.s3.eu-west-2.amazonaws.com/images/public/Web-Application-Badge.png
+tag:
   - Infinity
   - Web_Security
   - SQLI

@@ -9,6 +9,7 @@ author: mustafa_altayeb
 subtitle: Manipulating POST Parameters for High Score
 description: A walkthrough of exploiting Second-Order SQL Injection in an update username feature on Infinity platform. By injecting into an UPDATE query, we escalated  privileges from a regular user to admin without needing to know any credentials.
 image: https://infinitylearning-images.s3.eu-west-2.amazonaws.com/images/public/second-strike.webp
+tag:
   - Infinity
   - Web_Security
   - SQLI

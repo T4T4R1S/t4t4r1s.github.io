@@ -9,6 +9,7 @@ author: mustafa_altayeb
 subtitle: Manipulating POST Parameters for High Score
 description: A walkthrough of exploiting a Boolean-based SQL Injection vulnerability in a login form on Infinity platform. By injecting a true condition into the username field, we bypassed authentication without knowing any credentials.
 image: https://infinitylearning-images.s3.eu-west-2.amazonaws.com/images/public/login-logic.webp
+tag:
   - Infinity
   - Web_Security
   - SQLI

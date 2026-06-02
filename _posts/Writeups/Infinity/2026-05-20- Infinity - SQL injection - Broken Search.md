@@ -9,6 +9,7 @@ author: mustafa_altayeb
 subtitle: Manipulating POST Parameters for High Score
 description: A walkthrough of exploiting a Union-based SQL Injection vulnerability in a broken search feature on Infinity platform. By identifying the correct number of columns and injecting into a POST parameter, we successfully dumped sensitive data from the database.
 image: https://infinitylearning-images.s3.eu-west-2.amazonaws.com/Learning-Path-Challenge-Images/broken-search.webp
+tag:
   - Infinity
   - Web_Security
   - SQLI
