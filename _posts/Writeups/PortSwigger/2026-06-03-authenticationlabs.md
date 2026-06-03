@@ -10,7 +10,7 @@ tags:
   - WebSecurity
 subtitle: Walkthroughs for Labs 1-6
 description: PortSwigger Web Security Academy - Authentication vulnerabilities labs
-/assets/labs/authenticationv/image: /assets/image/Portswigger/download.png
+image: /assets/image/Portswigger/download.png
 paginate: true
 ---
 
