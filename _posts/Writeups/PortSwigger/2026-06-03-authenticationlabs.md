@@ -10,7 +10,7 @@ tags:
   - WebSecurity
 subtitle: Walkthroughs for Labs 1-6
 description: PortSwigger Web Security Academy - Authentication vulnerabilities labs
-image: /assets/image/Portswigger/download.png
+/assets/labs/authenticationv/image: /assets//assets/labs/authenticationv/image/Portswigger/download.png
 paginate: true
 ---
 
@@ -19,7 +19,7 @@ paginate: true
 ## LAB 1: Username Enumeration via Different Responses
 `APPRENTICE`
 
-![alt text](image.png)
+![alt text](/assets/labs/authenticationv/image.png)
 
 **Analysis**
 
@@ -29,32 +29,32 @@ Key Concept: Different error messages reveal valid usernames — when an invalid
 l
 **Steps to solve**
  1) Try to login with incorrect credentials and i got `invalid username` : 
- ![alt text](image-1.png)
+ ![alt text](/assets/labs/authenticationv/image-1.png)
 
  2) In lab description i have 2 list of `usernames passwords` : 
- ![alt text](image-2.png)
+ ![alt text](/assets/labs/authenticationv/image-2.png)
 
  3)intercept login request with burp and send it to intruder : 
 
- ![alt text](image-3.png)
+ ![alt text](/assets/labs/authenticationv/image-3.png)
 
  4) Select user name field and add payload the user name list i got from lab description and start brute force and all response has `incorrect username` except one `americas`: 
 
- ![alt text](image-4.png)
+ ![alt text](/assets/labs/authenticationv/image-4.png)
 
 5) Now i find valid username let's try  brute force password for this account Change filter to get all redirect 30x and i find the password is password : 
-![alt text](image-5.png)
+![alt text](/assets/labs/authenticationv/image-5.png)
 
 6) Now login with username `americas` , password `password` Solved :
 
-![alt text](image-6.png)
+![alt text](/assets/labs/authenticationv/image-6.png)
 
 ---
 
 ## LAB 2: 2FA Simple Bypass
 `APPRENTICE`
 
-![alt text](image-7.png)
+![alt text](/assets/labs/authenticationv/image-7.png)
 
 **Analysis**
 
@@ -66,37 +66,37 @@ l
 
 1) access the lab and login with out account `wiener` `peter` and after login it's need 4-digit code to complete step 2 of login : 
 
-![alt text](image-8.png)
+![alt text](/assets/labs/authenticationv/image-8.png)
 
 2) go to email with this button on the top of lab : 
-![alt text](image-9.png)
+![alt text](/assets/labs/authenticationv/image-9.png)
 
 4) i find code has been sent `1723`: 
-![alt text](image-10.png)
+![alt text](/assets/labs/authenticationv/image-10.png)
 
 5) and i redirected to my account : 
-![alt text](image-11.png)
+![alt text](/assets/labs/authenticationv/image-11.png)
 
 6) in url i find the end point is `/my-account` with id =username : 
-![alt text](image-12.png)
+![alt text](/assets/labs/authenticationv/image-12.png)
 
 7) logout and try to login to carlos account and it's required 4-digit but now i don't have carlos mail : 
 
-![alt text](image-13.png)
+![alt text](/assets/labs/authenticationv/image-13.png)
 
 8) after look at the endpoint it's `login2` :
-![alt text](image-14.png)
+![alt text](/assets/labs/authenticationv/image-14.png)
 
 9) change this endpoint to one we redirected to it after legal login in our account `/my-account`and SOLVED:
 
-![alt text](image-15.png)
+![alt text](/assets/labs/authenticationv/image-15.png)
 
 ---
 
 ## LAB 3: Password Reset Broken Logic
 `APPRENTICE`
 
-![alt text](image-16.png)
+![alt text](/assets/labs/authenticationv/image-16.png)
 
 **Analysis**
 
@@ -106,35 +106,35 @@ l
 
 **Steps to solve**
 1) start lab and login to my account `wiener:peter`: 
-![alt text](image-17.png)
+![alt text](/assets/labs/authenticationv/image-17.png)
 
 2) logout and click forget password write username and click submit : 
-![alt text](image-18.png)
+![alt text](/assets/labs/authenticationv/image-18.png)
 
 3) go to Email Client from button on the top of the page: 
-![alt text](image-19.png)
+![alt text](/assets/labs/authenticationv/image-19.png)
 
 4) Copy link and start burp to store all traffic: 
-![alt text](image-20.png)
+![alt text](/assets/labs/authenticationv/image-20.png)
 
 5) after open link set new password page appear : 
-![alt text](image-21.png)
+![alt text](/assets/labs/authenticationv/image-21.png)
 
 6) intercept request and put new password : 
-![alt text](image-22.png)
+![alt text](/assets/labs/authenticationv/image-22.png)
 
 7) From previous image the password set using user name send request to repeater and try to change it to victim username in my case is `carlos` and it's success: 
-![alt text](image-23.png)
+![alt text](/assets/labs/authenticationv/image-23.png)
  
  8) now try to login with password i set and username carlos and SOLVED: 
 
- ![alt text](image-24.png)
+ ![alt text](/assets/labs/authenticationv/image-24.png)
 
 ---
 
 ## LAB 4: Username Enumeration via Subtly Different Responses
 `PRACTITIONER`
-![alt text](image-26.png)
+![alt text](/assets/labs/authenticationv/image-26.png)
 **Analysis**
 
 - Vulnerability: Vulnerable to user enumeration 
@@ -144,32 +144,32 @@ l
 
 **Steps to solve**
 1) Download username list and password list to use it in our attack : 
-![alt text](image-25.png)
+![alt text](/assets/labs/authenticationv/image-25.png)
 
 2) login with invalid username and password and intercept request int burp and send it to intruder : 
 
-![alt text](image-27.png)
+![alt text](/assets/labs/authenticationv/image-27.png)
 
 3) now let's start brute force username with list i just downloaded : 
-![alt text](image-28.png)
+![alt text](/assets/labs/authenticationv/image-28.png)
 
 4)if lock at all response in got `Invalid username or password.` i will do negative search on it to see different responses: 
 `filter`
-![alt text](image-29.png)
+![alt text](/assets/labs/authenticationv/image-29.png)
 
 5) i found one username the `.` after password doesn't appear and it's alpha: 
 
-![alt text](image-30.png)
+![alt text](/assets/labs/authenticationv/image-30.png)
 
 5) now i have valid username i will brute force password for this username using the list i downloaded and intruder : 
-![alt text](image-31.png)
+![alt text](/assets/labs/authenticationv/image-31.png)
 
 6) filter output with 30x `forward` : 
-![alt text](image-32.png)
+![alt text](/assets/labs/authenticationv/image-32.png)
 
 7) i got one password `jessica` try to login and it's SOLVED: 
 
-![alt text](image-33.png)
+![alt text](/assets/labs/authenticationv/image-33.png)
 ---
 
 ## LAB 5: Username Enumeration via Response Timing
