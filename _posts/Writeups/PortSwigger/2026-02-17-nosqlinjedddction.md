@@ -4,7 +4,7 @@ title: PortSwigger - NoSQL injection Labs
 date: 2026-02-17 00:00:00 +0000
 categories: [Writeups, PortSwigger, "NoSQL Injection"]
 tags:
-  - CTF
+  - LABS
   - CommandInjection
   - PortSwigger
   - Server-Side

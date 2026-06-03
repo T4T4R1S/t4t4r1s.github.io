@@ -4,7 +4,7 @@ title: PortSwigger - OS Command Injection Labs
 date: 2026-02-14 00:00:00 +0000
 categories: [Writeups, PortSwigger, "OS Command Injection"]
 tags:
-  - CTF
+  - LABS
   - CommandInjection
   - PortSwigger
   - Server-Side

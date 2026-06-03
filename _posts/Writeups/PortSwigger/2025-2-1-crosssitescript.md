@@ -5,6 +5,7 @@ date: 2026-01-20 00:00:00 +0000
 categories: [Writeups, PortSwigger, XSS]
 tags:
   - PortSwigger
+  - LABS
 subtitle: Cross Site Scripting (XSS)
 description: Cross Site Scripting (XSS)
 image: /assets/image/Portswigger/download.png

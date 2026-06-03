@@ -4,7 +4,7 @@ title: PortSwigger - File upload vulnerabilities Labs
 date: 2026-02-20 00:00:00 +0000
 categories: [Writeups, PortSwigger, "File Upload"]
 tags:
-  - CTF
+  - LABS
   - FileUpload
   - PortSwigger
   - WebSecurity
