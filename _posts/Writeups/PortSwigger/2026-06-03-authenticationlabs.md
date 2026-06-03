@@ -1,6 +1,6 @@
 ---
 layout: post
-title: PortSwigger - File upload vulnerabilities Labs
+title: PortSwigger - Authentication vulnerabilities labs
 date: 2026-06-03 00:00:00 +0000
 categories: [Writeups, PortSwigger, "Authentication"]
 tags:
@@ -10,268 +10,356 @@ tags:
   - WebSecurity
 subtitle: Walkthroughs for Labs 1-6
 description: PortSwigger Web Security Academy - Authentication vulnerabilities labs
-/assets/labs/authenticationv/image: /assets//assets/labs/authenticationv/image/Portswigger/download.png
+/assets/labs/authenticationv/image: /assets/image/Portswigger/download.png
 paginate: true
 ---
 
 # PortSwigger – Authentication Vulnerabilities Labs
 
-## LAB 1: Username Enumeration via Different Responses
-`APPRENTICE`
+---
 
-![alt text](/assets/labs/authenticationv/image.png)
+## LAB 1 — Username Enumeration via Different Responses
 
-**Analysis**
+> **Level:** `APPRENTICE`
 
-Vulnerability:  username enumeration and password brute-force attacks
-Goal: enumerate a valid username, brute-force this user's password, then access their account page. 
-Key Concept: Different error messages reveal valid usernames — when an invalid username returns `Invalid username` but a valid one returns `Incorrect password` the difference in responses allows an attacker to enumerate valid usernames before brute-forcing the password.
-l
-**Steps to solve**
- 1) Try to login with incorrect credentials and i got `invalid username` : 
- ![alt text](/assets/labs/authenticationv/image-1.png)
+![](/assets/labs/authenticationv/image.png)
 
- 2) In lab description i have 2 list of `usernames passwords` : 
- ![alt text](/assets/labs/authenticationv/image-2.png)
+### Analysis
 
- 3)intercept login request with burp and send it to intruder : 
+| | |
+|---|---|
+| **Vulnerability** | Username enumeration + password brute-force |
+| **Goal** | Enumerate a valid username, brute-force the password, then access the account page |
+| **Key Concept** | Different error messages reveal valid usernames — `Invalid username` vs `Incorrect password` |
 
- ![alt text](/assets/labs/authenticationv/image-3.png)
+### Steps
 
- 4) Select user name field and add payload the user name list i got from lab description and start brute force and all response has `incorrect username` except one `americas`: 
+**1.** Login with wrong credentials → got `Invalid username`
 
- ![alt text](/assets/labs/authenticationv/image-4.png)
+![](/assets/labs/authenticationv/image-1.png)
 
-5) Now i find valid username let's try  brute force password for this account Change filter to get all redirect 30x and i find the password is password : 
-![alt text](/assets/labs/authenticationv/image-5.png)
+**2.** Download the username and password lists from the lab description
 
-6) Now login with username `americas` , password `password` Solved :
+![](/assets/labs/authenticationv/image-2.png)
 
-![alt text](/assets/labs/authenticationv/image-6.png)
+**3.** Intercept the login request with Burp and send it to Intruder
+
+![](/assets/labs/authenticationv/image-3.png)
+
+**4.** Set the username field as payload position, load the username list, and start the attack — all responses show `Incorrect username` except one: **`americas`**
+
+![](/assets/labs/authenticationv/image-4.png)
+
+**5.** With the valid username found, brute-force the password — filter for 30x redirects → password is **`password`**
+
+![](/assets/labs/authenticationv/image-5.png)
+
+**6.** Login with `americas` / `password` →  Solved
+
+![](/assets/labs/authenticationv/image-6.png)
 
 ---
 
-## LAB 2: 2FA Simple Bypass
-`APPRENTICE`
+## LAB 2 — 2FA Simple Bypass
 
-![alt text](/assets/labs/authenticationv/image-7.png)
+> **Level:** `APPRENTICE`
 
-**Analysis**
+![](/assets/labs/authenticationv/image-7.png)
 
-- Vulnerability: Bypass 2FA 
-- Goal: Carlos's account page
-- Key Concept: 2FA can be bypassed by directly navigating to a protected page — if the application doesn't verify that the 2FA step was completed before granting access, an attacker can skip it entirely by jumping straight to the post-login URL after submitting valid credentials.
+### Analysis
 
-**Steps to solve**
+| | |
+|---|---|
+| **Vulnerability** | 2FA bypass |
+| **Goal** | Access Carlos's account page |
+| **Key Concept** | The app doesn't verify the 2FA step was completed — navigating directly to `/my-account` after entering valid credentials skips it entirely |
 
-1) access the lab and login with out account `wiener` `peter` and after login it's need 4-digit code to complete step 2 of login : 
+### Steps
 
-![alt text](/assets/labs/authenticationv/image-8.png)
+**1.** Login with `wiener` / `peter` → the app asks for a 4-digit 2FA code
 
-2) go to email with this button on the top of lab : 
-![alt text](/assets/labs/authenticationv/image-9.png)
+![](/assets/labs/authenticationv/image-8.png)
 
-4) i find code has been sent `1723`: 
-![alt text](/assets/labs/authenticationv/image-10.png)
+**2.** Click "Email Client" at the top of the lab
 
-5) and i redirected to my account : 
-![alt text](/assets/labs/authenticationv/image-11.png)
+![](/assets/labs/authenticationv/image-9.png)
 
-6) in url i find the end point is `/my-account` with id =username : 
-![alt text](/assets/labs/authenticationv/image-12.png)
+**3.** Find the code sent: `1723`
 
-7) logout and try to login to carlos account and it's required 4-digit but now i don't have carlos mail : 
+![](/assets/labs/authenticationv/image-10.png)
 
-![alt text](/assets/labs/authenticationv/image-13.png)
+**4.** Enter the code → redirected to `/my-account`
 
-8) after look at the endpoint it's `login2` :
-![alt text](/assets/labs/authenticationv/image-14.png)
+![](/assets/labs/authenticationv/image-11.png)
 
-9) change this endpoint to one we redirected to it after legal login in our account `/my-account`and SOLVED:
+**5.** Note the endpoint pattern: `/my-account?id=username`
 
-![alt text](/assets/labs/authenticationv/image-15.png)
+![](/assets/labs/authenticationv/image-12.png)
 
----
+**6.** Logout → login as `carlos` → 2FA prompt appears but there's no access to Carlos's email
 
-## LAB 3: Password Reset Broken Logic
-`APPRENTICE`
+![](/assets/labs/authenticationv/image-13.png)
 
-![alt text](/assets/labs/authenticationv/image-16.png)
+**7.** The current endpoint at this point is `login2`
 
-**Analysis**
+![](/assets/labs/authenticationv/image-14.png)
 
-- Vulnerability: Vulnerable password reset functionality
-- Goal: reset Carlos's password then log in
-- Key Concept: The password reset token is not validated server-side — the application accepts a password reset request even if the token is missing or tampered with, allowing an attacker to reset any user's password by simply changing the `username` parameter in the request.
+**8.** Change the URL directly to `/my-account` →  Solved
 
-**Steps to solve**
-1) start lab and login to my account `wiener:peter`: 
-![alt text](/assets/labs/authenticationv/image-17.png)
-
-2) logout and click forget password write username and click submit : 
-![alt text](/assets/labs/authenticationv/image-18.png)
-
-3) go to Email Client from button on the top of the page: 
-![alt text](/assets/labs/authenticationv/image-19.png)
-
-4) Copy link and start burp to store all traffic: 
-![alt text](/assets/labs/authenticationv/image-20.png)
-
-5) after open link set new password page appear : 
-![alt text](/assets/labs/authenticationv/image-21.png)
-
-6) intercept request and put new password : 
-![alt text](/assets/labs/authenticationv/image-22.png)
-
-7) From previous image the password set using user name send request to repeater and try to change it to victim username in my case is `carlos` and it's success: 
-![alt text](/assets/labs/authenticationv/image-23.png)
- 
- 8) now try to login with password i set and username carlos and SOLVED: 
-
- ![alt text](/assets/labs/authenticationv/image-24.png)
+![](/assets/labs/authenticationv/image-15.png)
 
 ---
 
-## LAB 4: Username Enumeration via Subtly Different Responses
-`PRACTITIONER`
-![alt text](/assets/labs/authenticationv/image-26.png)
-**Analysis**
+## LAB 3 — Password Reset Broken Logic
 
-- Vulnerability: Vulnerable to user enumeration 
-- Goal: find valid username and password
-- Key Concept: The username and password is vulnerable to brute force attack but here the developer mistake is `.` if the username is valid it's  not appear in the response and if password and username is invalid `.` appear 
+> **Level:** `APPRENTICE`
 
+![](/assets/labs/authenticationv/image-16.png)
 
-**Steps to solve**
-1) Download username list and password list to use it in our attack : 
-![alt text](/assets/labs/authenticationv/image-25.png)
+### Analysis
 
-2) login with invalid username and password and intercept request int burp and send it to intruder : 
+| | |
+|---|---|
+| **Vulnerability** | Broken password reset |
+| **Goal** | Reset Carlos's password then log in |
+| **Key Concept** | The reset token isn't validated server-side — changing the `username` parameter in the request resets any user's password |
 
-![alt text](/assets/labs/authenticationv/image-27.png)
+### Steps
 
-3) now let's start brute force username with list i just downloaded : 
-![alt text](/assets/labs/authenticationv/image-28.png)
+**1.** Login with `wiener` / `peter`
 
-4)if lock at all response in got `Invalid username or password.` i will do negative search on it to see different responses: 
-`filter`
-![alt text](/assets/labs/authenticationv/image-29.png)
+![](/assets/labs/authenticationv/image-17.png)
 
-5) i found one username the `.` after password doesn't appear and it's alpha: 
+**2.** Logout → click "Forgot password" → enter username → submit
 
-![alt text](/assets/labs/authenticationv/image-30.png)
+![](/assets/labs/authenticationv/image-18.png)
 
-5) now i have valid username i will brute force password for this username using the list i downloaded and intruder : 
-![alt text](/assets/labs/authenticationv/image-31.png)
+**3.** Open the Email Client from the top of the page
 
-6) filter output with 30x `forward` : 
-![alt text](/assets/labs/authenticationv/image-32.png)
+![](/assets/labs/authenticationv/image-19.png)
 
-7) i got one password `jessica` try to login and it's SOLVED: 
+**4.** Copy the reset link and start Burp to capture traffic
 
-![alt text](/assets/labs/authenticationv/image-33.png)
----
+![](/assets/labs/authenticationv/image-20.png)
 
-## LAB 5: Username Enumeration via Response Timing
-`PRACTITIONER`
+**5.** Open the link → "Set new password" page appears
 
-**Analysis**
+![](/assets/labs/authenticationv/image-21.png)
 
-**Steps to solve**
+**6.** Intercept the request when submitting the new password
 
----
+![](/assets/labs/authenticationv/image-22.png)
 
-## LAB 6: Broken Brute-Force Protection, IP Block
-`PRACTITIONER`
+**7.** Change the `username` parameter to `carlos` → send → success ✓
 
-**Analysis**
+![](/assets/labs/authenticationv/image-23.png)
 
-**Steps to solve**
+**8.** Login with `carlos` and the new password →  Solved
+
+![](/assets/labs/authenticationv/image-24.png)
 
 ---
 
-## LAB 7: Username Enumeration via Account Lock
-`PRACTITIONER`
+## LAB 4 — Username Enumeration via Subtly Different Responses
 
-**Analysis**
+> **Level:** `PRACTITIONER`
 
-**Steps to solve**
+![](/assets/labs/authenticationv/image-26.png)
 
----
+### Analysis
 
-## LAB 8: 2FA Broken Logic
-`PRACTITIONER`
+| | |
+|---|---|
+| **Vulnerability** | Username enumeration |
+| **Goal** | Find a valid username and password |
+| **Key Concept** | The error message ends with a `.` for invalid credentials — but that period disappears when the username is valid |
 
-**Analysis**
+### Steps
 
-**Steps to solve**
+**1.** Download the username and password lists
 
----
+![](/assets/labs/authenticationv/image-25.png)
 
-## LAB 9: Brute-Forcing a Stay-Logged-In Cookie
-`PRACTITIONER`
+**2.** Login with invalid credentials → intercept in Burp → send to Intruder
 
-**Analysis**
+![](/assets/labs/authenticationv/image-27.png)
 
-**Steps to solve**
+**3.** Brute-force the username field with the downloaded list
 
----
+![](/assets/labs/authenticationv/image-28.png)
 
-## LAB 10: Offline Password Cracking
-`PRACTITIONER`
+**4.** All responses return `Invalid username or password.` — do a **negative search** (filter out this string) to find the different one
 
-**Analysis**
+![](/assets/labs/authenticationv/image-29.png)
 
-**Steps to solve**
+**5.** One result stands out — the trailing `.` is missing → valid username: **`alpha`**
 
----
+![](/assets/labs/authenticationv/image-30.png)
 
-## LAB 11: Password Reset Poisoning via Middleware
-`PRACTITIONER`
+**6.** Brute-force the password for `alpha` using the password list
 
-**Analysis**
+![](/assets/labs/authenticationv/image-31.png)
 
-**Steps to solve**
+**7.** Filter for 30x redirects
 
----
+![](/assets/labs/authenticationv/image-32.png)
 
-## LAB 12: Password Brute-Force via Password Change
-`PRACTITIONER`
+**8.** Password found: **`jessica`** → login →  Solved
 
-**Analysis**
-
-**Steps to solve**
+![](/assets/labs/authenticationv/image-33.png)
 
 ---
 
-## LAB 13: Broken Brute-Force Protection, Multiple Credentials per Request
-`EXPERT`
+## LAB 5 — Username Enumeration via Response Timing
 
-**Analysis**
+> **Level:** `PRACTITIONER`
 
-**Steps to solve**
+### Analysis
+
+*(coming soon)*
+
+### Steps
+
+*(coming soon)*
 
 ---
 
-## LAB 14: 2FA Bypass Using a Brute-Force Attack
-`EXPERT`
+## LAB 6 — Broken Brute-Force Protection, IP Block
 
-**Analysis**
+> **Level:** `PRACTITIONER`
 
-**Steps to solve**
+### Analysis
+
+*(coming soon)*
+
+### Steps
+
+*(coming soon)*
+
+---
+
+## LAB 7 — Username Enumeration via Account Lock
+
+> **Level:** `PRACTITIONER`
+
+### Analysis
+
+*(coming soon)*
+
+### Steps
+
+*(coming soon)*
+
+---
+
+## LAB 8 — 2FA Broken Logic
+
+> **Level:** `PRACTITIONER`
+
+### Analysis
+
+*(coming soon)*
+
+### Steps
+
+*(coming soon)*
+
+---
+
+## LAB 9 — Brute-Forcing a Stay-Logged-In Cookie
+
+> **Level:** `PRACTITIONER`
+
+### Analysis
+
+*(coming soon)*
+
+### Steps
+
+*(coming soon)*
+
+---
+
+## LAB 10 — Offline Password Cracking
+
+> **Level:** `PRACTITIONER`
+
+### Analysis
+
+*(coming soon)*
+
+### Steps
+
+*(coming soon)*
+
+---
+
+## LAB 11 — Password Reset Poisoning via Middleware
+
+> **Level:** `PRACTITIONER`
+
+### Analysis
+
+*(coming soon)*
+
+### Steps
+
+*(coming soon)*
+
+---
+
+## LAB 12 — Password Brute-Force via Password Change
+
+> **Level:** `PRACTITIONER`
+
+### Analysis
+
+*(coming soon)*
+
+### Steps
+
+*(coming soon)*
+
+---
+
+## LAB 13 — Broken Brute-Force Protection, Multiple Credentials per Request
+
+> **Level:** `EXPERT`
+
+### Analysis
+
+*(coming soon)*
+
+### Steps
+
+*(coming soon)*
+
+---
+
+## LAB 14 — 2FA Bypass Using a Brute-Force Attack
+
+> **Level:** `EXPERT`
+
+### Analysis
+
+*(coming soon)*
+
+### Steps
+
+*(coming soon)*
 
 ---
 
 **Finished — Happy Hacking!**
 
 ---
-**Find me online**:  
-• TryHackMe: [t4t4r1s](https://tryhackme.com/p/t4t4r1s)  
-• HackTheBox: [t4t4r1s](https://app.hackthebox.com/users/2203575)  
-• LinkedIn: [Mustafa Eltayeb](https://www.linkedin.com/in/t4t4r1s)  
-• X: [@mustafa_altayeb](https://x.com/t4t4r1s)
+
+**Find me online:**
+- TryHackMe: [t4t4r1s](https://tryhackme.com/p/t4t4r1s)
+- HackTheBox: [t4t4r1s](https://app.hackthebox.com/users/2203575)
+- LinkedIn: [Mustafa Eltayeb](https://www.linkedin.com/in/t4t4r1s)
+- X: [@mustafa_altayeb](https://x.com/t4t4r1s)
 
 ---
+
 <iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=3186403" style="border:none;"></iframe>
-
-
