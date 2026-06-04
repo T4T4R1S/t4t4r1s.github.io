@@ -214,13 +214,78 @@ paginate: true
 
 > **Level:** `PRACTITIONER`
 
+![](/assets/image/Portswigger/authee/image.png)
+
 ### Analysis
 
-*(coming soon)*
+| | |
+|---|---|
+| **Vulnerability** | Username enumeration and password brute-force attacks |
+| **Goal** | Find a valid username and password |
+| **Key Concept** | The app checks username first, then password. If the username is invalid it returns immediately. If valid, it proceeds to check the password — making it take longer. By sending a very long password and measuring response time, we can identify valid usernames. |
 
 ### Steps
 
-*(coming soon)*
+**1.** Open the lab and go to My Account page
+
+![](/assets/image/Portswigger/authee/image-1.png)
+
+**2.** Try to login with invalid username or password and intercept request with Burp
+
+![](/assets/image/Portswigger/authee/image-2.png)
+
+**3.** Send request to Intruder — download username and password lists from the lab main page
+
+**4.** Select username in Intruder, load username list as payload, and start attack
+
+![](/assets/image/Portswigger/authee/image-3.png)
+
+**5.** Got error: `You have made too many incorrect login attempts. Please try again in 30 minute(s).`
+
+![](/assets/image/Portswigger/authee/image-4.png)
+
+**6.** Use `X-Forwarded-For` header to change IP per request — switch to **Pitchfork** attack:
+
+![](/assets/image/Portswigger/authee/image-5.png)
+
+- Payload 1: Numbers 1–100
+- Payload 2: Username list
+
+**7.** Start attack — the error disappears
+
+![](/assets/image/Portswigger/authee/image-6.png)
+
+**8.** Set a very long password to force the app to take more time when the username is valid
+
+![](/assets/image/Portswigger/authee/image-7.png)
+
+**9.** Start attack again
+
+**10.** Sort by **Response Complete** time
+
+![](/assets/image/Portswigger/authee/image-8.png)
+
+**11.** Identify the request that takes significantly longer
+
+![](/assets/image/Portswigger/authee/image-9.png)
+
+**12.** Username `app01` takes more time — confirm in Repeater
+
+**13.** Set `app01` as username in Intruder, load password list, and start attack
+
+![](/assets/image/Portswigger/authee/image-10.png)
+
+**14.** Filter responses for 30x redirects
+
+![](/assets/image/Portswigger/authee/image-11.png)
+
+**15.** Password found
+
+![](/assets/image/Portswigger/authee/image-12.png)
+
+**16.** Login with `app01` : `taylor` →  Solved
+
+![](/assets/image/Portswigger/authee/image-13.png)
 
 ---
 
@@ -228,13 +293,83 @@ paginate: true
 
 > **Level:** `PRACTITIONER`
 
+![](/assets/image/Portswigger/authee/image-14.png)
+
 ### Analysis
 
-*(coming soon)*
+| | |
+|---|---|
+| **Vulnerability** | Logic flaw in password brute-force protection |
+| **Goal** | Find a valid password for username `carlos` |
+| **Key Concept** | The app blocks after 3 failed attempts. But logging in successfully with a valid account resets the counter. By alternating 2 failed attempts for `carlos` with 1 valid login as `wiener`, we can brute-force indefinitely. |
 
 ### Steps
 
-*(coming soon)*
+**1.** Start the lab, intercept a login request with `carlos` and invalid password → send to Intruder
+
+![](/assets/image/Portswigger/authee/image-15.png)
+
+**2.** Go to **Resource Pool** → set max concurrent requests = 1
+
+![](/assets/image/Portswigger/authee/image-16.png)
+
+**3.** Build a credential list: 2 carlos attempts → 1 valid wiener login → repeat
+
+```
+carlos:password
+carlos:password
+wiener:peter
+carlos:password
+carlos:password
+...
+```
+
+**4.** Python script to generate this pattern:
+
+```python
+print('usernames ------------------------------------------------------')
+for i in range(150):
+    if i % 3:
+        print("carlos")
+    else:
+        print("wiener")
+
+print('Passwords ------------------------------------------------------')
+with open('password.txt', 'r') as f:
+    line = f.readlines()
+
+i = 0
+for word in line:
+    if i % 3:
+        print(word.strip('\n'))
+    else:
+        print("peter")
+        print(word.strip('\n'))
+        i = i + 1
+    i = i + 1
+```
+
+![](/assets/image/Portswigger/authee/image-17.png)
+
+**5.** Copy all usernames and passwords into Burp Intruder — use **Pitchfork** attack
+
+![](/assets/image/Portswigger/authee/image-18.png)
+
+**6.** Start attack
+
+![](/assets/image/Portswigger/authee/image-19.png)
+
+**7.** Filter output by `Incorrect password`
+
+![](/assets/image/Portswigger/authee/image-20.png)
+
+**8.** All wiener results show up — carlos password appears once
+
+![](/assets/image/Portswigger/authee/image-21.png)
+
+**9.** Login with `carlos` : `matthew` →  Solved
+
+![](/assets/image/Portswigger/authee/image-22.png)
 
 ---
 
@@ -242,13 +377,57 @@ paginate: true
 
 > **Level:** `PRACTITIONER`
 
+![](/assets/image/Portswigger/authee/image-23.png)
+
 ### Analysis
 
-*(coming soon)*
+| | |
+|---|---|
+| **Vulnerability** | Username enumeration |
+| **Goal** | Find a valid username and valid password |
+| **Key Concept** | The app locks accounts after multiple failed attempts — but only for valid usernames. An invalid username returns no error regardless of how many attempts. This behavior reveals valid usernames. |
 
 ### Steps
 
-*(coming soon)*
+**1.** Open the lab → intercept a login request → send to Intruder
+
+![](/assets/image/Portswigger/authee/image-24.png)
+
+**2.** Python script to repeat each username 10 times:
+
+```python
+print('usernames ------------------------------------------------------')
+with open('username.txt', 'r') as f:
+    lines = f.readlines()
+
+for username in lines:
+    for i in range(10):
+        print(username.strip('\n'))
+```
+
+**3.** Copy output and paste as payload in Intruder
+
+![](/assets/image/Portswigger/authee/image-25.png)
+
+**4.** All responses contain `Invalid username or password.` — except one
+
+![](/assets/image/Portswigger/authee/image-26.png)
+
+**5.** Valid username found: **`info`** — now brute-force the password
+
+![](/assets/image/Portswigger/authee/image-27.png)
+
+Filter by:
+
+![](/assets/image/Portswigger/authee/image-29.png)
+
+**6.** All passwords return `You have made too many incorrect login attempts. Please try again in 1 minute(s).` — except one
+
+![](/assets/image/Portswigger/authee/image-28.png)
+
+**7.** Valid credentials found: `info` : `1234567890` →  Solved
+
+![](/assets/image/Portswigger/authee/image-30.png)
 
 ---
 
@@ -256,13 +435,59 @@ paginate: true
 
 > **Level:** `PRACTITIONER`
 
+![](/assets/image/Portswigger/authee/image-31.png)
+
 ### Analysis
 
-*(coming soon)*
+| | |
+|---|---|
+| **Vulnerability** | Vulnerable flawed logic |
+| **Goal** | Login as carlos |
+| **Key Concept** | In the second authentication step, the app uses a `verify` cookie to determine which account's 2FA code to check. By intercepting the request and changing `verify` to `carlos`, we generate a 2FA code for carlos — then brute-force it. |
 
 ### Steps
 
-*(coming soon)*
+**1.** Login with `wiener` : `peter` → intercept the `/login2` request
+
+![](/assets/image/Portswigger/authee/image-32.png)
+
+**2.** Change `verify=wiener` to `verify=carlos` and delete the session cookie → send
+
+![](/assets/image/Portswigger/authee/image-33.png)
+
+**3.** This generates a 2FA code for carlos's account
+
+![](/assets/image/Portswigger/authee/image-34.png)
+
+**4.** In the browser, submit an invalid 2FA code → intercept → send to Intruder
+
+![](/assets/image/Portswigger/authee/image-36.png)
+
+**5.** In Intruder: delete the session cookie, change `verify` to `carlos`
+
+![](/assets/image/Portswigger/authee/image-37.png)
+
+**6.** Set payload type to **Brute Forcer** (0000–9999)
+
+![](/assets/image/Portswigger/authee/image-38.png)
+
+**7.** Start attack
+
+**8.** Filter output for 302 responses
+
+![](/assets/image/Portswigger/authee/image-39.png)
+
+**9.** Found the valid code
+
+![](/assets/image/Portswigger/authee/image-40.png)
+
+**10.** Right-click → Show in browser
+
+![](/assets/image/Portswigger/authee/image-41.png)
+
+**11.**  Solved
+
+![](/assets/image/Portswigger/authee/image-42.png)
 
 ---
 
