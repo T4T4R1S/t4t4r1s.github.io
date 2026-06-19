@@ -628,12 +628,65 @@ Filter by:
 
 ### Analysis
 
-*(coming soon)*
+
+| | |
+|---|---|
+| **Vulnerability** | Vulnerable  to password reset poisoning|
+| **Goal** | Login as carlos  |
+| **Key Concept** | This lab cover password reset poisoning vulnerability , when we try to create new password with forget password functionality it's available to redirect response for another host using `x-forward-host` header that's make us steal password token and send request using this token and change password |
+
 
 ### Steps
 
-*(coming soon)*
+1) I start lab and go to account page : 
+![alt text](image-24.png)
 
+2) click forget password and burp running in back ground to record all requests : 
+
+![alt text](image-25.png)
+
+3) i entered username weiner and clicked submit  go to exploit server email client tab and i got this link: 
+![alt text](image-26.png)
+
+4) this link redirect me to change password page : 
+![alt text](image-27.png)
+
+5) write new password 2 times then submit again 
+
+6) password changed and we recorded all request with burp http history :
+
+![alt text](image-28.png)
+
+7) now we need 3 requests : 
+
+ - first one that take our username to create link to reset password : 
+ ![alt text](image-29.png)
+
+ - second one is the request used to change password :
+ ![alt text](image-30.png)
+
+- third one is the one we send new password on it : 
+
+![alt text](image-31.png)
+
+**Send all to Repeater**
+
+8) now when i try to inject x-forward-host header in first request i got 200 ok :
+![alt text](image-32.png)
+
+9) now let's make user carlos and X-Forwarded-Host to our exploit server link : 
+![alt text](image-33.png)
+
+10) Go to exploit server access log and i got carlos token to reset password: 
+![alt text](image-34.png)
+
+11) let's use this token in request to reset passowrd  :
+![alt text](image-35.png)
+
+12) I got 302 it's mean password changed and redirected to login page : 
+
+14) Try to log in to user carlos and password i set and Solved : 
+![alt text](image-36.png)
 ---
 
 ## LAB 12 — Password Brute-Force via Password Change
@@ -642,7 +695,6 @@ Filter by:
 
 ### Analysis
 
-*(coming soon)*
 
 ### Steps
 
