@@ -8,7 +8,7 @@ tags:
   - Authentication
   - PortSwigger
   - WebSecurity
-subtitle: Walkthroughs for Labs 1-6
+subtitle: Walkthroughs for Labs 1-14
 description: PortSwigger Web Security Academy - Authentication vulnerabilities labs
 image: /assets/image/Portswigger/download.png
 paginate: true
@@ -46,7 +46,7 @@ paginate: true
 
 ![](/assets/labs/authenticationv/image-3.png)
 
-**4.** Set the username field as payload position, load the username list, and start the attack — all responses show `Incorrect username` except one: **`americas`**
+**4.** Set the username field as payload position, load the username list, and start the attack — all responses show `Invalid username` except one: **`americas`**
 
 ![](/assets/labs/authenticationv/image-4.png)
 
@@ -54,7 +54,7 @@ paginate: true
 
 ![](/assets/labs/authenticationv/image-5.png)
 
-**6.** Login with `americas` / `password` →  Solved
+**6.** Login with `americas` / `password` → Solved
 
 ![](/assets/labs/authenticationv/image-6.png)
 
@@ -104,7 +104,7 @@ paginate: true
 
 ![](/assets/labs/authenticationv/image-14.png)
 
-**8.** Change the URL directly to `/my-account` →  Solved
+**8.** Change the URL directly to `/my-account` → Solved
 
 ![](/assets/labs/authenticationv/image-15.png)
 
@@ -154,7 +154,7 @@ paginate: true
 
 ![](/assets/labs/authenticationv/image-23.png)
 
-**8.** Login with `carlos` and the new password →  Solved
+**8.** Login with `carlos` and the new password → Solved
 
 ![](/assets/labs/authenticationv/image-24.png)
 
@@ -204,7 +204,7 @@ paginate: true
 
 ![](/assets/labs/authenticationv/image-32.png)
 
-**8.** Password found: **`jessica`** → login →  Solved
+**8.** Password found: **`jessica`** → login → Solved
 
 ![](/assets/labs/authenticationv/image-33.png)
 
@@ -222,7 +222,7 @@ paginate: true
 |---|---|
 | **Vulnerability** | Username enumeration and password brute-force attacks |
 | **Goal** | Find a valid username and password |
-| **Key Concept** | The app checks username first, then password. If the username is invalid it returns immediately. If valid, it proceeds to check the password — making it take longer. By sending a very long password and measuring response time, we can identify valid usernames. |
+| **Key Concept** | The app checks the username first, then the password. If the username is invalid it returns immediately. If valid, it proceeds to check the password — making it take longer. By sending a very long password and measuring response time, we can identify valid usernames. |
 
 ### Steps
 
@@ -230,13 +230,13 @@ paginate: true
 
 ![](/assets/image/Portswigger/authee/image-1.png)
 
-**2.** Try to login with invalid username or password and intercept request with Burp
+**2.** Try to login with invalid username or password and intercept the request with Burp
 
 ![](/assets/image/Portswigger/authee/image-2.png)
 
-**3.** Send request to Intruder — download username and password lists from the lab main page
+**3.** Send the request to Intruder — download the username and password lists from the lab main page
 
-**4.** Select username in Intruder, load username list as payload, and start attack
+**4.** Select the username in Intruder, load the username list as payload, and start the attack
 
 ![](/assets/image/Portswigger/authee/image-3.png)
 
@@ -251,7 +251,7 @@ paginate: true
 - Payload 1: Numbers 1–100
 - Payload 2: Username list
 
-**7.** Start attack — the error disappears
+**7.** Start the attack — the error disappears
 
 ![](/assets/image/Portswigger/authee/image-6.png)
 
@@ -259,7 +259,7 @@ paginate: true
 
 ![](/assets/image/Portswigger/authee/image-7.png)
 
-**9.** Start attack again
+**9.** Start the attack again
 
 **10.** Sort by **Response Complete** time
 
@@ -271,7 +271,7 @@ paginate: true
 
 **12.** Username `app01` takes more time — confirm in Repeater
 
-**13.** Set `app01` as username in Intruder, load password list, and start attack
+**13.** Set `app01` as the username in Intruder, load the password list, and start the attack
 
 ![](/assets/image/Portswigger/authee/image-10.png)
 
@@ -283,7 +283,7 @@ paginate: true
 
 ![](/assets/image/Portswigger/authee/image-12.png)
 
-**16.** Login with `app01` : `taylor` →  Solved
+**16.** Login with `app01` : `taylor` → Solved
 
 ![](/assets/image/Portswigger/authee/image-13.png)
 
@@ -355,7 +355,7 @@ for word in line:
 
 ![](/assets/image/Portswigger/authee/image-18.png)
 
-**6.** Start attack
+**6.** Start the attack
 
 ![](/assets/image/Portswigger/authee/image-19.png)
 
@@ -363,11 +363,11 @@ for word in line:
 
 ![](/assets/image/Portswigger/authee/image-20.png)
 
-**8.** All wiener results show up — carlos password appears once
+**8.** All wiener results show up — carlos's password appears once
 
 ![](/assets/image/Portswigger/authee/image-21.png)
 
-**9.** Login with `carlos` : `matthew` →  Solved
+**9.** Login with `carlos` : `matthew` → Solved
 
 ![](/assets/image/Portswigger/authee/image-22.png)
 
@@ -385,7 +385,7 @@ for word in line:
 |---|---|
 | **Vulnerability** | Username enumeration |
 | **Goal** | Find a valid username and valid password |
-| **Key Concept** | The app locks accounts after multiple failed attempts — but only for valid usernames. An invalid username returns no error regardless of how many attempts. This behavior reveals valid usernames. |
+| **Key Concept** | The app locks accounts after multiple failed attempts — but only for valid usernames. An invalid username returns no error regardless of how many attempts are made. This behavior reveals valid usernames. |
 
 ### Steps
 
@@ -405,7 +405,7 @@ for username in lines:
         print(username.strip('\n'))
 ```
 
-**3.** Copy output and paste as payload in Intruder
+**3.** Copy the output and paste it as payload in Intruder
 
 ![](/assets/image/Portswigger/authee/image-25.png)
 
@@ -425,7 +425,7 @@ Filter by:
 
 ![](/assets/image/Portswigger/authee/image-28.png)
 
-**7.** Valid credentials found: `info` : `1234567890` →  Solved
+**7.** Valid credentials found: `info` : `1234567890` → Solved
 
 ![](/assets/image/Portswigger/authee/image-30.png)
 
@@ -441,7 +441,7 @@ Filter by:
 
 | | |
 |---|---|
-| **Vulnerability** | Vulnerable flawed logic |
+| **Vulnerability** | Flawed 2FA logic |
 | **Goal** | Login as carlos |
 | **Key Concept** | In the second authentication step, the app uses a `verify` cookie to determine which account's 2FA code to check. By intercepting the request and changing `verify` to `carlos`, we generate a 2FA code for carlos — then brute-force it. |
 
@@ -471,7 +471,7 @@ Filter by:
 
 ![](/assets/image/Portswigger/authee/image-38.png)
 
-**7.** Start attack
+**7.** Start the attack
 
 **8.** Filter output for 302 responses
 
@@ -485,7 +485,7 @@ Filter by:
 
 ![](/assets/image/Portswigger/authee/image-41.png)
 
-**11.**  Solved
+**11.** Solved
 
 ![](/assets/image/Portswigger/authee/image-42.png)
 
@@ -509,7 +509,6 @@ Filter by:
 
 ![](/assets/labs/authenticationv/lll/image.png)
 
-
 **2.** Logged in — go to "My account" and use the "Update email" button
 
 ![](/assets/labs/authenticationv/lll/image-1.png)
@@ -522,7 +521,7 @@ Filter by:
 
 ![](/assets/labs/authenticationv/lll/image-3.png)
 
-**5.** First part decodes to the username `wiener:` followed by a colon
+**5.** The first part decodes to the username `wiener:` followed by a colon
 
 **6.** Send the second part to CrackStation to identify the hash type
 
@@ -562,7 +561,7 @@ Filter by:
 
 ![](/assets/labs/authenticationv/lll/image-13.png)
 
-**13.** Copy the URL → open it in the browser →  Solved
+**13.** Copy the URL → open it in the browser → Solved
 
 ![](/assets/labs/authenticationv/lll/image-14.png)
 
@@ -608,7 +607,7 @@ Filter by:
 
 ![](/assets/labs/authenticationv/lll/image-20.png)
 
-**6.** Now have the username `carlos` and the cracked password
+**6.** Now we have the username `carlos` and the cracked password
 
 ![](/assets/labs/authenticationv/lll/image-21.png)
 
@@ -616,7 +615,7 @@ Filter by:
 
 ![](/assets/labs/authenticationv/lll/image-22.png)
 
-**8.** Enter the password and delete the account →  Solved
+**8.** Enter the password and delete the account → Solved
 
 ![](/assets/labs/authenticationv/lll/image-23.png)
 
@@ -628,65 +627,74 @@ Filter by:
 
 ### Analysis
 
-
 | | |
 |---|---|
-| **Vulnerability** | Vulnerable  to password reset poisoning|
-| **Goal** | Login as carlos  |
-| **Key Concept** | This lab cover password reset poisoning vulnerability , when we try to create new password with forget password functionality it's available to redirect response for another host using `x-forward-host` header that's make us steal password token and send request using this token and change password |
-
+| **Vulnerability** | Password reset poisoning |
+| **Goal** | Login as carlos |
+| **Key Concept** | This lab covers the password reset poisoning vulnerability. When we request a new password using the forgot password functionality, it's possible to redirect the reset link to another host using the `X-Forwarded-Host` header. This allows us to steal the reset token and use it to change the password. |
 
 ### Steps
 
-1) I start lab and go to account page : 
+**1.** Start the lab and go to the account page
+
 ![alt text](/assets/labs/authenticationv/sdfasf/image-24.png)
 
-2) click forget password and burp running in back ground to record all requests : 
+**2.** Click "Forgot password" with Burp running in the background to record all requests
 
 ![alt text](/assets/labs/authenticationv/sdfasf/image-25.png)
 
-3) i entered username weiner and clicked submit  go to exploit server email client tab and i got this link: 
+**3.** Enter username `wiener` and click submit → go to the exploit server email client tab and get this link:
+
 ![alt text](/assets/labs/authenticationv/sdfasf/image-26.png)
 
-4) this link redirect me to change password page : 
+**4.** This link redirects to the change password page
+
 ![alt text](/assets/labs/authenticationv/sdfasf/image-27.png)
 
-5) write new password 2 times then submit again 
+**5.** Write the new password twice then submit
 
-6) password changed and we recorded all request with burp http history :
+**6.** Password changed — all requests have been recorded in Burp HTTP history
 
 ![alt text](/assets/labs/authenticationv/sdfasf/image-28.png)
 
-7) now we need 3 requests : 
+**7.** We need 3 requests:
 
- - first one that take our username to create link to reset password : 
- ![alt text](/assets/labs/authenticationv/sdfasf/image-29.png)
+- First: the request that takes our username to create the password reset link
 
- - second one is the request used to change password :
- ![alt text](/assets/labs/authenticationv/sdfasf/image-30.png)
+![alt text](/assets/labs/authenticationv/sdfasf/image-29.png)
 
-- third one is the one we send new password on it : 
+- Second: the request used to change the password
+
+![alt text](/assets/labs/authenticationv/sdfasf/image-30.png)
+
+- Third: the request where we send the new password
 
 ![alt text](/assets/labs/authenticationv/sdfasf/image-31.png)
 
 **Send all to Repeater**
 
-8) now when i try to inject x-forward-host header in first request i got 200 ok :
+**8.** Inject the `X-Forwarded-Host` header in the first request → got `200 OK`
+
 ![alt text](/assets/labs/authenticationv/sdfasf/image-32.png)
 
-9) now let's make user carlos and X-Forwarded-Host to our exploit server link : 
+**9.** Set the username to `carlos` and `X-Forwarded-Host` to our exploit server link
+
 ![alt text](/assets/labs/authenticationv/sdfasf/image-33.png)
 
-10) Go to exploit server access log and i got carlos token to reset password: 
+**10.** Go to the exploit server access log → carlos's password reset token appears
+
 ![alt text](/assets/labs/authenticationv/sdfasf/image-34.png)
 
-11) let's use this token in request to reset passowrd  :
+**11.** Use this token in the request to reset the password
+
 ![alt text](/assets/labs/authenticationv/sdfasf/image-35.png)
 
-12) I got 302 it's mean password changed and redirected to login page : 
+**12.** Got `302` — password changed and redirected to the login page
 
-14) Try to log in to user carlos and password i set and Solved : 
+**13.** Login with `carlos` and the new password → Solved
+
 ![alt text](/assets/labs/authenticationv/sdfasf/image-36.png)
+
 ---
 
 ## LAB 12 — Password Brute-Force via Password Change
@@ -697,39 +705,48 @@ Filter by:
 
 | | |
 |---|---|
-| **Vulnerability** | The password change functionality makes it vulnerable to brute-force attacks|
-| **Goal** | Login as carlos  |
-| **Key Concept** | This lab contain password change functionality with 3 fields 2 for new password 1 for current password if i enter new password mismatch its say `new passwords mismatch` if i entered current password wrong and the new password mismatch it's say `current password wrong` and this make it available to brute force attack |
+| **Vulnerability** | Password change functionality vulnerable to brute-force attacks |
+| **Goal** | Login as carlos |
+| **Key Concept** | The password change form has 3 fields: current password and 2 fields for the new password. If the new passwords don't match it says `New passwords do not match`. If the current password is wrong AND the new passwords don't match, it says `Current password is incorrect`. This inconsistency bypasses brute-force protection. |
 
 ### Steps
 
-1) start lab and login as wiener:peter : 
+**1.** Start the lab and login as `wiener` : `peter`
+
 ![alt text](/assets/labs/authenticationv/sdfasf/image-37.png)
 
-2) Try to change password and write password 2 different password to get `New passwords do not match`  first message : 
+**2.** Try to change the password with 2 different new passwords → get `New passwords do not match`
 
 ![alt text](/assets/labs/authenticationv/sdfasf/image-38.png)
 
-3) Try to change password and write current password wrong with 2 password mismatch values and got `Current password is incorrect`: 
+**3.** Try to change the password with the wrong current password and 2 mismatched new passwords → get `Current password is incorrect`
+
 ![alt text](/assets/labs/authenticationv/sdfasf/image-39.png)
 
-4) that's make sense we disable brute force protection when write new value mismatch 
+**4.** This means brute-force protection is bypassed when the new passwords don't match
 
-5) capture traffic and send it to intruder : 
+**5.** Capture the traffic and send it to Intruder
+
 ![alt text](/assets/labs/authenticationv/sdfasf/image-40.png)
 
-6) make user name `carlos` password this to attack and new password to 2 mismatched passwords set payload to list we got in the lab description: 
+**6.** Set the username to `carlos`, set the current password as the attack position, and use 2 mismatched values for the new password fields — set the payload to the list from the lab description
 
-7) go to setting to filter out put and set match for `new passwords mismatch` :
+**7.** Go to settings to filter the output and match `New passwords do not match`
+
 ![alt text](/assets/labs/authenticationv/sdfasf/image-41.png)
 
-8) start attack : 
+**8.** Start the attack
+
 ![alt text](/assets/labs/authenticationv/sdfasf/image-42.png)
 
-9) we got one password the give us `new passwords mismatch` : 
+**9.** One password returns `New passwords do not match`
+
 ![alt text](/assets/labs/authenticationv/sdfasf/image-43.png)
-10) login in as carlos and solved : 
+
+**10.** Login as `carlos` → Solved
+
 ![alt text](/assets/labs/authenticationv/sdfasf/image-44.png)
+
 ---
 
 ## LAB 13 — Broken Brute-Force Protection, Multiple Credentials per Request
@@ -738,25 +755,159 @@ Filter by:
 
 ### Analysis
 
-*(coming soon)*
+| | |
+|---|---|
+| **Vulnerability** | Logic flaw in brute-force protection |
+| **Goal** | Login as carlos |
+| **Key Concept** | The login data is sent as JSON. If we send an array of passwords instead of a single value, the application processes all of them — and if the correct password is in the array, we get logged in. |
 
 ### Steps
 
-*(coming soon)*
+**1.** Start the lab and download the password file from the lab description
+
+![alt text](/assets/labs/authenticationv/qwer/image.png)
+
+**2.** Open Burp and try to login with username `carlos` and an incorrect password
+
+![alt text](/assets/labs/authenticationv/qwer/image-1.png)
+
+**3.** Open the request in Burp HTTP history and check how the application sends the password — it's JSON
+
+![alt text](/assets/labs/authenticationv/qwer/image-2.png)
+
+**4.** If we try to brute-force normally, we have a limited number of attempts
+
+![alt text](/assets/labs/authenticationv/qwer/image-3.png)
+
+**5.** But if we send all passwords as an array of strings in JSON format, we force the application to try every element in the array
+
+![alt text](/assets/labs/authenticationv/qwer/image-4.png)
+
+**6.** Send the request to Repeater and use an LLM to put all passwords from the downloaded file into an array
+
+![alt text](/assets/labs/authenticationv/qwer/image-5.png)
+
+**7.** Copy the array and send it as the password value in JSON
+
+![alt text](/assets/labs/authenticationv/qwer/image-7.png)
+
+**8.** Click send and got a `302` redirect
+
+![alt text](/assets/labs/authenticationv/qwer/image-8.png)
+
+**9.** Following the redirect in Burp won't work — use "Show response in browser" instead
+
+![alt text](/assets/labs/authenticationv/qwer/image-9.png)
+
+**10.** Copy the link, open it in the browser → Solved
+
+![alt text](/assets/labs/authenticationv/qwer/image-10.png)
 
 ---
 
-## LAB 14 — 2FA Bypass Using a Brute-Force Attack
+## LAB 14 — 2FA Broken Logic with Session Handling Rule
 
 > **Level:** `EXPERT`
 
+![alt text](/assets/labs/authenticationv/qwer/image-11.png)
+
 ### Analysis
 
-*(coming soon)*
+| | |
+|---|---|
+| **Vulnerability** | Weak 2FA implementation combined with a predictable 4-digit code and no effective protection against automated attempts |
+| **Goal** | Access Carlos's account by brute-forcing the 2FA code |
+| **Key Concept** | After two incorrect MFA attempts the application logs us out. To continue brute-forcing automatically, we use Burp Session Handling Rules with a Macro that re-authenticates as carlos before every Intruder request. Then we brute-force all possible 4-digit MFA codes until we receive a successful response. |
 
 ### Steps
 
-*(coming soon)*
+**1.** Start the lab and login using the provided credentials for user `carlos` : `montoya`
+
+![alt text](/assets/labs/authenticationv/qwer/image-13.png)
+
+**2.** After login, the application asks for a 4-digit security code
+
+![alt text](/assets/labs/authenticationv/qwer/image-12.png)
+
+**3.** Enter any invalid code twice and notice that the application logs you out
+
+![alt text](/assets/labs/authenticationv/qwer/image-14.png)
+
+**4.** Because every two failed attempts terminate the session, we need Burp to automatically login again before each request
+
+![alt text](/assets/labs/authenticationv/qwer/image-3.png)
+
+![alt text](/assets/labs/authenticationv/qwer/image-15.png)
+
+**5.** Go to **Settings → Sessions → Session Handling Rules** and create a new rule
+
+![alt text](/assets/labs/authenticationv/qwer/image-16.png)
+
+**6.** In the **Scope** tab select **Include all URLs**
+
+![alt text](/assets/labs/authenticationv/qwer/image-17.png)
+
+**7.** Go back to the **Details** tab and add a **Run a Macro** action
+
+![alt text](/assets/labs/authenticationv/qwer/image-18.png)
+
+**8.** Create a macro and record the following requests:
+
+```http
+GET /login
+POST /login
+GET /login2
+```
+
+![alt text](/assets/labs/authenticationv/qwer/image-19.png)
+
+**9.** Test the macro and verify that the final response contains the page asking for the 4-digit security code
+
+![alt text](/assets/labs/authenticationv/qwer/image-20.png)
+
+**10.** Save all dialogs and return to Burp — the macro will now log in automatically before every Intruder request
+
+**11.** Send the `POST /login2` request to Intruder
+
+![alt text](/assets/labs/authenticationv/qwer/image-21.png)
+
+**12.** Place a payload position on the `mfa-code` parameter
+
+![alt text](/assets/labs/authenticationv/qwer/image-22.png)
+
+**13.** Configure the payload type as **Numbers** with the following settings:
+
+```
+From: 0000
+To:   9999
+Step: 1
+Min Integer Digits: 4
+Max Fraction Digits: 0
+```
+
+![alt text](/assets/labs/authenticationv/qwer/image-23.png)
+
+**14.** Create a Resource Pool and set **Maximum Concurrent Requests** to `1` so requests are processed sequentially
+
+![alt text](/assets/labs/authenticationv/qwer/image-24.png)
+
+**15.** Start the attack and wait for a response with status code `302`
+
+![alt text](/assets/labs/authenticationv/qwer/image-25.png)
+
+**16.** Once a `302` response is found, right-click it and choose **Show Response In Browser**
+
+**17.** Copy the generated URL and open it in your browser
+
+**18.** Click **My Account** → Solved
+
+![alt text](/assets/labs/authenticationv/qwer/image-26.png)
+
+---
+
+### Result
+
+The application invalidates the session after two failed MFA attempts, but Burp's Session Handling Rule automatically re-authenticates the user before each request. This allows us to brute-force all 10,000 possible 4-digit codes until the correct MFA value is found and access Carlos's account successfully.
 
 ---
 
