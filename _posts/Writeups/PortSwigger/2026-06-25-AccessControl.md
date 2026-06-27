@@ -18,8 +18,8 @@ paginate: true
 ## LAB 1 — Unprotected Admin Functionality
 > **Level:** `APPRENTICE`
 
-![alt text](image.png)
-
+![alt text](/assets/labs/accesscontrole/image.png)
+/assets/labs/accesscontrole//assets/labs/accesscontrole/image
 ### Analysis
 | | |
 |---|---|
@@ -30,19 +30,19 @@ paginate: true
 ### Steps
 
 **1.** Start the lab and navigate to `/robots.txt` — it reveals the path `/administrator-panel`:
-![alt text](image-1.png)
+![alt text](/assets/labs/accesscontrole/image-1.png)
 
 **2.** Access `/administrator-panel` and find the option to delete users:
-![alt text](image-2.png)
+![alt text](/assets/labs/accesscontrole/image-2.png)
 
 **3.** Delete carlos → Solved:
-![alt text](image-3.png)
+![alt text](/assets/labs/accesscontrole/image-3.png)
 
 ---
 ## LAB 2 — Unprotected Admin Functionality with Unpredictable URL
 > **Level:** `APPRENTICE`
 
-![alt text](image-4.png)
+![alt text](/assets/labs/accesscontrole/image-4.png)
 
 ### Analysis
 | | |
@@ -54,16 +54,16 @@ paginate: true
 ### Steps
 
 **1.** Start the lab, right-click → View Page Source, and find the admin panel path inside a JS block:
-![alt text](image-5.png)
+![alt text](/assets/labs/accesscontrole/image-5.png)
 
 **2.** Navigate to the admin panel and delete user carlos → Solved:
-![alt text](image-6.png)
+![alt text](/assets/labs/accesscontrole/image-6.png)
 
 ---
 ## LAB 3 — User Role Controlled by Request Parameter
 > **Level:** `APPRENTICE`
 
-![alt text](image-7.png)
+![alt text](/assets/labs/accesscontrole/image-7.png)
 
 ### Analysis
 | | |
@@ -75,34 +75,34 @@ paginate: true
 ### Steps
 
 **1.** Start the lab and login as `wiener` / `peter`:
-![alt text](image-8.png)
+![alt text](/assets/labs/accesscontrole/image-8.png)
 
 **2.** Reload the page and intercept the request with Burp:
-![alt text](image-9.png)
+![alt text](/assets/labs/accesscontrole/image-9.png)
 
 **3.** Change `Admin=false` → `Admin=true` and forward the request:
-![alt text](image-10.png)
-![alt text](image-11.png)
+![alt text](/assets/labs/accesscontrole/image-10.png)
+![alt text](/assets/labs/accesscontrole/image-11.png)
 
 **4.** The admin panel link now appears in the navigation:
-![alt text](image-12.png)
+![alt text](/assets/labs/accesscontrole/image-12.png)
 
 **5.** Clicking it shows `Admin interface only available if logged in as an administrator` — the check runs on each request:
-![alt text](image-13.png)
+![alt text](/assets/labs/accesscontrole/image-13.png)
 
 **6.** Intercept the next request and again change `Admin=true`:
-![alt text](image-14.png)
-![alt text](image-15.png)
+![alt text](/assets/labs/accesscontrole/image-14.png)
+![alt text](/assets/labs/accesscontrole/image-15.png)
 
 **7.** Access the admin panel, intercept the delete request, set `Admin=true` again → carlos deleted → Solved:
-![alt text](image-16.png)
-![alt text](image-17.png)
+![alt text](/assets/labs/accesscontrole/image-16.png)
+![alt text](/assets/labs/accesscontrole/image-17.png)
 
 ---
 ## LAB 4 — User Role Can Be Modified in User Profile
 > **Level:** `APPRENTICE`
 
-![alt text](image-18.png)
+![alt text](/assets/labs/accesscontrole/image-18.png)
 
 ### Analysis
 | | |
@@ -114,28 +114,28 @@ paginate: true
 ### Steps
 
 **1.** Start the lab and login with `wiener` / `peter`:
-![alt text](image-19.png)
+![alt text](/assets/labs/accesscontrole/image-19.png)
 
 **2.** Use the update email functionality and intercept the request with Burp:
-![alt text](image-20.png)
+![alt text](/assets/labs/accesscontrole/image-20.png)
 
 **3.** Send the request to Repeater:
-![alt text](image-21.png)
+![alt text](/assets/labs/accesscontrole/image-21.png)
 
 **4.** The response contains a `roleid` key — add `"roleid": 2` to the request body and resend:
-![alt text](image-22.png)
+![alt text](/assets/labs/accesscontrole/image-22.png)
 
 **5.** Go back to the browser — the admin panel link is now visible:
-![alt text](image-23.png)
+![alt text](/assets/labs/accesscontrole/image-23.png)
 
 **6.** Click the admin panel and delete user carlos → Solved:
-![alt text](image-24.png)
+![alt text](/assets/labs/accesscontrole/image-24.png)
 
 ---
 ## LAB 5 — User ID Controlled by Request Parameter
 > **Level:** `APPRENTICE`
 
-![alt text](image-25.png)
+![alt text](/assets/labs/accesscontrole/image-25.png)
 
 ### Analysis
 | | |
@@ -147,23 +147,23 @@ paginate: true
 ### Steps
 
 **1.** Start the lab and login as `wiener` — observe the account page URL:
-![alt text](image-26.png)
+![alt text](/assets/labs/accesscontrole/image-26.png)
 
 **2.** Intercept the request with Burp:
-![alt text](image-27.png)
+![alt text](/assets/labs/accesscontrole/image-27.png)
 
 **3.** Send to Repeater and change the `id` parameter to `carlos`:
-![alt text](image-28.png)
+![alt text](/assets/labs/accesscontrole/image-28.png)
 
 **4.** The response contains carlos's API key — copy and submit it → Solved:
-![alt text](image-29.png)
-![alt text](image-30.png)
+![alt text](/assets/labs/accesscontrole/image-29.png)
+![alt text](/assets/labs/accesscontrole/image-30.png)
 
 ---
 ## LAB 6 — User ID Controlled by Request Parameter, with Unpredictable User IDs
 > **Level:** `APPRENTICE`
 
-![alt text](image-31.png)
+![alt text](/assets/labs/accesscontrole/image-31.png)
 
 ### Analysis
 | | |
@@ -175,25 +175,25 @@ paginate: true
 ### Steps
 
 **1.** Start the lab and login as `wiener`:
-![alt text](image-32.png)
+![alt text](/assets/labs/accesscontrole/image-32.png)
 
 **2.** Browse the blog and find a post authored by carlos:
-![alt text](image-33.png)
+![alt text](/assets/labs/accesscontrole/image-33.png)
 
 **3.** Click on carlos's name and intercept the request — the GUID is visible in the URL:
-![alt text](image-34.png)
+![alt text](/assets/labs/accesscontrole/image-34.png)
 
 **4.** Copy the GUID and use it in the `?id=` parameter on the account page:
-![alt text](image-35.png)
+![alt text](/assets/labs/accesscontrole/image-35.png)
 
 **5.** Submit the API key → Solved:
-![alt text](image-36.png)
+![alt text](/assets/labs/accesscontrole/image-36.png)
 
 ---
 ## LAB 7 — User ID Controlled by Request Parameter with Data Leakage in Redirect
 > **Level:** `APPRENTICE`
 
-![alt text](image-37.png)
+![alt text](/assets/labs/accesscontrole/image-37.png)
 
 ### Analysis
 | | |
@@ -205,28 +205,28 @@ paginate: true
 ### Steps
 
 **1.** Start the lab and login as `wiener` / `peter`:
-![alt text](image-38.png)
+![alt text](/assets/labs/accesscontrole/image-38.png)
 
 **2.** Reload the account page and intercept the request with Burp:
-![alt text](image-39.png)
+![alt text](/assets/labs/accesscontrole/image-39.png)
 
 **3.** Send to Repeater and change the `id` parameter to `carlos`:
-![alt text](image-40.png)
+![alt text](/assets/labs/accesscontrole/image-40.png)
 
 **4.** The server returns a `302` redirect, but the full account page is in the response body:
-![alt text](image-41.png)
+![alt text](/assets/labs/accesscontrole/image-41.png)
 
 **5.** Use the Render tab to view the page — carlos's API key is visible:
-![alt text](image-42.png)
+![alt text](/assets/labs/accesscontrole/image-42.png)
 
 **6.** Copy the API key, submit it → Solved:
-![alt text](image-43.png)
+![alt text](/assets/labs/accesscontrole/image-43.png)
 
 ---
 ## LAB 8 — User ID Controlled by Request Parameter with Password Disclosure
 > **Level:** `APPRENTICE`
 
-![alt text](image-44.png)
+![alt text](/assets/labs/accesscontrole/image-44.png)
 
 ### Analysis
 | | |
@@ -238,19 +238,19 @@ paginate: true
 ### Steps
 
 **1.** Start the lab and login with `wiener` / `peter`:
-![alt text](image-45.png)
+![alt text](/assets/labs/accesscontrole/image-45.png)
 
 **2.** Reload the account page and intercept the request with Burp:
-![alt text](image-46.png)
+![alt text](/assets/labs/accesscontrole/image-46.png)
 
 **3.** Send to Repeater and change the `id` parameter to `administrator` — the response contains a masked password field:
-![alt text](image-47.png)
+![alt text](/assets/labs/accesscontrole/image-47.png)
 
 **4.** Switch to the Pretty view to read the plaintext password:
-![alt text](image-48.png)
+![alt text](/assets/labs/accesscontrole/image-48.png)
 
 **5.** Login as `administrator` with that password, navigate to the admin panel, delete carlos → Solved:
-![alt text](image-49.png)
+![alt text](/assets/labs/accesscontrole/image-49.png)
 
 ---
 ## LAB 9 — Insecure Direct Object References
