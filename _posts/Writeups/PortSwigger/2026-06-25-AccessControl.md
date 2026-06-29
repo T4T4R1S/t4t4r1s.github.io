@@ -19,8 +19,9 @@ paginate: true
 > **Level:** `APPRENTICE`
 
 ![alt text](/assets/labs/accesscontrole/image.png)
-/assets/labs/accesscontrole//assets/labs/accesscontrole/image
+
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Unprotected admin panel |
@@ -45,6 +46,7 @@ paginate: true
 ![alt text](/assets/labs/accesscontrole/image-4.png)
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Unprotected admin panel |
@@ -66,6 +68,7 @@ paginate: true
 ![alt text](/assets/labs/accesscontrole/image-7.png)
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Access control bypass via cookie manipulation |
@@ -105,6 +108,7 @@ paginate: true
 ![alt text](/assets/labs/accesscontrole/image-18.png)
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Access control bypass via mass assignment on the update email endpoint |
@@ -138,6 +142,7 @@ paginate: true
 ![alt text](/assets/labs/accesscontrole/image-25.png)
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Horizontal privilege escalation |
@@ -166,6 +171,7 @@ paginate: true
 ![alt text](/assets/labs/accesscontrole/image-31.png)
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Horizontal privilege escalation |
@@ -196,6 +202,7 @@ paginate: true
 ![alt text](/assets/labs/accesscontrole/image-37.png)
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Sensitive information leaked in the body of a redirect response |
@@ -229,6 +236,7 @@ paginate: true
 ![alt text](/assets/labs/accesscontrole/image-44.png)
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Horizontal privilege escalation leading to password disclosure |
@@ -256,66 +264,178 @@ paginate: true
 ## LAB 9 — Insecure Direct Object References
 > **Level:** `APPRENTICE`
 
+![alt text](/assets/labs/Accesscontrole2/image.png)
+
 ### Analysis
+
 | | |
 |---|---|
-| **Vulnerability** | |
-| **Goal** | |
-| **Key Concept** | |
+| **Vulnerability** | Insecure Direct Object Reference (IDOR) |
+| **Goal** | Find carlos's password and log in as him |
+| **Key Concept** | The live chat feature allows downloading a transcript file. The filename is sequential (e.g. `2.txt`). By intercepting the download request and changing the filename to `1.txt`, we can access another user's transcript which contains carlos's password |
 
 ### Steps
+
+**1.** Start the lab, login as `wiener` / `peter`, and navigate to the Live Chat tab:
+![alt text](/assets/labs/Accesscontrole2/image-1.png)
+
+**2.** Click "View transcript" and observe the file download:
+![alt text](/assets/labs/Accesscontrole2/image-2.png)
+
+**3.** Click "View transcript" again and intercept the request with Burp — note the filename is `2.txt`:
+![alt text](/assets/labs/Accesscontrole2/image-3.png)
+
+**4.** Enable "Intercept response to this request":
+![alt text](/assets/labs/Accesscontrole2/image-4.png)
+
+**5.** The response references `3.txt` — change the filename in the request to `1.txt`:
+![alt text](/assets/labs/Accesscontrole2/image-5.png)
+![alt text](/assets/labs/Accesscontrole2/image-6.png)
+
+**6.** Forward the request — `1.txt` is downloaded:
+![alt text](/assets/labs/Accesscontrole2/image-7.png)
+
+**7.** Open the file — it contains carlos's password:
+![alt text](/assets/labs/Accesscontrole2/image-8.png)
+
+**8.** Login as `carlos` with the discovered password → Solved:
+![alt text](/assets/labs/Accesscontrole2/image-9.png)
 
 ---
 ## LAB 10 — URL-Based Access Control Can Be Circumvented
 > **Level:** `PRACTITIONER`
 
+![alt text](/assets/labs/Accesscontrole2/image-10.png)
+
 ### Analysis
+
 | | |
 |---|---|
-| **Vulnerability** | |
-| **Goal** | |
-| **Key Concept** | |
+| **Vulnerability** | Access control bypass via `X-Original-URL` header |
+| **Goal** | Delete user carlos |
+| **Key Concept** | The front-end blocks direct access to `/admin`. However, by sending the request to `/` with the header `X-Original-URL: /admin`, the back-end processes the header value instead of the URL, bypassing the front-end restriction entirely |
 
 ### Steps
+
+**1.** Start the lab and open Burp — direct access to `/admin` returns `403 Access Denied`:
+![alt text](/assets/labs/Accesscontrole2/image-11.png)
+
+**2.** Send the request to Repeater, change the path to `/`, and add the header `X-Original-URL: /admin` — the admin panel loads successfully:
+
+**3.** To delete carlos, set `X-Original-URL: /admin/delete` and add `username=carlos` as a query parameter in the actual URL → Solved.
 
 ---
 ## LAB 11 — Method-Based Access Control Can Be Circumvented
 > **Level:** `PRACTITIONER`
 
+![alt text](/assets/labs/Accesscontrole2/image-12.png)
+
 ### Analysis
+
 | | |
 |---|---|
-| **Vulnerability** | |
-| **Goal** | |
-| **Key Concept** | |
+| **Vulnerability** | Access control bypass via HTTP method switching |
+| **Goal** | Log in as `wiener` and promote the wiener account to admin |
+| **Key Concept** | The application enforces access control on the `POST` method for the privilege escalation endpoint, but fails to apply the same check on `GET`. By changing the request method from `POST` to `GET`, a low-privileged user can call the endpoint successfully |
 
 ### Steps
+
+**1.** Start the lab and login as `administrator` / `admin` with Burp intercepting all requests:
+![alt text](/assets/labs/Accesscontrole2/image-13.png)
+
+**2.** Navigate to the admin panel and promote user carlos to admin:
+![alt text](/assets/labs/Accesscontrole2/image-14.png)
+
+**3.** Logout and login as `wiener` / `peter`:
+![alt text](/assets/labs/Accesscontrole2/image-15.png)
+
+**4.** Copy wiener's session cookie from Burp HTTP history:
+![alt text](/assets/labs/Accesscontrole2/image-16.png)
+
+**5.** Find the admin privilege escalation request in HTTP history, send it to Repeater, and replace the admin cookie with wiener's cookie — the response is `401 Unauthorized`:
+![alt text](/assets/labs/Accesscontrole2/image-17.png)
+
+**6.** Right-click → Change request method to convert `POST` → `GET`:
+![alt text](/assets/labs/Accesscontrole2/image-18.png)
+
+**7.** Send — the response is now `200 OK`:
+![alt text](/assets/labs/Accesscontrole2/image-19.png)
+
+**8.** Change the `username` parameter to `wiener`:
+![alt text](/assets/labs/Accesscontrole2/image-20.png)
+
+**9.** Send → Solved:
+![alt text](/assets/labs/Accesscontrole2/image-21.png)
 
 ---
 ## LAB 12 — Multi-Step Process with No Access Control on One Step
 > **Level:** `PRACTITIONER`
 
+![alt text](/assets/labs/Accesscontrole2/image-22.png)
+
 ### Analysis
+
 | | |
 |---|---|
-| **Vulnerability** | |
-| **Goal** | |
-| **Key Concept** | |
+| **Vulnerability** | Missing access control on the confirmation step of a multi-step flow |
+| **Goal** | Log in as `wiener` and promote the wiener account to admin |
+| **Key Concept** | The privilege escalation process has two steps: the initial action and a confirmation request. Access control is only enforced on the first step — the confirmation request has no such check, so a low-privileged user can call it directly to complete the escalation |
 
 ### Steps
+
+**1.** Start the lab and login as `administrator` / `admin` with Burp intercepting all requests:
+![alt text](/assets/labs/Accesscontrole2/image-23.png)
+
+**2.** Open the admin panel and upgrade user carlos to admin — note that a second confirmation request is sent:
+![alt text](/assets/labs/Accesscontrole2/image-24.png)
+
+**3.** Logout and login as `wiener` / `peter`:
+![alt text](/assets/labs/Accesscontrole2/image-25.png)
+
+**4.** Reload the page and copy wiener's session cookie from Burp:
+![alt text](/assets/labs/Accesscontrole2/image-26.png)
+
+**5.** Find the confirmation request in HTTP history and send it to Repeater:
+![alt text](/assets/labs/Accesscontrole2/image-27.png)
+
+**6.** Replace the admin cookie with wiener's cookie — the response is `401 Unauthorized` (this is the protected first step):
+![alt text](/assets/labs/Accesscontrole2/image-28.png)
+
+**7.** Change the `username` parameter to `wiener` and send — this hits the unprotected confirmation step directly:
+![alt text](/assets/labs/Accesscontrole2/image-31.png)
+
+**8.** The promotion succeeds → Solved.
 
 ---
 ## LAB 13 — Referer-Based Access Control
 > **Level:** `PRACTITIONER`
 
+![alt text](/assets/labs/Accesscontrole2/image-32.png)
+
 ### Analysis
+
 | | |
 |---|---|
-| **Vulnerability** | |
-| **Goal** | |
-| **Key Concept** | |
+| **Vulnerability** | Access control enforced via `Referer` header only |
+| **Goal** | Log in as `wiener` and promote the wiener account to admin |
+| **Key Concept** | The privilege escalation endpoint checks the `Referer` header to verify the request originated from the admin panel. Since this header is user-controlled, a low-privileged user can forge it and call the endpoint directly |
 
 ### Steps
+
+**1.** Start the lab and login as `administrator` / `admin` with Burp intercepting all requests:
+![alt text](/assets/labs/Accesscontrole2/image-33.png)
+
+**2.** Navigate to the admin panel and promote carlos to admin — capture the request in Burp:
+![alt text](/assets/labs/Accesscontrole2/image-34.png)
+
+**3.** Logout and login as `wiener` / `peter` — copy wiener's session cookie:
+![alt text](/assets/labs/Accesscontrole2/image-35.png)
+
+**4.** In Repeater, replace the admin cookie with wiener's cookie and change the `username` parameter from `carlos` to `wiener` — keep the original `Referer` header pointing to `/admin`:
+![alt text](/assets/labs/Accesscontrole2/image-36.png)
+
+**5.** Send → Solved:
+![alt text](/assets/labs/Accesscontrole2/image-37.png)
 
 ---
 **Finished — Happy Hacking!**
