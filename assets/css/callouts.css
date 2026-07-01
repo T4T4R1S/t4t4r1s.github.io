@@ -1,0 +1,78 @@
+.callout {
+  border-radius: 10px;
+  background: #1e2130;
+  border: 1px solid #2a2e42;
+  padding: 16px 20px;
+  margin: 1.2em 0;
+}
+
+.callout-title {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 1.05em;
+}
+
+.callout p {
+  color: #c8ccd4;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ===== أزرق/سيان (Note, Info, Todo, Abstract, Summary, Tldr, Tip, Hint, Important) ===== */
+.callout-note      .callout-title,
+.callout-info      .callout-title,
+.callout-todo      .callout-title,
+.callout-abstract  .callout-title,
+.callout-summary   .callout-title,
+.callout-tldr      .callout-title,
+.callout-tip       .callout-title,
+.callout-hint      .callout-title,
+.callout-important .callout-title {
+  color: #56c1d9;
+}
+
+/* ===== أخضر (Success, Check, Done) ===== */
+.callout-success .callout-title,
+.callout-check   .callout-title,
+.callout-done    .callout-title {
+  color: #6bcb8f;
+}
+
+/* ===== برتقالي (Warning, Attention, Caution, Question, Help, Faq) ===== */
+.callout-warning   .callout-title,
+.callout-attention .callout-title,
+.callout-caution   .callout-title,
+.callout-question  .callout-title,
+.callout-help      .callout-title,
+.callout-faq       .callout-title {
+  color: #e0a458;
+}
+
+/* ===== وردي/أحمر (Danger, Error, Bug, Fail, Failure, Missing) ===== */
+.callout-danger  .callout-title,
+.callout-error   .callout-title,
+.callout-bug     .callout-title,
+.callout-fail    .callout-title,
+.callout-failure .callout-title,
+.callout-missing .callout-title {
+  color: #e0728f;
+}
+
+/* ===== بنفسجي (Example) ===== */
+.callout-example .callout-title {
+  color: #a48ce8;
+}
+
+/* ===== رمادي (Quote, Cite) ===== */
+.callout-quote .callout-title,
+.callout-cite  .callout-title {
+  color: #9a9fac;
+}
+
+/* ===== أبيض/محايد (Formula) ===== */
+.callout-formula .callout-title {
+  color: #e6e8ee;
+}
