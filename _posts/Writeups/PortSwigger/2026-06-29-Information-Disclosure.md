@@ -21,6 +21,7 @@ paginate: true
 ![alt text](/assets/labs/infodisclouser/image.png)
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Information disclosure via verbose error messages |
@@ -48,6 +49,7 @@ paginate: true
 ![alt text](/assets/labs/infodisclouser/image-5.png)
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Information disclosure via an exposed debug page |
@@ -80,6 +82,7 @@ paginate: true
 ![alt text](/assets/labs/infodisclouser/image-11.png)
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Source code disclosure via publicly accessible backup files |
@@ -109,6 +112,7 @@ paginate: true
 ![alt text](/assets/labs/infodisclouser/image-16.png)
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Authentication bypass via information disclosure |
@@ -151,6 +155,7 @@ paginate: true
 ![alt text](/assets/labs/infodisclouser/image-26.png)
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Sensitive information disclosure via exposed `.git` directory |
