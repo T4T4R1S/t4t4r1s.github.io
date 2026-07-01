@@ -10,7 +10,7 @@ tags:
   - WebSecurity
 subtitle: Walkthroughs for Labs 1-5
 description: PortSwigger Web Security Academy - Information Disclosure vulnerabilities labs
-/assets/labs/infodisclouser/image: /assets//assets/labs/infodisclouser/image/Portswigger/download.png
+image: /assets/image/Portswigger/download.png
 paginate: true
 ---
 # PortSwigger – Information Disclosure Vulnerabilities Labs
