@@ -1,115 +1,164 @@
 ---
 layout: post
-title: PortSwigger
-date: 2026-01-20 00:00:00 +0000
-categories: [Writeups, PortSwigger, XSS]
+title: PortSwigger - Cross-Site Scripting (XSS) vulnerabilities labs
+date: 2026-07-05 00:00:00 +0000
+categories: [Writeups, PortSwigger, "Cross-Site Scripting"]
 tags:
-  - PortSwigger
   - LABS
-subtitle: Cross Site Scripting (XSS)
-description: Cross Site Scripting (XSS)
+  - XSS
+  - Cross-Site Scripting
+  - PortSwigger
+  - WebSecurity
+subtitle: Walkthroughs for Labs 1-30
+description: PortSwigger Web Security Academy - Cross-Site Scripting (XSS) vulnerabilities labs
 image: /assets/image/Portswigger/download.png
-optimized_image: /assets/image/Portswigger/download.png
-  - portswigger
-  - client-side
-  - Cross Site Scripting (XSS)
 paginate: true
 ---
+# PortSwigger – Cross-Site Scripting (XSS) Vulnerabilities Labs
+---
+## LAB 1 — Reflected XSS into HTML Context with Nothing Encoded
+> **Level:** `APPRENTICE`
 
-## LAB 1 (Reflected XSS into HTML context with nothing encoded)
+![alt text](image.png)
 
-**Analysis**
+### Analysis
+| | |
+|---|---|
+| **Vulnerability** | Reflected XSS |
+| **Goal** | Trigger an `alert()` in the browser |
+| **Key Concept** | User input is reflected directly into the HTML response with no encoding or sanitization — injecting `<script>alert(1)</script>` executes immediately |
+| **Key Takeaway** | The simplest form of XSS — if input appears in the page unchanged, the browser treats it as HTML/JS |
 
-1. Lab contains reflected XSS
-2. To solve, we need to execute the `alert` function
+### Steps
 
-**Steps to solve**
+1) the lab contain search input to find anything in blog when i write word on it it's appear on the page : 
+![alt text](image-1.png)
 
-1. After accessing the lab, I found a search input that displays what I write on the screen.
+2) if i go to source code i see that it's appear in `h1` tag  : 
+![alt text](image-2.png)
 
-![](/assets/image/Portswigger/xss/image.png)
+3) i will close this tag and start script tag to write java script with `'</h1><script>alert(1)</script>` an i got alert SOLVED: 
+![alt text](image-3.png)
 
-2. Executed basic payload: `<img src=x onerror=alert(0)>` → success
+---
+## LAB 2 — Stored XSS into HTML Context with Nothing Encoded
+> **Level:** `APPRENTICE`
+![alt text](image-4.png)
+### Analysis
+| | |
+|---|---|
+| **Vulnerability** | Stored XSS |
+| **Goal** | Trigger an `alert()` when any user views the page |
+| **Key Concept** | Malicious input is saved to the database and rendered unsanitized on every page load — the payload persists and fires for every visitor |
+| **Key Takeaway** | Stored XSS is more dangerous than reflected — it requires no user interaction beyond visiting the page |
 
-**Finished.. Happy hacking!**
+### Steps
+1) start lab and click view any post and write a comment like this : 
+![alt text](image-5.png)
 
-## LAB 2 (Stored XSS into HTML context with nothing encoded)
+2) after submit comment it's appear on the page : 
+![alt text](image-6.png)
 
-**Analysis**
+3) it's appear in 2 places i will inject script after anchor element `<a>` and that's name input not work `</a><script>alert(1)</script>`: 
+![alt text](image-7.png)
 
-1. Lab contains stored XSS
-2. To solve, we need to execute the `alert` function
+4) try to inject comment it self and it's work SOLVED no need to anchor element but i don't change last inject: 
+![alt text](image-8.png)
 
-**Steps to solve**
+---
+## LAB 3 — DOM XSS in `document.write` Sink Using Source `location.search`
+> **Level:** `APPRENTICE`
 
-1. Searched the lab for input fields; after clicking "view post", found a full comment form.
-2. Posted a comment with special words to test how the browser handles it.
+![alt text](image-9.png)
 
-![](/assets/image/Portswigger/xss/image3.png)
+### Analysis
+| | |
+|---|---|
+| **Vulnerability** | DOM-based XSS |
+| **Goal** | Trigger an `alert()` via a DOM sink |
+| **Key Concept** | JavaScript reads `location.search` and passes it to `document.write()` without sanitization — breaking out of the HTML context with `">` allows injecting arbitrary tags |
+| **Key Takeaway** | DOM XSS happens entirely in the browser; the server never sees or sends the payload — classic source-to-sink flow |
 
-3. It appeared in the commenter's name and comment body.
+### Steps
 
-![](/assets/image/Portswigger/xss/image4.png)
+1) first search for anything like `t4t4r1s` and it's appear in search :
+![alt text](image-10.png) 
 
-4. Executed basic payload in both comment and name fields: `<img src=x onerror=alert(0)>` → success
+2) right click and view page source and see that we have function take query as a parameter we can change query to break syntax  : 
+![alt text](image-11.png)
 
-![](/assets/image/Portswigger/xss/image5.png)
+3) `document.write('<img src="/resources/images/tracker.gif?searchTerms='+query+'">');` we can change our input to break image like 
+`><img src="sdfsd" onload=alert(1)/>`:
 
-**Finished.. Happy hacking!**
+![alt text](image-12.png)
 
-## LAB 3 (DOM XSS in document.write sink using source location.search)
-
-**Analysis**
-
-1. Lab contains DOM-based XSS in the search query.
-2. To solve, we need to execute the `alert` function.
-
-**Steps to solve**
-
-1. Inspected the JavaScript code; after searching, found the search term inserted into an `img src` via `document.write`.
-
-![](/assets/image/Portswigger/xss/image7.png)
-
-2. To make the alert work, injected:  
-   `"><img src=x onerror=alert(0)>`  
-   (closing the attribute and adding the payload)
-
-![](/assets/image/Portswigger/xss/image8.png)
-
-**Finished.. Happy hacking!**
-
-## LAB 4 (DOM XSS in innerHTML sink using source location.search)
-
-**Analysis**
-
-1. Lab contains a DOM-based XSS vulnerability in the search blog functionality.
-2. Content is added to the page using `innerHTML`.
-
-**Steps to solve**
-
-1. Viewed the page source and found the JavaScript code that processes the search query.
-2. It calls the function `doSearchQuery()` which inserts findings via `innerHTML`.
-3. Injected into the search query: `<svg onload=alert('t4t4r1s')>` → alert popped up.
-
-**Finished.. Happy hacking!**
-
-## LAB 5 (DOM XSS in jQuery anchor href attribute sink using location.search source)
-
-**Analysis**
-
-1. DOM-based XSS on the feedback page.
-2. Goal: execute `alert(document.cookie)`.
-
-**Steps to solve**
-
-1. Analyzed the page and found the `returnPath` parameter controls the redirect path after submitting feedback.
-2. Inserted a test string into the parameter and inspected the href of the "Back" link:  
-   `<a id="backLink" href="/ds">Back</a>`
-3. Tried injecting into the form itself → not vulnerable.
-4. Set the `returnPath` parameter to:  
-   `javascript:alert(document.cookie)`  
-   → the link executed the JavaScript when clicked → lab solved.
-
-**Finished.. Happy hacking!**
+4) got an alert. SOLVED : 
+![alt text](image-13.png)
 
 
+---
+## LAB 4 — DOM XSS in `innerHTML` Sink Using Source `location.search`
+> **Level:** `APPRENTICE`
+
+![alt text](image-14.png)
+
+### Analysis
+| | |
+|---|---|
+| **Vulnerability** | DOM-based XSS |
+| **Goal** | Trigger an `alert()` via `innerHTML` |
+| **Key Concept** | `innerHTML` does not execute `<script>` tags but does execute event handlers — payloads like `<img src=x onerror=alert(1)>` bypass this restriction |
+| **Key Takeaway** | `innerHTML` is a dangerous sink; always use `textContent` or proper sanitization when inserting user-controlled data into the DOM |
+
+### Steps
+
+1) start lab and click view page source  and i see our search query is used in innerHTML to include data: 
+
+![alt text](image-15.png)
+
+2) inject any js code and got alert `<img src=sdf onerror=alert(1)>` js will search for link sdf and it's wrong link so that it will trigger onerror event and we will got alert: 
+
+![alt text](image-16.png)
+
+---
+## LAB 5 — DOM XSS in jQuery Anchor `href` Attribute Sink Using `location.search` Source
+> **Level:** `APPRENTICE`
+
+![alt text](image-17.png)
+
+### Analysis
+| | |
+|---|---|
+| **Vulnerability** | DOM-based XSS via jQuery |
+| **Goal** | Trigger an `alert()` when the "back" link is clicked |
+| **Key Concept** | jQuery sets the `href` attribute of an anchor tag using `location.search` — injecting `javascript:alert(1)` as the value causes code execution on click |
+| **Key Takeaway** | `href` attributes accept `javascript:` URIs; sinks that set link targets are exploitable even without HTML tag injection |
+
+### Steps
+1) start lab and go to submit feed back : 
+![alt text](image-18.png)
+
+2) in the link is see `returnpath=/ `: 
+![alt text](image-22.png)
+
+3) add any value after / and inspect page i find what i type after / included in button href :
+
+![alt text](image-23.png)
+
+4) now i can inject any js code i will use alert to solve the lab `javascript:alert(1)` and SOLVED : 
+![alt text](image-24.png)
+---
+
+
+---
+**Finished — Happy Hacking!**
+
+---
+**Find me online:**
+- TryHackMe: [t4t4r1s](https://tryhackme.com/p/t4t4r1s)
+- HackTheBox: [t4t4r1s](https://app.hackthebox.com/users/2203575)
+- LinkedIn: [Mustafa Eltayeb](https://www.linkedin.com/in/t4t4r1s)
+- X: [@mustafa_altayeb](https://x.com/t4t4r1s)
+
+---
+<iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=3186403" style="border:none;"></iframe>
