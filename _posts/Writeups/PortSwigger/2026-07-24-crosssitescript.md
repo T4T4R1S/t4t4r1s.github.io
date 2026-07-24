@@ -1,7 +1,7 @@
 ---
 layout: post
 title: PortSwigger - Cross-Site Scripting (XSS) vulnerabilities labs
-date: 2026-07-05 00:00:00 +0000
+date: 2026-07-24 00:00:00 +0000
 categories: [Writeups, PortSwigger, "Cross-Site Scripting"]
 tags:
   - LABS
