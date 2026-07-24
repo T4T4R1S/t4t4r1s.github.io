@@ -11,7 +11,7 @@ tags:
   - WebSecurity
 subtitle: Walkthroughs for Labs 1-30
 description: PortSwigger Web Security Academy - Cross-Site Scripting (XSS) vulnerabilities labs
-image: /assets/image/Portswigger/download.png
+/assets/labs/xsss/image: /assets//assets/labs/xsss/image/Portswigger/download.png
 paginate: true
 ---
 # PortSwigger – Cross-Site Scripting (XSS) Vulnerabilities Labs
@@ -19,7 +19,7 @@ paginate: true
 ## LAB 1 — Reflected XSS into HTML Context with Nothing Encoded
 > **Level:** `APPRENTICE`
 
-![alt text](image.png)
+![alt text](/assets/labs/xsss/image.png)
 
 ### Analysis
 | | |
@@ -32,18 +32,18 @@ paginate: true
 ### Steps
 
 1) the lab contain search input to find anything in blog when i write word on it it's appear on the page : 
-![alt text](image-1.png)
+![alt text](/assets/labs/xsss/image-1.png)
 
 2) if i go to source code i see that it's appear in `h1` tag  : 
-![alt text](image-2.png)
+![alt text](/assets/labs/xsss/image-2.png)
 
 3) i will close this tag and start script tag to write java script with `'</h1><script>alert(1)</script>` an i got alert SOLVED: 
-![alt text](image-3.png)
+![alt text](/assets/labs/xsss/image-3.png)
 
 ---
 ## LAB 2 — Stored XSS into HTML Context with Nothing Encoded
 > **Level:** `APPRENTICE`
-![alt text](image-4.png)
+![alt text](/assets/labs/xsss/image-4.png)
 ### Analysis
 | | |
 |---|---|
@@ -54,22 +54,22 @@ paginate: true
 
 ### Steps
 1) start lab and click view any post and write a comment like this : 
-![alt text](image-5.png)
+![alt text](/assets/labs/xsss/image-5.png)
 
 2) after submit comment it's appear on the page : 
-![alt text](image-6.png)
+![alt text](/assets/labs/xsss/image-6.png)
 
 3) it's appear in 2 places i will inject script after anchor element `<a>` and that's name input not work `</a><script>alert(1)</script>`: 
-![alt text](image-7.png)
+![alt text](/assets/labs/xsss/image-7.png)
 
 4) try to inject comment it self and it's work SOLVED no need to anchor element but i don't change last inject: 
-![alt text](image-8.png)
+![alt text](/assets/labs/xsss/image-8.png)
 
 ---
 ## LAB 3 — DOM XSS in `document.write` Sink Using Source `location.search`
 > **Level:** `APPRENTICE`
 
-![alt text](image-9.png)
+![alt text](/assets/labs/xsss/image-9.png)
 
 ### Analysis
 | | |
@@ -82,25 +82,25 @@ paginate: true
 ### Steps
 
 1) first search for anything like `t4t4r1s` and it's appear in search :
-![alt text](image-10.png) 
+![alt text](/assets/labs/xsss/image-10.png) 
 
 2) right click and view page source and see that we have function take query as a parameter we can change query to break syntax  : 
-![alt text](image-11.png)
+![alt text](/assets/labs/xsss/image-11.png)
 
-3) `document.write('<img src="/resources/images/tracker.gif?searchTerms='+query+'">');` we can change our input to break image like 
+3) `document.write('<img src="/resources//assets/labs/xsss/images/tracker.gif?searchTerms='+query+'">');` we can change our input to break /assets/labs/xsss/image like 
 `><img src="sdfsd" onload=alert(1)/>`:
 
-![alt text](image-12.png)
+![alt text](/assets/labs/xsss/image-12.png)
 
 4) got an alert. SOLVED : 
-![alt text](image-13.png)
+![alt text](/assets/labs/xsss/image-13.png)
 
 
 ---
 ## LAB 4 — DOM XSS in `innerHTML` Sink Using Source `location.search`
 > **Level:** `APPRENTICE`
 
-![alt text](image-14.png)
+![alt text](/assets/labs/xsss/image-14.png)
 
 ### Analysis
 | | |
@@ -114,17 +114,17 @@ paginate: true
 
 1) start lab and click view page source  and i see our search query is used in innerHTML to include data: 
 
-![alt text](image-15.png)
+![alt text](/assets/labs/xsss/image-15.png)
 
 2) inject any js code and got alert `<img src=sdf onerror=alert(1)>` js will search for link sdf and it's wrong link so that it will trigger onerror event and we will got alert: 
 
-![alt text](image-16.png)
+![alt text](/assets/labs/xsss/image-16.png)
 
 ---
 ## LAB 5 — DOM XSS in jQuery Anchor `href` Attribute Sink Using `location.search` Source
 > **Level:** `APPRENTICE`
 
-![alt text](image-17.png)
+![alt text](/assets/labs/xsss/image-17.png)
 
 ### Analysis
 | | |
@@ -136,17 +136,17 @@ paginate: true
 
 ### Steps
 1) start lab and go to submit feed back : 
-![alt text](image-18.png)
+![alt text](/assets/labs/xsss/image-18.png)
 
 2) in the link is see `returnpath=/ `: 
-![alt text](image-22.png)
+![alt text](/assets/labs/xsss/image-22.png)
 
 3) add any value after / and inspect page i find what i type after / included in button href :
 
-![alt text](image-23.png)
+![alt text](/assets/labs/xsss/image-23.png)
 
 4) now i can inject any js code i will use alert to solve the lab `javascript:alert(1)` and SOLVED : 
-![alt text](image-24.png)
+![alt text](/assets/labs/xsss/image-24.png)
 ---
 
 
