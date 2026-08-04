@@ -22,6 +22,7 @@ paginate: true
 ![alt text](/assets/labs/xsss/image.png)
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Reflected XSS |
@@ -45,6 +46,7 @@ paginate: true
 > **Level:** `APPRENTICE`
 ![alt text](/assets/labs/xsss/image-4.png)
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Stored XSS |
@@ -72,6 +74,7 @@ paginate: true
 ![alt text](/assets/labs/xsss/image-9.png)
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | DOM-based XSS |
@@ -103,6 +106,7 @@ paginate: true
 ![alt text](/assets/labs/xsss/image-14.png)
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | DOM-based XSS |
@@ -127,6 +131,7 @@ paginate: true
 ![alt text](/assets/labs/xsss/image-17.png)
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | DOM-based XSS via jQuery |
@@ -154,6 +159,7 @@ paginate: true
 ![alt text](/assets/labs/xsss/image-25.png)
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | DOM-based XSS via jQuery hashchange |
@@ -163,13 +169,54 @@ paginate: true
 
 ### Steps
 
+1) start lab and view page source go to `<script>` tag and find this hash locator : 
+
+![alt text](image-26.png)
+
+in the code we have an hashlocator event if it triaged it's call function to go to specific post 
+
+2) let's start with understand this code the first part is `window.location`  which give us a link to site we open and # is the post where screen view: 
+
+![alt text](image-28.png)
+
+3) Second part `window.location.hash` it's give us # with the post name where screen is : 
+![alt text](image-29.png)
+
+4) third part is `window.location.hash.slice(1)` which delete hash and give us post name : 
+![alt text](image-30.png)
+
+5) now we confirm that we have an input after hash we can inject it and executed in our page let's try to use it 
 
 
+6) i write payload `<img src=1 onerror=print()>` and it's work : 
+![alt text](image-31.png)
+
+7) this is work put when we reload page we can't get the result again because the event is triaged one time : 
+![alt text](image-32.png)
+
+8) we need to inject it in the first time be the usual link after that our event triaged i will use i frame with an exploit server on the lab : 
+![alt text](image-33.png)
+
+9) write iframe payload `<iframe src="lab_link/#" onload="this.src += '<img src=1 onerror=print()>'"> </iframe>`: 
+
+![alt text](image-34.png)
+
+10) click view exploit and confirm it's work : 
+![alt text](image-35.png)
+
+
+11) iframe is appear on the screen let's hidden to make user feel it's normal `<iframe src="lab_link/#" onload="this.src += '<img src=1 onerror=print()>'" hidden="hidden"> </iframe>` : 
+
+![alt text](image-36.png)
+
+12) click send to victim and solved : 
+![alt text](image-37.png)
 ---
 ## LAB 7 — Reflected XSS into Attribute with Angle Brackets HTML-Encoded
 > **Level:** `APPRENTICE`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Reflected XSS inside an HTML attribute |
@@ -184,6 +231,7 @@ paginate: true
 > **Level:** `APPRENTICE`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Stored XSS via `href` attribute |
@@ -198,6 +246,7 @@ paginate: true
 > **Level:** `APPRENTICE`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Reflected XSS inside a JavaScript string |
@@ -212,6 +261,7 @@ paginate: true
 > **Level:** `PRACTITIONER`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | DOM-based XSS inside a `<select>` element |
@@ -226,6 +276,7 @@ paginate: true
 > **Level:** `PRACTITIONER`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | DOM XSS via AngularJS template expression |
@@ -240,6 +291,7 @@ paginate: true
 > **Level:** `PRACTITIONER`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Reflected DOM XSS |
@@ -254,6 +306,7 @@ paginate: true
 > **Level:** `PRACTITIONER`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Stored DOM XSS |
@@ -268,6 +321,7 @@ paginate: true
 > **Level:** `PRACTITIONER`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Reflected XSS with WAF bypass |
@@ -282,6 +336,7 @@ paginate: true
 > **Level:** `PRACTITIONER`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Reflected XSS via custom HTML tags |
@@ -296,6 +351,7 @@ paginate: true
 > **Level:** `PRACTITIONER`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Reflected XSS via SVG |
@@ -310,6 +366,7 @@ paginate: true
 > **Level:** `PRACTITIONER`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Reflected XSS via `<link rel="canonical">` |
@@ -324,6 +381,7 @@ paginate: true
 > **Level:** `PRACTITIONER`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Reflected XSS inside a JS string with escaping |
@@ -338,6 +396,7 @@ paginate: true
 > **Level:** `PRACTITIONER`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Reflected XSS inside a JS string with multiple escaping layers |
@@ -352,6 +411,7 @@ paginate: true
 > **Level:** `PRACTITIONER`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Stored XSS inside an `onclick` event handler |
@@ -366,6 +426,7 @@ paginate: true
 > **Level:** `PRACTITIONER`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Reflected XSS inside a JavaScript template literal |
@@ -380,6 +441,7 @@ paginate: true
 > **Level:** `PRACTITIONER`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Stored XSS leading to session hijacking |
@@ -394,6 +456,7 @@ paginate: true
 > **Level:** `PRACTITIONER`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Stored XSS leading to credential capture |
@@ -408,6 +471,7 @@ paginate: true
 > **Level:** `PRACTITIONER`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Stored XSS used to perform CSRF |
@@ -422,6 +486,7 @@ paginate: true
 > **Level:** `EXPERT`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | AngularJS sandbox escape |
@@ -436,6 +501,7 @@ paginate: true
 > **Level:** `EXPERT`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | AngularJS sandbox escape with CSP bypass |
@@ -450,6 +516,7 @@ paginate: true
 > **Level:** `EXPERT`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Reflected XSS with blocked event handlers and href |
@@ -464,6 +531,7 @@ paginate: true
 > **Level:** `EXPERT`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Reflected XSS inside a `javascript:` URL |
@@ -478,6 +546,7 @@ paginate: true
 > **Level:** `PRACTITIONER`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | Dangling markup injection under strict CSP |
@@ -492,6 +561,7 @@ paginate: true
 > **Level:** `EXPERT`
 
 ### Analysis
+
 | | |
 |---|---|
 | **Vulnerability** | CSP bypass via policy injection |
