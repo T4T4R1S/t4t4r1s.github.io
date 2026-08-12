@@ -171,49 +171,51 @@ paginate: true
 
 1) start lab and view page source go to `<script>` tag and find this hash locator : 
 
-![alt text](image-26.png)
+![alt text](/assets/labs/xsss/secondday/image-26.png)
 
 in the code we have an hashlocator event if it triaged it's call function to go to specific post 
 
 2) let's start with understand this code the first part is `window.location`  which give us a link to site we open and # is the post where screen view: 
 
-![alt text](image-28.png)
+![alt text](/assets/labs/xsss/secondday/image-28.png)
 
 3) Second part `window.location.hash` it's give us # with the post name where screen is : 
-![alt text](image-29.png)
+![alt text](/assets/labs/xsss/secondday/image-29.png)
 
 4) third part is `window.location.hash.slice(1)` which delete hash and give us post name : 
-![alt text](image-30.png)
+![alt text](/assets/labs/xsss/secondday/image-30.png)
 
 5) now we confirm that we have an input after hash we can inject it and executed in our page let's try to use it 
 
 
 6) i write payload `<img src=1 onerror=print()>` and it's work : 
-![alt text](image-31.png)
+![alt text](/assets/labs/xsss/secondday/image-31.png)
 
 7) this is work put when we reload page we can't get the result again because the event is triaged one time : 
-![alt text](image-32.png)
+![alt text](/assets/labs/xsss/secondday/image-32.png)
 
 8) we need to inject it in the first time be the usual link after that our event triaged i will use i frame with an exploit server on the lab : 
-![alt text](image-33.png)
+![alt text](/assets/labs/xsss/secondday/image-33.png)
 
 9) write iframe payload `<iframe src="lab_link/#" onload="this.src += '<img src=1 onerror=print()>'"> </iframe>`: 
 
-![alt text](image-34.png)
+![alt text](/assets/labs/xsss/secondday/image-34.png)
 
 10) click view exploit and confirm it's work : 
-![alt text](image-35.png)
+![alt text](/assets/labs/xsss/secondday/image-35.png)
 
 
 11) iframe is appear on the screen let's hidden to make user feel it's normal `<iframe src="lab_link/#" onload="this.src += '<img src=1 onerror=print()>'" hidden="hidden"> </iframe>` : 
 
-![alt text](image-36.png)
+![alt text](/assets/labs/xsss/secondday/image-36.png)
 
 12) click send to victim and solved : 
-![alt text](image-37.png)
+![alt text](/assets/labs/xsss/secondday/image-37.png)
 ---
 ## LAB 7 — Reflected XSS into Attribute with Angle Brackets HTML-Encoded
 > **Level:** `APPRENTICE`
+
+![alt text](/assets/labs/xsss/secondday/image-38.png)
 
 ### Analysis
 
@@ -225,10 +227,29 @@ in the code we have an hashlocator event if it triaged it's call function to go 
 | **Key Takeaway** | XSS is context-dependent — being inside an attribute requires quote escaping, not angle brackets |
 
 ### Steps
+1) start lab an i find what i search for appear one the page : 
+![alt text](/assets/labs/xsss/secondday/image-39.png)
+
+2) click view page source and i see what i search for in 2 places one that make it appear on page the second in value attribute in search for search input : 
+![alt text](/assets/labs/xsss/secondday/image-40.png)
+
+3) This mean i can inject another attribute after close value parameter with `"` and append `onmouseover="alert(1)>`: 
+
+after inject input field will appear like : 
+
+   ``` <input type=text placeholder='Search the blog...' name=search value="`"onmouseover="alert(1)>`"```
+
+here i inject with add " to close value attribute onmouseover event that trigger alert 
+
+4) click search and set mouse on search input and SOlVED : 
+
+![alt text](/assets/labs/xsss/secondday/image-41.png)
 
 ---
 ## LAB 8 — Stored XSS into Anchor `href` Attribute with Double Quotes HTML-Encoded
 > **Level:** `APPRENTICE`
+
+![alt text](/assets/labs/xsss/secondday/image-42.png)
 
 ### Analysis
 
@@ -240,10 +261,39 @@ in the code we have an hashlocator event if it triaged it's call function to go 
 | **Key Takeaway** | `href` sinks accept `javascript:` URIs regardless of HTML encoding — always validate URL schemes server-side |
 
 ### Steps
+1) go to any post and post comment : 
+![alt text](/assets/labs/xsss/secondday/image-43.png)
 
+2) comment add  : 
+![alt text](/assets/labs/xsss/secondday/image-44.png)
+
+3) go back and comment appear in comments : 
+![alt text](/assets/labs/xsss/secondday/image-45.png)
+
+4) view page source to see which place is injectable : 
+![alt text](/assets/labs/xsss/secondday/image-46.png)
+
+5) we can see website reflected in href attribute we can inject by close this attribute and add another one : 
+![alt text](/assets/labs/xsss/secondday/image-47.png)
+
+6) injection will be like this like last time but it's failed Html encode the " : 
+ ``` <a id="author" href="http://t4t4r1s.com"onmouseover="alert(1)">t4t4r1s</a> ```
+
+ ![alt text](/assets/labs/xsss/secondday/image-48.png)
+
+ 7) try to inject with javascript:alert(1):
+ ![alt text](/assets/labs/xsss/secondday/image-50.png)
+
+ 8) it will be like this : 
+ ![alt text](/assets/labs/xsss/secondday/image-52.png)
+
+ 9) click back and click on the site appear in comments and SOLVED : 
+ ![alt text](/assets/labs/xsss/secondday/image-51.png)
 ---
 ## LAB 9 — Reflected XSS into a JavaScript String with Angle Brackets HTML Encoded
 > **Level:** `APPRENTICE`
+
+![alt text](/assets/labs/xsss/secondday/image-53.png)
 
 ### Analysis
 
@@ -256,10 +306,26 @@ in the code we have an hashlocator event if it triaged it's call function to go 
 
 ### Steps
 
+1) start with search for different word and it's appear on page : 
+
+![alt text](/assets/labs/xsss/secondday/image-54.png)
+
+2) view page source and search for this word and it's appear in script  : 
+![alt text](/assets/labs/xsss/secondday/image-55.png)
+
+3) append "" to search and it's added to the one in the script and encoded in the html : 
+![alt text](/assets/labs/xsss/secondday/image-56.png)
+
+4) i will inject the one in js directly : 
+```  var searchTerms = ''alert(1)'';```
+5) the previous one not work because we need to break expression i will add addition operator to break that it's will be : 
+```  var searchTerms = ''+alert(1)+'';```
+6) inject `'+alert(1)+'` and click search and her we go SOLVE : 
+![alt text](/assets/labs/xsss/secondday/image-57.png) 
 ---
 ## LAB 10 — DOM XSS in `document.write` Sink Using Source `location.search` Inside a Select Element
 > **Level:** `PRACTITIONER`
-
+![alt text](/assets/labs/xsss/secondday/image-58.png)
 ### Analysis
 
 | | |
@@ -271,10 +337,32 @@ in the code we have an hashlocator event if it triaged it's call function to go 
 
 ### Steps
 
+1) start lab and open any product page scroll down and find check stock : 
+
+![alt text](/assets/labs/xsss/secondday/image-59.png)
+
+2) click check stock and it's back with number of available items : 
+
+![alt text](/assets/labs/xsss/secondday/image-60.png)
+
+3) no thing add to the url put when check code with view page source i find script code that's take store id and loop to check store name and grep the number of items available : 
+![alt text](/assets/labs/xsss/secondday/image-61.png)
+
+4) you see that we have hidden parameter called storeID let's append it to url and play with it and find this we append new store to stores : 
+![alt text](/assets/labs/xsss/secondday/image-62.png)
+
+5) now we can inject our payload and let's see the code  `var store = (new URLSearchParams(window.location.search)).get('storeId');`
+
+6) this is dom based because when we refresh we get the original content : 
+![alt text](/assets/labs/xsss/secondday/image-63.png)
+
+7) inject img in the storID parameter `<img src=sdfsd onerror=alert(1)>` and SOLVED : 
+
+![alt text](/assets/labs/xsss/secondday/image-64.png)
 ---
 ## LAB 11 — DOM XSS in AngularJS Expression with Angle Brackets and Double Quotes HTML-Encoded
 > **Level:** `PRACTITIONER`
-
+![alt text](/assets/labs/xsss/secondday/image-72.png)
 ### Analysis
 
 | | |
@@ -286,6 +374,33 @@ in the code we have an hashlocator event if it triaged it's call function to go 
 
 ### Steps
 
+1) start the lab and try simple injection and it's failed according to html encoding : 
+![alt text](/assets/labs/xsss/secondday/image-65.png)
+
+2) i see that it's uses angler and angler execute js in {{}} : 
+![alt text](/assets/labs/xsss/secondday/image-66.png)
+![alt text](/assets/labs/xsss/secondday/image-67.png)
+
+3) let's execute something : 
+![alt text](/assets/labs/xsss/secondday/image-68.png)
+
+4) put angler sandbox prevent us form execute this functions : 
+![alt text](/assets/labs/xsss/secondday/image-69.png)
+
+5) her we can use a constructor constructor is a function or method used to create and initialize a new object.
+In JavaScript, objects have a .constructor property that points to what created them.
+For example, obj.constructor tells you which constructor was used to create obj.
+In the lab, .constructor was used to reach the Function constructor and create a new function. 
+
+![alt text](/assets/labs/xsss/secondday/image-70.png)
+test is a function.
+test.constructor points to the Function constructor(builtin js).
+test.constructor() creates a new anonymous function.
+We can pass JavaScript code to the Function constructor.
+Then () executes the newly created function.
+
+6) we will use payload `{{$watch.constructor('alert(1)')()}}` and SOLVED : 
+![alt text](/assets/labs/xsss/secondday/image-71.png)
 ---
 ## LAB 12 — Reflected DOM XSS
 > **Level:** `PRACTITIONER`
@@ -301,9 +416,36 @@ in the code we have an hashlocator event if it triaged it's call function to go 
 
 ### Steps
 
+1) i started with inject basic xss payload it's appear on page put not appear on source : 
+![alt text](/assets/labs/xsss/secondday/image-73.png)
+
+2) in page source i find external js file which is interested it's call a function from script and full script: 
+![alt text](/assets/labs/xsss/secondday/image-74.png)
+
+3) in this js file i find eval function which use to convert string to operation : 
+![alt text](/assets/labs/xsss/secondday/image-75.png)
+
+4) it' founded in the function search which called in html file : 
+![alt text](/assets/labs/xsss/secondday/image-74.png)
+
+5) in burp i see the request and response in target : 
+![alt text](/assets/labs/xsss/secondday/image-76.png)
+
+6) the response is in json format : 
+![alt text](/assets/labs/xsss/secondday/image-77.png)
+
+7) i send this to repeater and start test eval i start with this payload and it's filter the double quote `xss"alert(1)` by adding `/`:
+![alt text](/assets/labs/xsss/secondday/image-78.png)
+8) if we add second \ in out input we will break syntax : 
+![alt text](/assets/labs/xsss/secondday/image-79.png)
+
+9) the last thing we need is to comment the `}` after our payload by add`//` the final payload is `xss\"-alert(1)}//` and SOLVED : 
+![alt text](/assets/labs/xsss/secondday/image-80.png)
 ---
 ## LAB 13 — Stored DOM XSS
 > **Level:** `PRACTITIONER`
+
+![alt text](/assets/labs/xsss/secondday/image-81.png)
 
 ### Analysis
 
@@ -316,9 +458,30 @@ in the code we have an hashlocator event if it triaged it's call function to go 
 
 ### Steps
 
+1) i start with go inside post and drop simple injection to see how application will handle this : 
+![alt text](/assets/labs/xsss/secondday/image-82.png)
+
+2) submit a comment and i see one of the close tag of script is deleted : 
+![alt text](/assets/labs/xsss/secondday/image-83.png)
+
+3) click view page source and i find application grep comments from external js file : 
+![alt text](/assets/labs/xsss/secondday/image-84.png)
+
+4) after enum this file i find it use function replace to encode <> char : 
+![alt text](/assets/labs/xsss/secondday/image-85.png)
+
+5) this function is vulnerable it's just wrap the first <> and all other ones keeps in this shape <> like this i will put <<<<<>>>>> and it will encode first one only : 
+![alt text](/assets/labs/xsss/secondday/image-86.png)
+
+6) start inject img with two of <> like : `<<img src=sdf onerror="alert(2)">>` and it's work after refresh page SOLVED: 
+
+![alt text](/assets/labs/xsss/secondday/image-87.png)
+
 ---
 ## LAB 14 — Reflected XSS into HTML Context with Most Tags and Attributes Blocked
 > **Level:** `PRACTITIONER`
+
+![alt text](/assets/labs/xsss/secondday/image-88.png)
 
 ### Analysis
 
@@ -331,9 +494,39 @@ in the code we have an hashlocator event if it triaged it's call function to go 
 
 ### Steps
 
+1) start with inject simple img `<img src=xzf onerror="alert(1)">` and i got "Tag is not allowed"  put when write <> only it's work: 
+
+![alt text](/assets/labs/xsss/secondday/image-91.png)
+
+2) so that i send the request via burp to start fuzz the available tags intercept request and send it to intruder: 
+
+![alt text](/assets/labs/xsss/secondday/image-90.png)
+
+3) i will start fuzz tags with burp intruder and the tags in this link ![xss sheet cheat](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet) click copy tags and past it in intruder : 
+![alt text](/assets/labs/xsss/secondday/image-93.png)
+
+4) all tags give me 400 except body and xss i will use body tag : 
+
+![alt text](/assets/labs/xsss/secondday/image-92.png)
+
+5) i will use body tag to check what event i can run to avoid waf with the same link copy all event and past it in intruder like : 
+![alt text](/assets/labs/xsss/secondday/image-94.png)
+
+7) start attack and i got many 200 state i will use `onresize` : 
+![alt text](/assets/labs/xsss/secondday/image-95.png)
+
+8) from exploit server i will send iframe to victim with payload `<iframe src="https://0ae300960385fbb382cbd307005b0096.web-security-academy.net/?search=%22%3E%3Cbody%20onresize=print()%3E" onload=this.style.width='100px'>`
+
+![alt text](/assets/labs/xsss/secondday/image-96.png)
+
+9) click store and sent to victim and SOLVED : 
+![f](/assets/labs/xsss/secondday/image-97.png)
 ---
+
 ## LAB 15 — Reflected XSS into HTML Context with All Tags Blocked Except Custom Ones
 > **Level:** `PRACTITIONER`
+
+![alt text](/assets/labs/xsss/secondday/image-98.png)
 
 ### Analysis
 
@@ -345,6 +538,21 @@ in the code we have an hashlocator event if it triaged it's call function to go 
 | **Key Takeaway** | Custom HTML tags bypass tag-based blocklists entirely — combined with `autofocus` or URL fragments, they can fire events without any user interaction |
 
 ### Steps
+
+1) i start with inject img and got tag not allowed in inject <> and it's work : 
+![alt text](/assets/labs/xsss/secondday/image-99.png)
+
+2) after that i create custom element to start with it like `<mustafa>` with `id=y` to to force borwser to see element and onfocus event to start and tabindex to make onfocus work  : `<mustafa id=u onfocus=alert(document.cookie) tabindex=1>`
+
+3) the full exploit will be 
+```
+<script>
+location = 'https://0a2400d0031782ce80810311000600f0.web-security-academy.net/?search=%3Cmustafa+id%3Dx+onfocus%3Dalert%28document.cookie%29%20tabindex=1%3E#x';
+</script>
+```
+4) in exploit add the exploit and click store and deliver to victim  and SOLVED:
+
+![alt text](/assets/labs/xsss/secondday/image-100.png)
 
 ---
 ## LAB 16 — Reflected XSS with Some SVG Markup Allowed
