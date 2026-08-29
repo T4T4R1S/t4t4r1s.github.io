@@ -559,6 +559,7 @@ location = 'https://0a2400d0031782ce80810311000600f0.web-security-academy.net/?s
 > **Level:** `PRACTITIONER`
 
 ### Analysis
+![alt text](image.png)
 
 | | |
 |---|---|
@@ -568,6 +569,40 @@ location = 'https://0a2400d0031782ce80810311000600f0.web-security-academy.net/?s
 | **Key Takeaway** | SVG has its own event model and element set that often bypasses HTML-focused WAF rules — always test SVG-specific tags when standard HTML is blocked |
 
 ### Steps
+
+1) start lab and try to inject `<img>` tag and it' not allowed : 
+![alt text](image-1.png)
+
+
+3)  Fuzz allowed tag with burp intruder by portswigger cheatsheat : 
+  - intercept search request and send it to intruder : 
+  ![alt text](image-3.png)
+
+  - set payload position after search parameter between <>:
+  ![alt text](image-4.png) 
+
+  - get tags payloads from  [cheatsheet](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet) : 
+  ![alt text](image-7.png)
+
+  - now we have svg and image and animatetransform : 
+  ![alt text](image-8.png)
+  ![alt text](image-9.png)
+
+4) the two image confirm that we can use animatetransform inside svg tag to perform an action but we need to check available events in animatetransform : 
+ 
+  - start search for `<svg> <animatetransform $payloadposition=1> ` and intercept request : 
+  ![alt text](image-10.png)
+
+  - send this request to intruder and put payload position get events from this link [cheatsheet](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet) : 
+  ![alt text](image-11.png)
+
+  - now past events on payload position and start attack and i got 1 event `onbegin`: 
+  ![alt text](image-12.png)
+
+5) our payload become `<svg><animatetransform onbegin="alert(1)"></svg>`  SOVED: 
+![alt text](image-13.png)
+
+  
 
 ---
 ## LAB 17 — Reflected XSS in Canonical Link Tag
