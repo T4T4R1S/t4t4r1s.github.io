@@ -1,0 +1,2016 @@
+---
+layout: null
+title: For Shahd
+permalink: /s-7k2x-shahd/
+sitemap: false
+robots: noindex
+---
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-lang="both">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="A little surprise, just for Shahd.">
+  <meta name="theme-color" content="#FAF6F1" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#24131C" media="(prefers-color-scheme: dark)">
+  <title>For Shahd</title>
+
+  <!-- Google Fonts CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       Design tokens
+       ============================================================ */
+    :root {
+      color-scheme: light;
+
+      --ivory: #FAF6F1;
+      --ivory-2: #F4ECE4;
+      --rose: #D8A7B1;
+      --rose-soft: #EFD7DC;
+      --gold: #C9A66B;
+      --gold-soft: #E7D3AE;
+      --gold-ink: #8A6A35;
+      --gold-deep: #B08A4F;
+      --plum: #4A2C3A;
+      --plum-soft: #6B4A5A;
+      --text: #4A2C3A;
+      --muted: #7A5B69;
+      --error: #A84E66;
+      --on-gold: #3A2230;
+
+      --card: rgba(255, 253, 250, 0.72);
+      --card-solid: #FFFDFA;
+      --input-bg: rgba(255, 255, 255, 0.55);
+      --input-focus-bg: #FFFDFA;
+
+      --line: rgba(201, 166, 107, 0.45);
+      --line-soft: rgba(201, 166, 107, 0.22);
+      --shadow: 0 24px 60px rgba(74, 44, 58, 0.10);
+      --shadow-soft: 0 12px 30px rgba(74, 44, 58, 0.07);
+      --focus: #8A5A6B;
+
+      --glow-rose: rgba(216, 167, 177, 0.18);
+      --glow-gold: rgba(201, 166, 107, 0.14);
+      --glow-rose-2: rgba(216, 167, 177, 0.10);
+
+      --font-ar-body: "Cairo", system-ui, -apple-system, sans-serif;
+      --font-ar-display: "Amiri", "Cairo", serif;
+      --font-en-body: "Cormorant Garamond", "Lora", Georgia, serif;
+      --font-en-display: "Playfair Display", Georgia, serif;
+    }
+
+    /* Tasteful dark variant: deep plum, warm text, same quiet mood */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        color-scheme: dark;
+
+        --ivory: #24131C;
+        --ivory-2: #2D1923;
+        --rose: #E0B4BE;
+        --rose-soft: #4A2A36;
+        --gold: #D9B77E;
+        --gold-soft: #6A5034;
+        --gold-ink: #E2C08A;
+        --gold-deep: #B8935A;
+        --plum: #F7EDE9;
+        --plum-soft: #E2C9D1;
+        --text: #F5EAE5;
+        --muted: #C9ADB6;
+        --error: #F0B6C4;
+        --on-gold: #2A1720;
+
+        --card: rgba(255, 255, 255, 0.045);
+        --card-solid: #2B1822;
+        --input-bg: rgba(255, 255, 255, 0.06);
+        --input-focus-bg: rgba(255, 255, 255, 0.09);
+
+        --line: rgba(217, 183, 126, 0.40);
+        --line-soft: rgba(217, 183, 126, 0.18);
+        --shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+        --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.25);
+        --focus: #E0B4BE;
+
+        --glow-rose: rgba(224, 180, 190, 0.10);
+        --glow-gold: rgba(217, 183, 126, 0.08);
+        --glow-rose-2: rgba(224, 180, 190, 0.06);
+      }
+    }
+
+    /* ============================================================
+       Base
+       ============================================================ */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background-color: var(--ivory);
+      background-image:
+        radial-gradient(ellipse at 12% 8%, var(--glow-rose), transparent 45%),
+        radial-gradient(ellipse at 88% 0%, var(--glow-gold), transparent 40%),
+        radial-gradient(ellipse at 50% 100%, var(--glow-rose-2), transparent 55%);
+      background-attachment: fixed;
+      color: var(--text);
+      font-family: var(--font-ar-body);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Background petals canvas */
+    #petals {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Confetti canvas */
+    #confetti {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 60;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       Gate
+       ============================================================ */
+    .gate {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      min-height: 100svh;
+      padding: max(24px, env(safe-area-inset-top)) 24px max(24px, env(safe-area-inset-bottom));
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .gate.is-leaving {
+      opacity: 0;
+      transform: scale(0.985);
+      pointer-events: none;
+    }
+
+    .gate-card {
+      position: relative;
+      width: min(100%, 440px);
+      padding: clamp(30px, 7vw, 50px) clamp(22px, 6vw, 44px);
+      text-align: center;
+      background: linear-gradient(160deg, var(--card-solid), var(--card));
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      box-shadow: var(--shadow);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+    }
+
+    .gate-card::before,
+    .gate-card::after {
+      content: "";
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: 0.65;
+      pointer-events: none;
+    }
+
+    .gate-card::before {
+      top: 10px;
+      left: 10px;
+      border-width: 1px 0 0 1px;
+    }
+
+    .gate-card::after {
+      right: 10px;
+      bottom: 10px;
+      border-width: 0 1px 1px 0;
+    }
+
+    .gate-ornament {
+      margin: 0 0 0.6rem;
+      color: var(--gold);
+      font-size: 0.9rem;
+      letter-spacing: 0.4em;
+    }
+
+    .gate-eyebrow {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+    }
+
+    .gate-eyebrow.en {
+      margin-top: 0.15rem;
+      font-family: var(--font-en-body);
+      font-size: 1rem;
+      font-style: italic;
+      letter-spacing: 0.03em;
+    }
+
+    .gate-title {
+      margin: 0.55rem 0 0.2rem;
+      color: var(--plum);
+      font-family: var(--font-en-display);
+      font-size: clamp(2rem, 7vw, 2.8rem);
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      line-height: 1.15;
+    }
+
+    .gate-prompts {
+      margin-top: 1.5rem;
+    }
+
+    .gate-prompt {
+      margin: 0.15rem 0;
+      color: var(--plum);
+    }
+
+    .gate-prompt.ar {
+      font-family: var(--font-ar-body);
+      font-size: 1.05rem;
+      font-weight: 500;
+    }
+
+    .gate-prompt.en {
+      color: var(--muted);
+      font-family: var(--font-en-body);
+      font-size: 1.15rem;
+      font-style: italic;
+    }
+
+    .gate-form {
+      margin-top: 1.15rem;
+    }
+
+    .input-wrap {
+      position: relative;
+      width: min(100%, 320px);
+      margin: 0 auto;
+    }
+
+    .gate-input {
+      width: 100%;
+      padding: 14px 48px 14px 18px;
+      color: var(--text);
+      background: var(--input-bg);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-family: var(--font-en-body);
+      font-size: 1.08rem;
+      letter-spacing: 0.02em;
+      text-align: left;
+      direction: ltr;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+
+    .gate-input::placeholder {
+      color: var(--muted);
+      opacity: 0.55;
+    }
+
+    .gate-input:focus {
+      outline: none;
+      background: var(--input-focus-bg);
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(201, 166, 107, 0.16);
+    }
+
+    .gate-input[aria-invalid="true"] {
+      border-color: var(--error);
+      box-shadow: 0 0 0 4px rgba(168, 78, 102, 0.12);
+    }
+
+    .eye-button {
+      position: absolute;
+      top: 50%;
+      right: 8px;
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      color: var(--muted);
+      background: transparent;
+      border: 0;
+      border-radius: 50%;
+      cursor: pointer;
+      transform: translateY(-50%);
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .eye-button:hover {
+      color: var(--plum);
+      background: var(--line-soft);
+    }
+
+    .eye-button svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .gate-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: min(100%, 320px);
+      margin-top: 1rem;
+      padding: 13px 22px;
+      color: var(--on-gold);
+      background: linear-gradient(135deg, var(--gold), var(--gold-deep));
+      border: 1px solid var(--gold);
+      border-radius: 999px;
+      font-family: var(--font-ar-body);
+      font-size: 0.98rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 10px 26px rgba(201, 166, 107, 0.24);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    }
+
+    .gate-button:hover {
+      filter: brightness(1.03);
+      transform: translateY(-1px);
+      box-shadow: 0 14px 32px rgba(201, 166, 107, 0.30);
+    }
+
+    .gate-button:active {
+      transform: translateY(0);
+    }
+
+    .gate-button:disabled {
+      cursor: wait;
+      opacity: 0.75;
+    }
+
+    .gate-button .dot {
+      opacity: 0.55;
+    }
+
+    .gate-message {
+      min-height: 1.5em;
+      margin: 1rem 0 0;
+      color: var(--error);
+      font-family: var(--font-ar-body);
+      font-size: 0.92rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .gate-message.is-visible {
+      opacity: 1;
+    }
+
+    @keyframes gateShake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-7px); }
+      40%, 80% { transform: translateX(7px); }
+    }
+
+    .gate-card.is-shaking {
+      animation: gateShake 0.45s ease-in-out;
+    }
+
+    /* ============================================================
+       Surprise shell
+       ============================================================ */
+    .surprise {
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+
+    .surprise.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .surprise:focus {
+      outline: none;
+    }
+
+    /* Language toggle */
+    .lang-toggle {
+      position: fixed;
+      top: max(14px, env(safe-area-inset-top));
+      right: max(14px, env(safe-area-inset-right));
+      z-index: 40;
+      display: flex;
+      gap: 2px;
+      padding: 4px;
+      background: var(--card);
+      border: 1px solid var(--line-soft);
+      border-radius: 999px;
+      box-shadow: var(--shadow-soft);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+
+    .lang-toggle button {
+      padding: 7px 10px;
+      color: var(--muted);
+      background: transparent;
+      border: 0;
+      border-radius: 999px;
+      font-family: var(--font-en-body);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .lang-toggle button:hover {
+      color: var(--plum);
+    }
+
+    .lang-toggle button[aria-pressed="true"] {
+      color: var(--ivory);
+      background: var(--plum);
+    }
+
+    /* ============================================================
+       Shared layout
+       ============================================================ */
+    .section {
+      width: min(100% - 40px, 980px);
+      margin-inline: auto;
+      padding: clamp(60px, 9vw, 104px) 0;
+    }
+
+    .section + .section {
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .section-title {
+      margin: 0;
+      text-align: center;
+      color: var(--plum);
+      font-weight: 700;
+    }
+
+    .section-title .ar {
+      display: block;
+      font-family: var(--font-ar-display);
+      font-size: clamp(1.75rem, 4.5vw, 2.45rem);
+      line-height: 1.5;
+    }
+
+    .section-title .en {
+      display: block;
+      margin-top: 0.1rem;
+      color: var(--muted);
+      font-family: var(--font-en-display);
+      font-size: clamp(1.2rem, 3vw, 1.55rem);
+      font-style: italic;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .gold-rule {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: min(280px, 72%);
+      margin: 1.15rem auto 0;
+      color: var(--gold);
+    }
+
+    .gold-rule::before,
+    .gold-rule::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+    }
+
+    .gold-rule::after {
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+
+    .gold-rule span {
+      font-size: 0.7rem;
+      line-height: 1;
+      transform: translateY(-1px);
+    }
+
+    .bilingual {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: clamp(28px, 5vw, 60px);
+      align-items: start;
+    }
+
+    .lang-ar {
+      font-family: var(--font-ar-body);
+      direction: rtl;
+      text-align: right;
+    }
+
+    .lang-en {
+      font-family: var(--font-en-body);
+      direction: ltr;
+      text-align: left;
+    }
+
+    /* Language visibility */
+    html[data-lang="ar"] .lang-en,
+    html[data-lang="en"] .lang-ar {
+      display: none !important;
+    }
+
+    html[data-lang="ar"] .bilingual,
+    html[data-lang="en"] .bilingual {
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 680px;
+      margin-inline: auto;
+    }
+
+    @media (max-width: 760px) {
+      .bilingual {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ============================================================
+       Hero
+       ============================================================ */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 92vh;
+      min-height: 92svh;
+      padding-top: clamp(90px, 14vh, 140px);
+      padding-bottom: clamp(50px, 9vh, 90px);
+      text-align: center;
+    }
+
+    .hero-eyebrow {
+      margin: 0;
+      color: var(--gold-ink);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .hero-eyebrow.en {
+      margin-top: 0.2rem;
+      font-family: var(--font-en-body);
+      font-size: 0.98rem;
+      font-style: italic;
+      letter-spacing: 0.12em;
+      text-transform: none;
+    }
+
+    .hero-title {
+      min-height: 1.55em;
+      margin: 0.7rem 0 0;
+      color: var(--plum);
+      font-family: var(--font-ar-display);
+      font-size: clamp(2rem, 6.5vw, 3.6rem);
+      font-weight: 700;
+      line-height: 1.55;
+      text-wrap: balance;
+    }
+
+    .hero-title.en {
+      min-height: 1.4em;
+      margin-top: 0.1rem;
+      font-family: var(--font-en-display);
+      font-size: clamp(1.55rem, 4.6vw, 2.65rem);
+      font-style: italic;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .typing {
+      border-inline-end: 2px solid var(--gold);
+      padding-inline-end: 3px;
+      animation: caretBlink 0.75s step-end infinite;
+    }
+
+    @keyframes caretBlink {
+      50% { border-color: transparent; }
+    }
+
+    .hero-note {
+      max-width: 540px;
+      margin: 0.9rem auto 0;
+      color: var(--muted);
+      font-size: clamp(0.98rem, 2.2vw, 1.12rem);
+      line-height: 1.9;
+    }
+
+    .hero-note.en {
+      margin-top: 0.35rem;
+      font-family: var(--font-en-body);
+      font-size: clamp(1.02rem, 2.4vw, 1.2rem);
+      font-style: italic;
+      line-height: 1.75;
+    }
+
+    /* ============================================================
+       Letter
+       ============================================================ */
+    .letter-card {
+      position: relative;
+      margin-top: clamp(30px, 5vw, 52px);
+      padding: clamp(26px, 5vw, 52px);
+      background: var(--card);
+      border: 1px solid var(--line-soft);
+      border-radius: 2px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .letter-card::before {
+      content: "\201C";
+      position: absolute;
+      top: 4px;
+      inset-inline-start: 22px;
+      color: var(--rose);
+      font-family: var(--font-en-display);
+      font-size: 4rem;
+      line-height: 1;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .letter-card p {
+      margin: 0 0 1.05em;
+      font-size: clamp(1.03rem, 2.1vw, 1.16rem);
+      line-height: 1.9;
+      text-wrap: pretty;
+    }
+
+    .letter-card .lang-ar p {
+      font-size: clamp(1.06rem, 2.2vw, 1.2rem);
+      line-height: 2.05;
+    }
+
+    .letter-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ============================================================
+       Timeline
+       ============================================================ */
+    .timeline {
+      position: relative;
+      margin-top: clamp(32px, 5vw, 52px);
+      padding: 6px 0;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: 8px;
+      width: 1px;
+      background: linear-gradient(var(--gold), var(--line-soft));
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-inline-start: 38px;
+      padding-bottom: clamp(30px, 5vw, 52px);
+    }
+
+    .timeline-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      inset-inline-start: 3px;
+      top: 7px;
+      width: 11px;
+      height: 11px;
+      background: var(--rose);
+      border: 2px solid var(--ivory);
+      border-radius: 50%;
+      box-shadow: 0 0 0 1px var(--gold);
+    }
+
+    .timeline-date {
+      margin: 0 0 0.35rem;
+      color: var(--gold-ink);
+      font-family: var(--font-en-body);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .timeline-title-ar {
+      margin: 0 0 0.3rem;
+      color: var(--plum);
+      font-family: var(--font-ar-display);
+      font-size: 1.35rem;
+      line-height: 1.6;
+    }
+
+    .timeline-title-en {
+      margin: 0 0 0.45rem;
+      color: var(--plum);
+      font-family: var(--font-en-display);
+      font-size: 1.12rem;
+      font-style: italic;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .timeline-text {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.01rem;
+      line-height: 1.85;
+    }
+
+    /* ============================================================
+       Reasons
+       ============================================================ */
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(14px, 2.5vw, 22px);
+      margin-top: clamp(32px, 5vw, 52px);
+    }
+
+    @media (max-width: 720px) {
+      .reasons-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .reason-card {
+      position: relative;
+      padding: clamp(22px, 4vw, 32px);
+      background: var(--card);
+      border: 1px solid var(--line-soft);
+      border-radius: 2px;
+      box-shadow: var(--shadow-soft);
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.7s ease, transform 0.7s ease, box-shadow 0.3s ease;
+    }
+
+    .reason-card.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (hover: hover) {
+      .reason-card.is-visible:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow);
+      }
+    }
+
+    .reason-card::after {
+      content: "";
+      position: absolute;
+      inset-inline-start: 0;
+      bottom: 0;
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: width 0.8s ease 0.15s;
+    }
+
+    .reason-card.is-visible::after {
+      width: 100%;
+    }
+
+    .reason-number {
+      display: block;
+      margin-bottom: 0.8rem;
+      color: var(--gold-ink);
+      font-family: var(--font-en-display);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+    }
+
+    .reason-card p {
+      margin: 0 0 0.6rem;
+      font-size: 1.02rem;
+      line-height: 1.8;
+      text-wrap: pretty;
+    }
+
+    .reason-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .reason-card .lang-en {
+      color: var(--muted);
+      font-family: var(--font-en-body);
+      font-size: 1.08rem;
+      font-style: italic;
+    }
+
+    /* ============================================================
+       Closing
+       ============================================================ */
+    .closing {
+      padding-bottom: clamp(80px, 12vw, 140px);
+      text-align: center;
+    }
+
+    .closing-line {
+      max-width: 640px;
+      margin: 0 auto 1rem;
+      color: var(--muted);
+      font-size: clamp(1.03rem, 2.3vw, 1.18rem);
+      line-height: 1.95;
+      text-wrap: pretty;
+    }
+
+    .closing-line.en {
+      margin-top: 0.35rem;
+      font-family: var(--font-en-body);
+      font-size: clamp(1.06rem, 2.4vw, 1.22rem);
+      font-style: italic;
+    }
+
+    .signature {
+      margin: 1.5rem 0 0;
+      color: var(--plum);
+      font-family: var(--font-ar-display);
+      font-size: clamp(1.65rem, 4vw, 2.2rem);
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .signature.en {
+      margin-top: 0.15rem;
+      font-family: var(--font-en-display);
+      font-size: clamp(1.3rem, 3vw, 1.75rem);
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    .heart {
+      width: 36px;
+      height: 36px;
+      margin: 1.4rem auto 0;
+      color: var(--rose);
+      animation: heartbeat 2s ease-in-out infinite;
+    }
+
+    .heart svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      14% { transform: scale(1.13); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.09); }
+      56% { transform: scale(1); }
+    }
+
+    .petal-button {
+      margin-top: 1.8rem;
+      padding: 12px 26px;
+      color: var(--plum);
+      background: transparent;
+      border: 1px solid var(--gold);
+      border-radius: 999px;
+      font-family: var(--font-ar-body);
+      font-size: 0.98rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color 0.25s ease, background 0.25s ease, transform 0.2s ease;
+    }
+
+    .petal-button:hover {
+      color: var(--on-gold);
+      background: var(--gold);
+      transform: translateY(-1px);
+    }
+
+    .petal-button:active {
+      transform: translateY(0);
+    }
+
+    .petal-button.is-loved {
+      animation: loved 0.7s ease;
+    }
+
+    @keyframes loved {
+      0%, 100% { transform: scale(1); }
+      35% { transform: scale(1.05); }
+      65% { transform: scale(0.99); }
+    }
+
+    /* ============================================================
+       Reduced motion
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
+
+      .reveal,
+      .reason-card {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      .typing {
+        border-inline-end: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Soft floating petals behind the page -->
+  <canvas id="petals" aria-hidden="true"></canvas>
+
+  <!-- ==========================================================
+       GATE
+       ========================================================== -->
+  <main id="gate" class="gate" aria-labelledby="gateTitle">
+    <div id="gateCard" class="gate-card">
+      <div class="gate-ornament" aria-hidden="true">✦ ✦ ✦</div>
+
+      <p class="gate-eyebrow lang-ar" lang="ar" dir="rtl">مساحة صغيرة، ليكي وحدك</p>
+      <p class="gate-eyebrow en lang-en" lang="en" dir="ltr">A little space, just for you</p>
+
+      <h1 id="gateTitle" class="gate-title">For Shahd</h1>
+
+      <div class="gold-rule" aria-hidden="true"><span>✦</span></div>
+
+      <div class="gate-prompts">
+        <p class="gate-prompt ar lang-ar" lang="ar" dir="rtl">اكتبي الكلمة السرية 🔑</p>
+        <p class="gate-prompt en lang-en" lang="en" dir="ltr">Enter our secret word</p>
+      </div>
+
+      <form id="gateForm" class="gate-form" novalidate>
+        <label class="sr-only" for="passwordInput">اكتبي الكلمة السرية / Enter our secret word</label>
+
+        <div class="input-wrap">
+          <input
+            id="passwordInput"
+            class="gate-input"
+            type="password"
+            name="secret"
+            placeholder="• • • • • • •"
+            autocomplete="off"
+            autocapitalize="off"
+            autocorrect="off"
+            spellcheck="false"
+            inputmode="text"
+            aria-describedby="gateMessage"
+          >
+          <button
+            id="togglePassword"
+            class="eye-button"
+            type="button"
+            aria-label="Show password"
+            aria-pressed="false"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path>
+              <circle cx="12" cy="12" r="2.6"></circle>
+            </svg>
+          </button>
+        </div>
+
+        <button id="gateSubmit" class="gate-button" type="submit">
+          <span>افتحي القلب</span>
+          <span class="dot" aria-hidden="true">·</span>
+          <span>Open the heart</span>
+        </button>
+
+        <p id="gateMessage" class="gate-message" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </main>
+
+  <!-- ==========================================================
+       SURPRISE (kept in a template until the password is correct)
+       ========================================================== -->
+  <template id="surpriseTemplate">
+    <main id="surprise" class="surprise" tabindex="-1" aria-hidden="true">
+
+      <!-- Language toggle -->
+      <nav class="lang-toggle" aria-label="Language">
+        <button type="button" data-lang="ar" aria-pressed="false" aria-label="Arabic">AR</button>
+        <button type="button" data-lang="en" aria-pressed="false" aria-label="English">EN</button>
+        <button type="button" data-lang="both" aria-pressed="true" aria-label="Both languages">Both</button>
+      </nav>
+
+      <!-- 1. Opening -->
+      <header id="opening" class="hero section reveal" aria-labelledby="openingTitle">
+        <p class="hero-eyebrow lang-ar" lang="ar" dir="rtl">إلى شهد</p>
+        <p class="hero-eyebrow en lang-en" lang="en" dir="ltr">For Shahd</p>
+
+        <h1 id="openingTitle" class="hero-title lang-ar" lang="ar" dir="rtl" aria-label="كل سنة وانتي طيبة يا شهد">كل سنة وانتي طيبة يا شهد 🤍</h1>
+        <p class="hero-title en lang-en" lang="en" dir="ltr" aria-label="Happy Birthday, Shahd">Happy Birthday, Shahd</p>
+
+        <div class="gold-rule" aria-hidden="true"><span>✦</span></div>
+
+        <p id="heroNoteAr" class="hero-note lang-ar" lang="ar" dir="rtl"></p>
+        <p id="heroNoteEn" class="hero-note en lang-en" lang="en" dir="ltr"></p>
+      </header>
+
+      <!-- 2. Letter -->
+      <section id="letter" class="section reveal" aria-labelledby="letterTitle">
+        <h2 id="letterTitle" class="section-title">
+          <span id="letterTitleAr" class="ar lang-ar" lang="ar" dir="rtl">رسالة من مصطفى</span>
+          <span id="letterTitleEn" class="en lang-en" lang="en" dir="ltr">A letter from Mostafa</span>
+        </h2>
+        <div class="gold-rule" aria-hidden="true"><span>✦</span></div>
+
+        <div class="letter-card">
+          <div class="bilingual">
+            <div id="letterAr" class="lang-ar" lang="ar" dir="rtl"></div>
+            <div id="letterEn" class="lang-en" lang="en" dir="ltr"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Our moments -->
+      <section id="moments" class="section reveal" aria-labelledby="momentsTitle">
+        <h2 id="momentsTitle" class="section-title">
+          <span id="momentsTitleAr" class="ar lang-ar" lang="ar" dir="rtl">لحظاتنا</span>
+          <span id="momentsTitleEn" class="en lang-en" lang="en" dir="ltr">Our moments</span>
+        </h2>
+        <div class="gold-rule" aria-hidden="true"><span>✦</span></div>
+
+        <div id="timeline" class="timeline"></div>
+      </section>
+
+      <!-- 4. Reasons -->
+      <section id="reasons" class="section reveal" aria-labelledby="reasonsTitle">
+        <h2 id="reasonsTitle" class="section-title">
+          <span id="reasonsTitleAr" class="ar lang-ar" lang="ar" dir="rtl">أسباب بحبك عشانها</span>
+          <span id="reasonsTitleEn" class="en lang-en" lang="en" dir="ltr">Reasons I love you</span>
+        </h2>
+        <div class="gold-rule" aria-hidden="true"><span>✦</span></div>
+
+        <div id="reasonsGrid" class="reasons-grid"></div>
+      </section>
+
+      <!-- 5. Closing -->
+      <footer id="closing" class="section closing reveal">
+        <div class="gold-rule" aria-hidden="true"><span>✦</span></div>
+
+        <p id="closingAr" class="closing-line lang-ar" lang="ar" dir="rtl"></p>
+        <p id="closingEn" class="closing-line en lang-en" lang="en" dir="ltr"></p>
+
+        <p id="signatureAr" class="signature lang-ar" lang="ar" dir="rtl">حبيبك مصطفى</p>
+        <p id="signatureEn" class="signature en lang-en" lang="en" dir="ltr">Yours, Mostafa</p>
+
+        <div class="heart" aria-hidden="true">
+          <svg viewBox="0 0 32 32">
+            <defs>
+              <linearGradient id="heartGradient" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#D8A7B1"></stop>
+                <stop offset="100%" stop-color="#C9A66B"></stop>
+              </linearGradient>
+            </defs>
+            <path d="M16 28.2 4.9 17.6C1.4 14.2 1.9 8.6 5.8 5.8c3.1-2.2 7.2-1.5 9.4 1.4L16 8.4l.8-1.2c2.2-2.9 6.3-3.6 9.4-1.4 3.9 2.8 4.4 8.4.9 11.8L16 28.2Z" fill="url(#heartGradient)"></path>
+          </svg>
+        </div>
+
+        <button id="petalButton" class="petal-button" type="button" aria-label="Tap here for rose petals">
+          اضغطي هنا 💌 <span aria-hidden="true">/</span> Tap here
+        </button>
+      </footer>
+    </main>
+  </template>
+
+  <!-- Petal confetti canvas -->
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <script>
+    (function () {
+      "use strict";
+
+      /* ============================================================
+         CONFIG — edit all of your text here
+         ============================================================ */
+      const CONFIG = {
+        // [OCCASION] — change this to "Birthday", "Anniversary",
+        // "Valentine’s Day", or anything that fits your day.
+        occasion: "Birthday",
+
+        // Opening lines (the typewriter uses these)
+        openingAr: "كل سنة وانتي طيبة يا شهد 🤍",
+        openingEn: "Happy [OCCASION], Shahd",
+
+        // Small line under the opening
+        heroNoteAr: "يوم صغير في التقويم، وكبير في قلبي.",
+        heroNoteEn: "A small day on the calendar, a big one in my heart.",
+
+        // Section headings (bilingual)
+        labels: {
+          letterAr: "رسالة من مصطفى",
+          letterEn: "A letter from Mostafa",
+          momentsAr: "لحظاتنا",
+          momentsEn: "Our moments",
+          reasonsAr: "أسباب بحبك عشانها",
+          reasonsEn: "Reasons I love you"
+        },
+
+        // Letter — each item is one paragraph.
+        // Add, remove, or rewrite the lines freely.
+        letterAr: [
+          "شهد، من أول يوم دخلتي فيه حياتي، حسّيت إن الدنيا بقت أهدى شوية… وأحلى بكتير.",
+          "مش عارف أحدد اللحظة اللي بدأت فيها الحكاية، بس عارف إن كل يوم معاكي بقى ليه طعم مختلف.",
+          "بحب فيكي حنية قلبك، وطريقتك لما بتضحكي من غير ما تاخدي بالك، وإنك دايمًا بتلاقي حاجة حلوة تقوليها حتى في أصعب يوم.",
+          "انتي مش بس الشخص اللي بحبه؛ انتي البيت اللي برتاح فيه، والأمان اللي كنت بدور عليه من غير ما أقول.",
+          "بحاول أكون أحسن عشانك، مش عشان أنا محتاج أتغير، بس عشان انتي تستاهلي كل حاجة حلوة.",
+          "ولو الدنيا زحمتنا، عايزك تفتكري إن فيه حد هنا مستني يسمعك، ويطمنك، ويحبك من غير شروط.",
+          "كل سنة وانتي طيبة يا شهد، وربنا يخليكي ليا، ويخلي أيامنا كلها خير وضحك وراحة بال."
+        ],
+        letterEn: [
+          "Shahd, from the first day you walked into my life, everything has felt a little quieter — and so much brighter.",
+          "I can’t point to the exact moment our story began, but I know that every day with you has its own taste, its own little light.",
+          "I love the way your heart works: how you notice the small things, how you laugh without realizing it, and how you always find something kind to say, even on the hardest days.",
+          "You are not just the person I love. You are the place I come home to — the calm I didn’t know I was looking for.",
+          "I try to be better because of you, not because I need to become someone else, but because you deserve every good thing.",
+          "And when the world gets loud, I hope you remember there is someone here who will always listen, always reassure you, and love you without conditions.",
+          "Happy [OCCASION], Shahd. May God keep you in my life, and may our days be full of warmth, laughter, and peace."
+        ],
+
+        // Timeline — 3 to 5 memories (add or remove objects freely)
+        memories: [
+          {
+            date: "2024",
+            titleAr: "أول مرة اتكلمنا",
+            titleEn: "The first hello",
+            textAr: "لسه فاكر أول كلمة… ومن ساعتها وأنا حاسس إن في حاجة حلوة بتبدأ.",
+            textEn: "I still remember the first message — and the feeling that something lovely had quietly begun."
+          },
+          {
+            date: "2024",
+            titleAr: "أول ضحكة",
+            titleEn: "The first laugh",
+            textAr: "ضحكتك الأولى اللي خلتني أعرف إن اليوم ده مش هيتعدّي عادي.",
+            textEn: "That first laugh of yours — the one that told me the day would never be ordinary again."
+          },
+          {
+            date: "2025",
+            titleAr: "أول وعد",
+            titleEn: "The first promise",
+            textAr: "وعد صغير، بس معناه كبير: إننا نفضل نحاول، مهما كانت الدنيا مشغولة.",
+            textEn: "A small promise with a big meaning: that we keep trying, even when the world gets busy."
+          },
+          {
+            date: "2026",
+            titleAr: "يوم عادي",
+            titleEn: "An ordinary day",
+            textAr: "أحلى حاجة فينا مش المناسبات؛ أحلى حاجة إننا بنبقى عادي مع بعض.",
+            textEn: "My favorite thing about us isn’t the occasions — it’s how ordinary days feel special with you."
+          }
+        ],
+
+        // Reasons — 6 to 8 cards. Each reason has Arabic and English.
+        // You can also use one string with " / " between the two languages.
+        reasons: [
+          {
+            ar: "لأن قلبك طيب من غير مجهود، وبتحسي بالناس قبل ما يتكلموا.",
+            en: "Because your kindness is effortless — you feel people before they speak."
+          },
+          {
+            ar: "لأن ضحكتك بتغيّر مزاج اليوم كله، حتى لو كان طويل.",
+            en: "Because your laugh can change the mood of a whole day, even a long one."
+          },
+          {
+            ar: "لأنك بتسمعيني بجد، مش بس بتستني دورك في الكلام.",
+            en: "Because you actually listen — not just wait for your turn to speak."
+          },
+          {
+            ar: "لأنك قوية في حاجات كتير، وبتختاري تفضلي حنية في نفس الوقت.",
+            en: "Because you are strong in so many ways, and still choose to stay soft."
+          },
+          {
+            ar: "لأنك بتفكريني إن الحب مش كلام كبير، هو تفاصيل صغيرة كل يوم.",
+            en: "Because you remind me that love isn’t grand speeches — it’s the small details, every day."
+          },
+          {
+            ar: "لأن وجودك بيخلي الأماكن العادية تبقى ليها حكاية.",
+            en: "Because your presence turns ordinary places into stories worth keeping."
+          },
+          {
+            ar: "لأنك بتزعلي وتصالحيني في نفس اليوم، وعارفة إننا أهم من أي خلاف.",
+            en: "Because you can be upset and make peace in the same day — you know we matter more than any argument."
+          },
+          {
+            ar: "لأنك شهد؛ مش محتاجة سبب تاني.",
+            en: "Because you are Shahd — and that’s reason enough."
+          }
+        ],
+
+        // Closing
+        closingAr: "دايمًا معاكي… ومهما الدنيا لفّت، هتلاقيني في نفس المكان.",
+        closingEn: "Always with you — wherever the world turns, you’ll find me in the same place.",
+        signatureAr: "حبيبك مصطفى",
+        signatureEn: "Yours, Mostafa"
+      };
+
+      /* ============================================================
+         Password — only the SHA-256 hash is stored here
+         ============================================================ */
+      const PASSWORD_HASH = "64987531e7c8cabf8fee6215c21e589be0d3abf1979d4705a898e94775061256";
+
+      /* ============================================================
+         Small helpers
+         ============================================================ */
+      const $ = (selector, root) => (root || document).querySelector(selector);
+      const $$ = (selector, root) => Array.from((root || document).querySelectorAll(selector));
+      const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+      const interpolate = (value) => String(value).replace(/\[OCCASION\]/g, CONFIG.occasion);
+
+      function make(tag, className, text) {
+        const node = document.createElement(tag);
+        if (className) node.className = className;
+        if (text !== undefined && text !== null) node.textContent = text;
+        return node;
+      }
+
+      function normalizeReason(entry) {
+        if (typeof entry === "string") {
+          const parts = entry.split(" / ");
+          return { ar: parts[0] || entry, en: parts.slice(1).join(" / ") || "" };
+        }
+        return { ar: entry.ar || "", en: entry.en || "" };
+      }
+
+      /* ============================================================
+         SHA-256 (crypto.subtle, with a small fallback for local files)
+         ============================================================ */
+      function sha256Fallback(message) {
+        const bytes = new TextEncoder().encode(message);
+        const bitLength = bytes.length * 8;
+        const paddedLength = (((bytes.length + 9) + 63) >> 6) << 6;
+        const padded = new Uint8Array(paddedLength);
+        padded.set(bytes);
+        padded[bytes.length] = 0x80;
+
+        const view = new DataView(padded.buffer);
+        view.setUint32(paddedLength - 8, Math.floor(bitLength / 0x100000000), false);
+        view.setUint32(paddedLength - 4, bitLength >>> 0, false);
+
+        const K = new Uint32Array([
+          0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+          0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+          0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+          0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+          0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+          0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+          0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+          0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
+        ]);
+
+        const rotr = (x, n) => (x >>> n) | (x << (32 - n));
+        let h0 = 0x6a09e667;
+        let h1 = 0xbb67ae85;
+        let h2 = 0x3c6ef372;
+        let h3 = 0xa54ff53a;
+        let h4 = 0x510e527f;
+        let h5 = 0x9b05688c;
+        let h6 = 0x1f83d9ab;
+        let h7 = 0x5be0cd19;
+        const w = new Uint32Array(64);
+
+        for (let offset = 0; offset < paddedLength; offset += 64) {
+          for (let i = 0; i < 16; i += 1) {
+            w[i] = view.getUint32(offset + i * 4, false);
+          }
+          for (let i = 16; i < 64; i += 1) {
+            const s0 = rotr(w[i - 15], 7) ^ rotr(w[i - 15], 18) ^ (w[i - 15] >>> 3);
+            const s1 = rotr(w[i - 2], 17) ^ rotr(w[i - 2], 19) ^ (w[i - 2] >>> 10);
+            w[i] = (w[i - 16] + s0 + w[i - 7] + s1) >>> 0;
+          }
+
+          let a = h0;
+          let b = h1;
+          let c = h2;
+          let d = h3;
+          let e = h4;
+          let f = h5;
+          let g = h6;
+          let h = h7;
+
+          for (let i = 0; i < 64; i += 1) {
+            const S1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25);
+            const ch = (e & f) ^ (~e & g);
+            const temp1 = (h + S1 + ch + K[i] + w[i]) >>> 0;
+            const S0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22);
+            const maj = (a & b) ^ (a & c) ^ (b & c);
+            const temp2 = (S0 + maj) >>> 0;
+
+            h = g;
+            g = f;
+            f = e;
+            e = (d + temp1) >>> 0;
+            d = c;
+            c = b;
+            b = a;
+            a = (temp1 + temp2) >>> 0;
+          }
+
+          h0 = (h0 + a) >>> 0;
+          h1 = (h1 + b) >>> 0;
+          h2 = (h2 + c) >>> 0;
+          h3 = (h3 + d) >>> 0;
+          h4 = (h4 + e) >>> 0;
+          h5 = (h5 + f) >>> 0;
+          h6 = (h6 + g) >>> 0;
+          h7 = (h7 + h) >>> 0;
+        }
+
+        return [h0, h1, h2, h3, h4, h5, h6, h7]
+          .map((value) => value.toString(16).padStart(8, "0"))
+          .join("");
+      }
+
+      async function sha256Hex(text) {
+        if (window.crypto && window.crypto.subtle && window.isSecureContext) {
+          const data = new TextEncoder().encode(text);
+          const buffer = await window.crypto.subtle.digest("SHA-256", data);
+          return Array.from(new Uint8Array(buffer))
+            .map((byte) => byte.toString(16).padStart(2, "0"))
+            .join("");
+        }
+        return sha256Fallback(text);
+      }
+
+      /* ============================================================
+         Gate
+         ============================================================ */
+      const gate = $("#gate");
+      const gateCard = $("#gateCard");
+      const gateForm = $("#gateForm");
+      const passwordInput = $("#passwordInput");
+      const gateMessage = $("#gateMessage");
+      const gateSubmit = $("#gateSubmit");
+      const togglePassword = $("#togglePassword");
+      let checking = false;
+
+      function setGateMessage(text) {
+        gateMessage.textContent = text;
+        gateMessage.classList.add("is-visible");
+      }
+
+      function clearGateMessage() {
+        gateMessage.textContent = "";
+        gateMessage.classList.remove("is-visible");
+      }
+
+      function shakeGate() {
+        gateCard.classList.remove("is-shaking");
+        void gateCard.offsetWidth;
+        gateCard.classList.add("is-shaking");
+        window.setTimeout(() => gateCard.classList.remove("is-shaking"), 500);
+      }
+
+      function failGate() {
+        shakeGate();
+        setGateMessage("قريبة... جربي تاني 🤍 / So close... try again");
+        passwordInput.setAttribute("aria-invalid", "true");
+        passwordInput.select();
+      }
+
+      async function unlock() {
+        gate.classList.add("is-leaving");
+        await wait(700);
+        gate.remove();
+
+        const template = document.getElementById("surpriseTemplate");
+        document.body.appendChild(template.content.cloneNode(true));
+
+        const surprise = document.getElementById("surprise");
+        surprise.setAttribute("aria-hidden", "false");
+        window.scrollTo(0, 0);
+        initSurprise();
+
+        // Force a style calculation, then fade the surprise in. This also
+        // guarantees the page is visible even if rAF is delayed by the browser.
+        void surprise.offsetWidth;
+        surprise.classList.add("is-visible");
+        window.setTimeout(() => surprise.focus({ preventScroll: true }), 50);
+      }
+
+      gateForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (checking) return;
+
+        const value = passwordInput.value.trim();
+        if (!value) {
+          shakeGate();
+          setGateMessage("اكتبي الكلمة الأول / Write the word first");
+          passwordInput.focus();
+          return;
+        }
+
+        checking = true;
+        gateSubmit.disabled = true;
+
+        try {
+          const hash = await sha256Hex(value);
+          if (hash === PASSWORD_HASH) {
+            clearGateMessage();
+            await unlock();
+          } else {
+            failGate();
+          }
+        } catch (error) {
+          setGateMessage("حصلت مشكلة صغيرة… جربي تاني / A tiny glitch… please try again");
+        } finally {
+          checking = false;
+          gateSubmit.disabled = false;
+        }
+      });
+
+      passwordInput.addEventListener("input", () => {
+        passwordInput.removeAttribute("aria-invalid");
+      });
+
+      togglePassword.addEventListener("click", () => {
+        const show = passwordInput.type === "password";
+        passwordInput.type = show ? "text" : "password";
+        togglePassword.setAttribute("aria-pressed", String(show));
+        togglePassword.setAttribute("aria-label", show ? "Hide password" : "Show password");
+        passwordInput.focus();
+      });
+
+      if (window.matchMedia("(pointer: fine)").matches) {
+        window.setTimeout(() => passwordInput.focus({ preventScroll: true }), 250);
+      }
+
+      /* ============================================================
+         Surprise setup
+         ============================================================ */
+      function initSurprise() {
+        setLanguage("both");
+        renderHero();
+        renderLabels();
+        renderLetter();
+        renderTimeline();
+        renderReasons();
+        renderClosing();
+        initLanguageButtons();
+        initReveal();
+        initReasonsReveal();
+        initPetals();
+        initConfetti();
+        startTypewriters();
+      }
+
+      function setLanguage(lang) {
+        const safe = ["ar", "en", "both"].includes(lang) ? lang : "both";
+        document.documentElement.dataset.lang = safe;
+        document.documentElement.lang = safe === "en" ? "en" : "ar";
+        document.documentElement.dir = safe === "en" ? "ltr" : "rtl";
+
+        $$(".lang-toggle [data-lang]").forEach((button) => {
+          button.setAttribute("aria-pressed", String(button.dataset.lang === safe));
+        });
+      }
+
+      function initLanguageButtons() {
+        $$(".lang-toggle [data-lang]").forEach((button) => {
+          button.addEventListener("click", () => setLanguage(button.dataset.lang));
+        });
+      }
+
+      function renderHero() {
+        const ar = $("#openingTitle");
+        const en = $(".hero-title.en");
+        const noteAr = $("#heroNoteAr");
+        const noteEn = $("#heroNoteEn");
+
+        ar.dataset.full = interpolate(CONFIG.openingAr);
+        en.dataset.full = interpolate(CONFIG.openingEn);
+        noteAr.textContent = interpolate(CONFIG.heroNoteAr);
+        noteEn.textContent = interpolate(CONFIG.heroNoteEn);
+
+        // Keep the accessible labels in sync with the editable text
+        ar.setAttribute("aria-label", ar.dataset.full);
+        en.setAttribute("aria-label", en.dataset.full);
+
+        // Fallback if typewriter is skipped
+        ar.textContent = ar.dataset.full;
+        en.textContent = en.dataset.full;
+      }
+
+      function typeText(element, text, speed) {
+        const characters = Array.from(text);
+        let index = 0;
+        element.textContent = "";
+        element.classList.add("typing");
+
+        function tick() {
+          if (index >= characters.length) {
+            element.textContent = text;
+            element.classList.remove("typing");
+            return;
+          }
+          index += 1;
+          element.textContent = characters.slice(0, index).join("");
+          window.setTimeout(tick, speed + Math.random() * 28);
+        }
+
+        window.setTimeout(tick, 420);
+      }
+
+      function startTypewriters() {
+        const ar = $("#openingTitle");
+        const en = $(".hero-title.en");
+        const fullAr = ar.dataset.full || ar.textContent;
+        const fullEn = en.dataset.full || en.textContent;
+
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          ar.textContent = fullAr;
+          en.textContent = fullEn;
+          return;
+        }
+
+        typeText(ar, fullAr, 42);
+        typeText(en, fullEn, 42);
+      }
+
+      function renderLabels() {
+        $("#letterTitleAr").textContent = CONFIG.labels.letterAr;
+        $("#letterTitleEn").textContent = CONFIG.labels.letterEn;
+        $("#momentsTitleAr").textContent = CONFIG.labels.momentsAr;
+        $("#momentsTitleEn").textContent = CONFIG.labels.momentsEn;
+        $("#reasonsTitleAr").textContent = CONFIG.labels.reasonsAr;
+        $("#reasonsTitleEn").textContent = CONFIG.labels.reasonsEn;
+      }
+
+      function renderLetter() {
+        const ar = $("#letterAr");
+        const en = $("#letterEn");
+        ar.textContent = "";
+        en.textContent = "";
+
+        CONFIG.letterAr.forEach((line) => {
+          ar.appendChild(make("p", null, interpolate(line)));
+        });
+        CONFIG.letterEn.forEach((line) => {
+          en.appendChild(make("p", null, interpolate(line)));
+        });
+      }
+
+      function renderTimeline() {
+        const timeline = $("#timeline");
+        timeline.textContent = "";
+
+        CONFIG.memories.forEach((memory) => {
+          const item = make("article", "timeline-item");
+          item.appendChild(make("p", "timeline-date", interpolate(memory.date)));
+
+          const bilingual = make("div", "bilingual");
+
+          const ar = make("div", "lang-ar");
+          ar.lang = "ar";
+          ar.dir = "rtl";
+          ar.appendChild(make("h3", "timeline-title-ar", interpolate(memory.titleAr)));
+          ar.appendChild(make("p", "timeline-text", interpolate(memory.textAr)));
+
+          const en = make("div", "lang-en");
+          en.lang = "en";
+          en.dir = "ltr";
+          en.appendChild(make("h3", "timeline-title-en", interpolate(memory.titleEn)));
+          en.appendChild(make("p", "timeline-text", interpolate(memory.textEn)));
+
+          bilingual.appendChild(ar);
+          bilingual.appendChild(en);
+          item.appendChild(bilingual);
+          timeline.appendChild(item);
+        });
+      }
+
+      function renderReasons() {
+        const grid = $("#reasonsGrid");
+        grid.textContent = "";
+
+        CONFIG.reasons.forEach((entry, index) => {
+          const reason = normalizeReason(entry);
+          const card = make("div", "reason-card");
+
+          card.appendChild(make("span", "reason-number", String(index + 1).padStart(2, "0")));
+
+          const ar = make("p", "lang-ar", interpolate(reason.ar));
+          ar.lang = "ar";
+          ar.dir = "rtl";
+          card.appendChild(ar);
+
+          const en = make("p", "lang-en", interpolate(reason.en));
+          en.lang = "en";
+          en.dir = "ltr";
+          card.appendChild(en);
+
+          grid.appendChild(card);
+        });
+      }
+
+      function renderClosing() {
+        $("#closingAr").textContent = interpolate(CONFIG.closingAr);
+        $("#closingEn").textContent = interpolate(CONFIG.closingEn);
+        $("#signatureAr").textContent = CONFIG.signatureAr;
+        $("#signatureEn").textContent = CONFIG.signatureEn;
+      }
+
+      function initReveal() {
+        const elements = $$(".reveal");
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        if (reduced || !("IntersectionObserver" in window)) {
+          elements.forEach((element) => element.classList.add("is-visible"));
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+        );
+
+        elements.forEach((element) => observer.observe(element));
+
+        // The hero is already in view; show it immediately.
+        const hero = $("#opening");
+        if (hero) hero.classList.add("is-visible");
+
+        // Safety net: never leave content invisible if an observer is delayed.
+        window.setTimeout(() => {
+          elements.forEach((element) => element.classList.add("is-visible"));
+        }, 6000);
+      }
+
+      function initReasonsReveal() {
+        const cards = $$(".reason-card");
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        if (reduced || !("IntersectionObserver" in window)) {
+          cards.forEach((card) => card.classList.add("is-visible"));
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const card = entry.target;
+                const index = cards.indexOf(card);
+                card.style.transitionDelay = Math.min(index, 7) * 80 + "ms";
+                card.classList.add("is-visible");
+                observer.unobserve(card);
+              }
+            });
+          },
+          { threshold: 0.15 }
+        );
+
+        cards.forEach((card) => observer.observe(card));
+
+        // Safety net for delayed observers
+        window.setTimeout(() => {
+          cards.forEach((card) => card.classList.add("is-visible"));
+        }, 6000);
+      }
+
+      /* ============================================================
+         Petal drawing (shared by background and confetti)
+         ============================================================ */
+      function drawPetalShape(ctx, x, y, size, rotation, color, alpha) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(rotation);
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.moveTo(0, -size);
+        ctx.bezierCurveTo(size * 0.9, -size * 0.55, size * 0.65, size * 0.55, 0, size);
+        ctx.bezierCurveTo(-size * 0.65, size * 0.55, -size * 0.9, -size * 0.55, 0, -size);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      /* ============================================================
+         Background petals
+         ============================================================ */
+      function initPetals() {
+        const canvas = $("#petals");
+        if (!canvas) return;
+
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const colors = ["rgba(216, 167, 177, ", "rgba(201, 166, 107, ", "rgba(224, 180, 190, "];
+        let width = 0;
+        let height = 0;
+        let dpr = 1;
+        let petals = [];
+        let frameId = null;
+        let running = false;
+        let lastTime = 0;
+
+        function makePetal(initial) {
+          return {
+            x: Math.random() * width,
+            y: initial ? Math.random() * height : -20,
+            size: 5 + Math.random() * 7,
+            speedY: 0.15 + Math.random() * 0.35,
+            sway: 10 + Math.random() * 20,
+            phase: Math.random() * Math.PI * 2,
+            spin: (Math.random() - 0.5) * 0.01,
+            rotation: Math.random() * Math.PI * 2,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            alpha: 0.12 + Math.random() * 0.18
+          };
+        }
+
+        function buildPetals() {
+          const count = width < 600 ? 9 : 16;
+          petals = Array.from({ length: count }, () => makePetal(true));
+        }
+
+        function drawPetal(petal, time) {
+          const x = petal.x + Math.sin(time * 0.0006 + petal.phase) * petal.sway;
+          drawPetalShape(ctx, x, petal.y, petal.size, petal.rotation, petal.color + petal.alpha + ")", 1);
+        }
+
+        function drawStatic() {
+          ctx.clearRect(0, 0, width, height);
+          petals.forEach((petal, index) => {
+            petal.y = ((index + 0.5) * height) / Math.max(petals.length, 1);
+            drawPetal(petal, index * 1000);
+          });
+        }
+
+        function frame(time) {
+          if (!running) return;
+          const delta = Math.min(time - lastTime, 50);
+          lastTime = time;
+
+          ctx.clearRect(0, 0, width, height);
+          petals.forEach((petal) => {
+            petal.y += petal.speedY * delta * 0.06;
+            petal.rotation += petal.spin * delta * 0.06;
+            if (petal.y > height + 30) {
+              Object.assign(petal, makePetal(false));
+            }
+            drawPetal(petal, time);
+          });
+
+          frameId = window.requestAnimationFrame(frame);
+        }
+
+        function start() {
+          if (reduced) {
+            drawStatic();
+            return;
+          }
+          if (running) return;
+          running = true;
+          lastTime = window.performance.now();
+          frameId = window.requestAnimationFrame(frame);
+        }
+
+        function stop() {
+          running = false;
+          if (frameId) window.cancelAnimationFrame(frameId);
+          frameId = null;
+        }
+
+        function resize() {
+          dpr = Math.min(window.devicePixelRatio || 1, 2);
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = Math.round(width * dpr);
+          canvas.height = Math.round(height * dpr);
+          canvas.style.width = width + "px";
+          canvas.style.height = height + "px";
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          buildPetals();
+          if (reduced) drawStatic();
+        }
+
+        window.addEventListener("resize", resize);
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden) {
+            stop();
+          } else {
+            start();
+          }
+        });
+
+        resize();
+        start();
+      }
+
+      /* ============================================================
+         Rose-petal confetti
+         ============================================================ */
+      function initConfetti() {
+        const canvas = $("#confetti");
+        const button = $("#petalButton");
+        if (!canvas || !button) return;
+
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const colors = ["#D8A7B1", "#C9A66B", "#E0B4BE", "#B98A97"];
+        let width = 0;
+        let height = 0;
+        let dpr = 1;
+        let particles = [];
+        let frameId = null;
+        let lastTime = 0;
+
+        function resize() {
+          dpr = Math.min(window.devicePixelRatio || 1, 2);
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = Math.round(width * dpr);
+          canvas.height = Math.round(height * dpr);
+          canvas.style.width = width + "px";
+          canvas.style.height = height + "px";
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+
+        function frame(time) {
+          if (!lastTime) lastTime = time;
+          const delta = Math.min(time - lastTime, 50);
+          lastTime = time;
+
+          ctx.clearRect(0, 0, width, height);
+
+          particles.forEach((particle) => {
+            particle.vy += 0.08 * delta * 0.06;
+            particle.vx *= 0.995;
+            particle.x += particle.vx * delta * 0.06;
+            particle.y += particle.vy * delta * 0.06;
+            particle.rotation += particle.spin * delta * 0.06;
+            particle.life -= 0.008 * delta * 0.06;
+
+            if (particle.life > 0) {
+              drawPetalShape(
+                ctx,
+                particle.x,
+                particle.y,
+                particle.size,
+                particle.rotation,
+                particle.color,
+                Math.max(0, particle.life)
+              );
+            }
+          });
+
+          particles = particles.filter((particle) => particle.life > 0 && particle.y < height + 60);
+
+          if (particles.length) {
+            frameId = window.requestAnimationFrame(frame);
+          } else {
+            frameId = null;
+            lastTime = 0;
+            ctx.clearRect(0, 0, width, height);
+          }
+        }
+
+        function burst() {
+          button.classList.remove("is-loved");
+          void button.offsetWidth;
+          button.classList.add("is-loved");
+          window.setTimeout(() => button.classList.remove("is-loved"), 750);
+
+          if (reduced) return;
+
+          const rect = button.getBoundingClientRect();
+          const originX = rect.left + rect.width / 2;
+          const originY = rect.top + rect.height / 2;
+
+          for (let i = 0; i < 70; i += 1) {
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 2 + Math.random() * 7;
+            particles.push({
+              x: originX + (Math.random() - 0.5) * rect.width,
+              y: originY,
+              vx: Math.cos(angle) * speed,
+              vy: Math.sin(angle) * speed - 2,
+              size: 4 + Math.random() * 7,
+              rotation: Math.random() * Math.PI * 2,
+              spin: (Math.random() - 0.5) * 0.2,
+              color: colors[i % colors.length],
+              life: 1
+            });
+          }
+
+          if (!frameId) {
+            lastTime = 0;
+            frameId = window.requestAnimationFrame(frame);
+          }
+        }
+
+        window.addEventListener("resize", resize);
+        resize();
+        button.addEventListener("click", burst);
+      }
+    })();
+  </script>
+</body>
+</html>
